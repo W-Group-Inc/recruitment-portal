@@ -129,7 +129,7 @@
     <!-- third party js ends -->
 
     <script src="assets/js/pages/demo.datatable-init.js"></script>
-    <script>
+    {{-- <script>
         $(document).ready(function() {
             $('.modal').on('shown.bs.modal', function () {
                 $(this).find('select').select2({
@@ -137,7 +137,7 @@
                 });
             });
         });
-    </script>
+    </script> --}}
 
     <!-- third party js -->
     {{-- <script src="assets/js/vendor/apexcharts.min.js"></script>

@@ -40,3 +40,8 @@ Route::post('add_department', 'DepartmentController@store');
 Route::post('update_department/{id}', 'DepartmentController@update');
 Route::post('deactivate-department/{id}', 'DepartmentController@deactivate');
 Route::post('activate-department/{id}', 'DepartmentController@activate');
+
+# Department Head
+Route::get('mrf', 'ManPowerRequisitionFormController@index');
+Route::post('new-mrf', 'ManPowerRequisitionFormController@store');
+// Route::post('submit-mrf', 'ManPowerRequisitionFormController@store');

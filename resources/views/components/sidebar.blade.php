@@ -34,6 +34,7 @@
                 </a>
             </li>
 
+            @if(auth()->user()->role == "Administrator")
             {{-- <li class="side-nav-item">
                 <a data-bs-toggle="collapse" href="#sidebarEmail" aria-expanded="false" aria-controls="sidebarEmail" class="side-nav-link">
                     <i class="uil-envelope"></i>
@@ -75,6 +76,18 @@
                     <span> Department </span>
                 </a>
             </li>
+            @endif
+
+            @if(auth()->user()->role == "Department Head")
+            <li class="side-nav-title side-nav-item">MRF</li>
+
+            <li class="side-nav-item">
+                <a href="{{url('mrf')}}" class="side-nav-link">
+                    <i class="uil-file"></i>
+                    <span> MRF</span>
+                </a>
+            </li>
+            @endif
         </ul>
         <!-- End Sidebar -->
 

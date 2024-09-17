@@ -32,8 +32,15 @@ class HomeController extends Controller
             $user = User::get();
             $department = Department::get();
             $company = Company::get();
+            
+            return view('home', compact('user', 'department', 'company'));
         }
 
-        return view('home', compact('user', 'department', 'company'));
+        if(auth()->user()->role == "Department Head")
+        {
+
+            return view('home');
+        }
+
     }
 }

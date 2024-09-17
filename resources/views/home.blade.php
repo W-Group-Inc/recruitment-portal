@@ -56,40 +56,43 @@
 <!-- demo app -->
 <script src="{{asset('assets/js/pages/demo.chartjs.js')}}"></script>
 
+@if(auth()->user()->role == "Administrator")
 <script>
     $(document).ready(function() {
-            var ctx = document.getElementById('users');
-            var chartColors = ctx.getAttribute('data-colors').split(',');
+        var ctx = document.getElementById('users');
+        var chartColors = ctx.getAttribute('data-colors').split(',');
 
-            var active_user = {!! json_encode(count($user->where('status', 'Active'))) !!}
-            var inactive_user = {!! json_encode(count($user->where('status', 'Inactive'))) !!}
+        var active_user = {!! json_encode(count($user->where('status', 'Active'))) !!}
+        var inactive_user = {!! json_encode(count($user->where('status', 'Inactive'))) !!}
 
-            var donutChart = new Chart(ctx, {
-                type: 'doughnut',
-                data: {
-                    labels: ['Active', 'Inactive'],
-                    datasets: [{
-                        data: [
-                            active_user,
-                            inactive_user
-                        ],
-                        backgroundColor: chartColors, 
-                        borderColor: '#fff',
-                        borderWidth: 1
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    // cutout: '80%',  // Adjust the size of the cutout for the donut effect
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: {
-                            display: true,
-                            position: 'bottom'
-                        }
+        var donutChart = new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Active', 'Inactive'],
+                datasets: [{
+                    data: [
+                        active_user,
+                        inactive_user
+                    ],
+                    backgroundColor: chartColors, 
+                    borderColor: '#fff',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                // cutout: '80%',  // Adjust the size of the cutout for the donut effect
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: true,
+                        position: 'bottom'
                     }
                 }
-            });
-        })
+            }
+        });
+    })
 </script>
+@endif
+
 @endsection
