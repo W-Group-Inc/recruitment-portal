@@ -25,7 +25,7 @@
         <!--- Sidemenu -->
         <ul class="side-nav">
 
-            {{-- <li class="side-nav-title side-nav-item"></li> --}}
+            <li class="side-nav-title side-nav-item">Home</li>
 
             <li class="side-nav-item">
                 <a href="{{url('home')}}" class="side-nav-link">
@@ -52,12 +52,27 @@
                 </div>
             </li> --}}
 
-            <li class="side-nav-title side-nav-item">Settings</li>
+            <li class="side-nav-title side-nav-item">User Management</li>
 
             <li class="side-nav-item">
                 <a href="{{url('user')}}" class="side-nav-link">
                     <i class="uil-user"></i>
                     <span> Users </span>
+                </a>
+            </li>
+
+            <li class="side-nav-title side-nav-item">Settings</li>
+
+            <li class="side-nav-item">
+                <a href="{{url('company')}}" class="side-nav-link">
+                    <i class="uil-building"></i>
+                    <span> Company </span>
+                </a>
+            </li>
+            <li class="side-nav-item">
+                <a href="{{url('department')}}" class="side-nav-link">
+                    <i class=" uil-sitemap"></i>
+                    <span> Department </span>
                 </a>
             </li>
         </ul>

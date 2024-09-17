@@ -6,16 +6,16 @@
 @section('content')
 
 <div class="row">
-    <h5 class="header-title">Users</h5>
+    <h5 class="header-title">Company</h5>
     <div class="col-12">
         <div class="card">
             <div class="card-body">
                 @include('components.error')
                 <div class="row mb-3">
                     <div class="col-md-4">
-                        <button class="btn btn-success btn-sm" data-bs-toggle='modal' data-bs-target="#addModal">
+                        <button class="btn btn-success btn-sm" data-bs-toggle='modal' data-bs-target="#add">
                             <i class="dripicons-plus"></i>
-                            New User
+                            New Company
                         </button>
                     </div>
                 </div>
@@ -24,36 +24,29 @@
                         <thead>
                             <tr>
                                 <th>Actions</th>
+                                <th>Code</th>
                                 <th>Name</th>
-                                <th>Email</th>
-                                <th>Company</th>
-                                <th>Department</th>
-                                <th>Role</th>
                                 <th>Status</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($users as $user)
+                            @foreach ($companies as $company)
                                 <tr>
                                     <td>
-                                        <button type="button" class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#editUser{{$user->id}}">
+                                        <button type="button" class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#edit{{$company->id}}">
                                             <i class="dripicons-document-edit"></i>
                                         </button>
 
-                                        <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#password{{$user->id}}">
-                                            <i class="uil-unlock"></i>
-                                        </button>
-
-                                        @if($user->status == "Active")
-                                        <form method="POST" action="{{url('deactivate/'.$user->id)}}" class="d-inline-block" onsubmit="show()">
+                                        @if($company->status == "Active")
+                                        <form method="POST" action="{{url('deactivate-company/'.$company->id)}}" class="d-inline-block" onsubmit="show()">
                                             @csrf
 
                                             <button type="button" class="btn btn-sm btn-danger deactivate">
                                                 <i class="uil-ban"></i>
                                             </button>
                                         </form>
-                                        @elseif($user->status == "Inactive")
-                                        <form method="POST" action="{{url('activate/'.$user->id)}}" class="d-inline-block" onsubmit="show()">
+                                        @elseif($company->status == "Inactive")
+                                        <form method="POST" action="{{url('activate-company/'.$company->id)}}" class="d-inline-block" onsubmit="show()">
                                             @csrf
 
                                             <button type="button" class="btn btn-sm btn-info activate">
@@ -62,25 +55,21 @@
                                         </form>
                                         @endif
                                     </td>
-                                    <td>{{$user->name}}</td>
-                                    <td>{{$user->email}}</td>
-                                    <td>{{$user->company->name}}</td>
-                                    <td>{{$user->department->name}}</td>
-                                    <td>{{$user->role}}</td>
+                                    <td>{{$company->code}}</td>
+                                    <td>{{$company->name}}</td>
                                     <td>
-                                        @if($user->status == "Active")
+                                        @if($company->status == "Active")
                                         <span class="badge bg-success">
-                                        @elseif($user->status == "Inactive")
+                                        @elseif($company->status == "Inactive")
                                         <span class="badge bg-danger">
                                         @endif  
 
-                                        {{$user->status}}
+                                        {{$company->status}}
                                         </span>
                                     </td>
                                 </tr>
 
-                                @include('admin.edit_user')
-                                @include('admin.change_password')
+                                @include('admin.edit_company')
                             @endforeach
                         </tbody>
                     </table>
@@ -92,14 +81,14 @@
 </div>
 
 
-@include('admin.new_user')
+@include('admin.new_company')
 @section('js')
 <script>
 $(document).ready(function() {
     $('.deactivate').on('click', function() {
         Swal.fire({
             title: "Are you sure?",
-            text: "This account is deactivate",
+            text: "This company is deactivate",
             icon: "warning",
             showCancelButton: true,
             confirmButtonColor: "#3085d6",
@@ -115,7 +104,7 @@ $(document).ready(function() {
     $('.activate').on('click', function() {
         Swal.fire({
             title: "Are you sure?",
-            text: "This account is active",
+            text: "This company is active",
             icon: "warning",
             showCancelButton: true,
             confirmButtonColor: "#3085d6",

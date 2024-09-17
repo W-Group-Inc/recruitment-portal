@@ -48,7 +48,13 @@
                                 {{-- <p class="mb-4">Lorem ipsum dolor sit amet elit. Sapiente sit aut eos consectetur
                                     adipisicing.</p> --}}
                             </div>
-                            @include('components.error')
+                            @if($errors->any())
+                                <div class="alert alert-danger alert-dismissible bg-danger text-white border-0 fade show">
+                                    {{-- <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button> --}}
+                                    <strong>{{$errors->first()}}</strong>
+                                </div>
+                            @endif
+
                             <form action="{{url('login')}}" method="post" onsubmit="show()">
                                 @csrf
                                 

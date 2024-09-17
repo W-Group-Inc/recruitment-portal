@@ -96,6 +96,8 @@
 
     </div>
     <!-- END wrapper -->
+    @include('sweetalert::alert')
+
     <script>
         function show()
         {
@@ -110,6 +112,7 @@
     <!-- bundle -->
     <script src="assets/js/vendor.min.js"></script>
     <script src="assets/js/app.min.js"></script>
+    <script src="{{asset('js/sweetalert2.all.min.js')}}"></script>
 
     <!-- third party js -->
     <script src="assets/js/vendor/jquery.dataTables.min.js"></script>
@@ -126,6 +129,15 @@
     <!-- third party js ends -->
 
     <script src="assets/js/pages/demo.datatable-init.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('.modal').on('shown.bs.modal', function () {
+                $(this).find('select').select2({
+                    dropdownParent: $(this)
+                });
+            });
+        });
+    </script>
 
     <!-- third party js -->
     {{-- <script src="assets/js/vendor/apexcharts.min.js"></script>

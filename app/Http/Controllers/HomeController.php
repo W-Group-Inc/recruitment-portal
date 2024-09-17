@@ -2,7 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Company;
+use App\Department;
+use App\User;
 use Illuminate\Http\Request;
+use stdClass;
 
 class HomeController extends Controller
 {
@@ -23,6 +27,13 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        if(auth()->user()->role == "Administrator")
+        {
+            $user = User::get();
+            $department = Department::get();
+            $company = Company::get();
+        }
+
+        return view('home', compact('user', 'department', 'company'));
     }
 }

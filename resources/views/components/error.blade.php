@@ -1,6 +1,6 @@
 @if($errors->any())
-    <div class="form-group alert alert-danger alert-dismissable">
-        <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
+    <div class="alert alert-danger alert-dismissible bg-danger text-white border-0 fade show">
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         <strong>{{$errors->first()}}</strong>
     </div>
 @endif

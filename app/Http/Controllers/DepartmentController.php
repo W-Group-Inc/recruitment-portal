@@ -4,11 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Company;
 use App\Department;
-use App\User;
 use Illuminate\Http\Request;
 use RealRashid\SweetAlert\Facades\Alert;
 
-class UserController extends Controller
+class DepartmentController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,11 +16,10 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::get();
-        $department = Department::where('status','Active')->get();
-        $company = Company::where('status','Active')->get();
+        $departments = Department::get();
+        $company = Company::where('status', 'Active')->get();
 
-        return view('admin.user', compact('users', 'department', 'company'));
+        return view('admin.department', compact('departments', 'company'));
     }
 
     /**
@@ -42,15 +40,16 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        $user = new User;
-        $user->name = $request->name;
-        $user->email = $request->email;
-        $user->company_id = $request->company;
-        $user->department_id = $request->department;
-        $user->role = $request->role;
-        $user->password = "wgroup123";
-        $user->status = "Active";
-        $user->save();
+        $request->validate([
+            'code' => 'unique:departments,code'
+        ]);
+
+        $department = new Department;
+        $department->code = $request->code;
+        $department->name = $request->name;
+        $department->company_id = $request->company;
+        $department->status = 'Active';
+        $department->save();
 
         Alert::success('Successfully Saved')->persistent('Dismiss');
         return back();
@@ -87,12 +86,15 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $user = User::findOrFail($id);
-        $user->email = $request->email;
-        $user->company_id = $request->company;
-        $user->department_id = $request->department;
-        $user->role = $request->role;
-        $user->save();
+        $request->validate([
+            'code' => 'unique:departments,code,'.$id
+        ]);
+
+        $department = Department::findOrFail($id);
+        $department->code = $request->code;
+        $department->name = $request->name;
+        $department->company_id = $request->company;
+        $department->save();
 
         Alert::success('Successfully Updated')->persistent('Dismiss');
         return back();
@@ -111,7 +113,7 @@ class UserController extends Controller
 
     public function deactivate($id)
     {
-        $user = User::findOrFail($id);
+        $user = Department::findOrFail($id);
         $user->status = "Inactive";
         $user->save();
 
@@ -121,25 +123,11 @@ class UserController extends Controller
 
     public function activate($id)
     {
-        $user = User::findOrFail($id);
+        $user = Department::findOrFail($id);
         $user->status = "Active";
         $user->save();
 
         Alert::success('Successfully Activate')->persistent('Dismiss');
-        return back();
-    }
-
-    public function changePassword(Request $request, $id)
-    {
-        $request->validate([
-            'password' => 'confirmed|min:6'
-        ]);
-
-        $user = User::findOrFail($id);
-        $user->password = bcrypt($request->password);
-        $user->save();
-
-        Alert::success('Successfully Change Password')->persistent('Dismiss');
         return back();
     }
 }
