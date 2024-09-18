@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 use App\Company;
 use App\Department;
 use App\ManPowerRequisitionForm;
+use Barryvdh\DomPDF\PDF;
 use Illuminate\Database\Capsule\Manager;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 use RealRashid\SweetAlert\Facades\Alert;
 
 class ManPowerRequisitionFormController extends Controller
@@ -212,5 +214,17 @@ class ManPowerRequisitionFormController extends Controller
             'Supervisory' => 'Supervisory',
             'Managerial' => 'Managerial'
         ];
+    }
+
+    public function print($id)
+    {
+        $mrf = ManPowerRequisitionForm::findOrFail($id);
+
+        $data = [];
+        $data['mrf'] = $mrf;
+
+        $pdf = App::make('dompdf.wrapper');
+        $pdf->loadView('human_resources.print_mrf', $data)->setPaper('a4', 'portrait');
+        return $pdf->stream();
     }
 }

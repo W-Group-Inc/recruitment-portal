@@ -82,7 +82,7 @@
                                 <tr>
                                     <td>
                                         @if($m->mrf_status == "Approved")
-                                        <a href="" class="btn btn-sm btn-info" target="_blank">
+                                        <a href="{{url('print-mrf/'.$m->id)}}" class="btn btn-sm btn-info" target="_blank">
                                             <i class="dripicons-print"></i>
                                         </a>
                                         @endif

@@ -75,6 +75,36 @@
         </div>
     </div>
     @endif
+
+    @if(auth()->user()->role == "Human Resources")
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-body text-center">
+                <i class=" uil-thumbs-up text-muted" style="font-size: 24px;"></i>
+                <h3><span>{{count($mrf->where('mrf_status', 'Approved'))}}</span></h3>
+                <p class="text-muted font-15 mb-0">Total Approved MRF</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-body text-center">
+                <i class="dripicons-clock text-muted" style="font-size: 24px;"></i>
+                <h3><span>{{count($mrf->where('mrf_status', 'Pending'))}}</span></h3>
+                <p class="text-muted font-15 mb-0">Total For Approval MRF</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-body text-center">
+                <i class="uil-thumbs-down text-muted" style="font-size: 24px;"></i>
+                <h3><span>{{count($mrf->where('mrf_status','Rejected'))}}</span></h3>
+                <p class="text-muted font-15 mb-0">Total Rejected MRF</p>
+            </div>
+        </div>
+    </div>
+    @endif
 </div>
 @endsection
 
