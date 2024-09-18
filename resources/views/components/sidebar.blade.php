@@ -1,24 +1,24 @@
 <div class="leftside-menu">
 
     <!-- LOGO -->
-    <a href="index.html" class="logo text-center logo-light">
-        <span class="logo-lg">
-            <img src="assets/images/logo.png" alt="" height="16">
-        </span>
-        <span class="logo-sm">
+    <a href="{{url('home')}}" class="logo text-center logo-light">
+        {{-- <span class="logo-lg">
+            <img src="{{asset('img/wgroup.png')}}" alt="" height="100">
+        </span> --}}
+        {{-- <span class="logo-sm">
             <img src="assets/images/logo_sm.png" alt="" height="16">
-        </span>
+        </span> --}}
     </a>
 
     <!-- LOGO -->
-    <a href="index.html" class="logo text-center logo-dark">
+    {{-- <a href="index.html" class="logo text-center logo-dark">
         <span class="logo-lg">
             <img src="assets/images/logo-dark.png" alt="" height="16">
         </span>
         <span class="logo-sm">
             <img src="assets/images/logo_sm_dark.png" alt="" height="16">
         </span>
-    </a>
+    </a> --}}
 
     <div class="h-100" id="leftside-menu-container" data-simplebar="">
 
@@ -28,7 +28,7 @@
             <li class="side-nav-title side-nav-item">Home</li>
 
             <li class="side-nav-item">
-                <a href="{{url('home')}}" class="side-nav-link">
+                <a href="{{url('home')}}" class="side-nav-link" onclick="show()">
                     <i class="uil-home"></i>
                     <span> Dashboard </span>
                 </a>
@@ -56,7 +56,7 @@
             <li class="side-nav-title side-nav-item">User Management</li>
 
             <li class="side-nav-item">
-                <a href="{{url('user')}}" class="side-nav-link">
+                <a href="{{url('user')}}" class="side-nav-link" onclick="show()">
                     <i class="uil-user"></i>
                     <span> Users </span>
                 </a>
@@ -65,26 +65,40 @@
             <li class="side-nav-title side-nav-item">Settings</li>
 
             <li class="side-nav-item">
-                <a href="{{url('company')}}" class="side-nav-link">
+                <a href="{{url('company')}}" class="side-nav-link" onclick="show()">
                     <i class="uil-building"></i>
                     <span> Company </span>
                 </a>
             </li>
             <li class="side-nav-item">
-                <a href="{{url('department')}}" class="side-nav-link">
+                <a href="{{url('department')}}" class="side-nav-link" onclick="show()">
                     <i class=" uil-sitemap"></i>
                     <span> Department </span>
                 </a>
             </li>
             @endif
 
-            @if(auth()->user()->role == "Department Head")
+            @if(auth()->user()->role == "Department Head" || auth()->user()->role == "Human Resources")
             <li class="side-nav-title side-nav-item">MRF</li>
 
+            @if(auth()->user()->role == "Human Resources")
             <li class="side-nav-item">
-                <a href="{{url('mrf')}}" class="side-nav-link">
+                <a href="{{url('for-approval')}}" class="side-nav-link" onclick="show()">
+                    <i class=" uil-clipboard-alt"></i>
+                    <span>For Approval</span>
+                </a>
+            </li>
+            @endif
+
+            <li class="side-nav-item">
+                <a href="{{url('mrf')}}" class="side-nav-link" onclick="show()">
+                    @if(auth()->user()->role == "Department Head")
                     <i class="uil-file"></i>
                     <span> MRF</span>
+                    @elseif(auth()->user()->role == "Human Resources")
+                    <i class="uil-clock"></i>
+                    <span> History MRF</span>
+                    @endif
                 </a>
             </li>
             @endif

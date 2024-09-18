@@ -14,10 +14,12 @@
                 @include('components.error')
                 <div class="row mb-3">
                     <div class="col-md-4">
+                        @if(auth()->user()->role == "Department Head")
                         <button type="button" class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#add">
                             <i class="dripicons-plus"></i>
                             New MRF
                         </button>
+                        @endif
                     </div>
                 </div>
                 <div class="table-responsive">
@@ -25,6 +27,7 @@
                         <thead>
                             <tr>
                                 <th>Actions</th>
+                                <th>Date Requested</th>
                                 <th>MRF #</th>
                                 <th>Position</th>
                                 <th>Company</th>
@@ -33,13 +36,23 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($mrf as $m)
+                            @if(auth()->user()->role == "Department Head")
+                            @foreach ($mrf->where('department_id', auth()->user()->department_id) as $m)
                                 <tr>
                                     <td>
-                                        <button type="button" class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#edit{{$m->id}}">
+                                        <button type="button" class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#edit{{$m->id}}" @if($m->mrf_status == "Approved") disabled @endif>
                                             <i class="dripicons-document-edit"></i>
                                         </button>
+
+                                        <form action="{{url('delete-mrf/'.$m->id)}}" method="post" class="d-inline-block">
+                                            @csrf
+
+                                            <button type="button" class="btn btn-sm btn-danger delete-btn" @if($m->mrf_status == "Approved") disabled @endif>
+                                                <i class="uil-trash"></i>
+                                            </button>
+                                        </form>
                                     </td>
+                                    <td>{{date('M d, Y', strtotime($m->created_at))}}</td>
                                     <td>{{$m->mrf_no}}</td>
                                     <td>{{$m->position_title}}</td>
                                     <td>{{$m->company->name}}</td>
@@ -49,6 +62,10 @@
                                         <span class="badge bg-success">
                                         @elseif($m->mrf_status == "Pending")
                                         <span class="badge bg-warning">
+                                        @elseif($m->mrf_status == "Returned")
+                                        <span class="badge bg-info">
+                                        @elseif($m->mrf_status == "Rejected")
+                                        <span class="badge bg-danger">
                                         @endif  
 
                                         {{$m->mrf_status}}
@@ -58,6 +75,50 @@
 
                                 @include('dept_head.edit_mrf')
                             @endforeach
+                            @endif
+
+                            @if(auth()->user()->role == "Human Resources")
+                            @foreach ($mrf as $m)
+                                <tr>
+                                    <td>
+                                        @if($m->mrf_status == "Approved")
+                                        <a href="" class="btn btn-sm btn-info" target="_blank">
+                                            <i class="dripicons-print"></i>
+                                        </a>
+                                        @endif
+
+                                        {{-- <form action="{{url('delete-mrf/'.$m->id)}}" method="post" class="d-inline-block">
+                                            @csrf
+
+                                            <button type="button" class="btn btn-sm btn-danger delete-btn">
+                                                <i class="uil-trash"></i>
+                                            </button>
+                                        </form> --}}
+                                    </td>
+                                    <td>{{date('M d, Y', strtotime($m->created_at))}}</td>
+                                    <td>{{$m->mrf_no}}</td>
+                                    <td>{{$m->position_title}}</td>
+                                    <td>{{$m->company->name}}</td>
+                                    <td>{{$m->department->name}}</td>
+                                    <td>
+                                        @if($m->mrf_status == "Approved")
+                                        <span class="badge bg-success">
+                                        @elseif($m->mrf_status == "Pending")
+                                        <span class="badge bg-warning">
+                                        @elseif($m->mrf_status == "Returned")
+                                        <span class="badge bg-info">
+                                        @elseif($m->mrf_status == "Rejected")
+                                        <span class="badge bg-danger">
+                                        @endif  
+
+                                        {{$m->mrf_status}}
+                                        </span>
+                                    </td>
+                                </tr>
+
+                                @include('dept_head.edit_mrf')
+                            @endforeach
+                            @endif
                         </tbody>
                     </table>
                 </div>
@@ -76,8 +137,6 @@
     $(document).ready(function() {
         $('.position_status').on('change', function() {
 
-            console.log($(this).val());
-            
             if($(this).val() == "Replacement")
             {
                 $('.replacementOf').css("display", "block")
@@ -89,6 +148,22 @@
         })
         
         $('.cat').chosen({width: "100%"})
+
+        $('.delete-btn').on('click', function() {
+            Swal.fire({
+                title: "Are you sure?",
+                // text: "This department is active",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Yes, delete it!"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $(this).closest('form').submit();
+                }
+            });
+        })
     })
 </script>
 @endsection

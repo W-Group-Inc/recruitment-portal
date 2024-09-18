@@ -54,13 +54,13 @@ class ManPowerRequisitionFormController extends Controller
     public function store(Request $request)
     {
         // dd($request->all());
-        $mrf = ManPowerRequisitionForm::count();
-
+        $mrf = ManPowerRequisitionForm::orderBy('id', 'desc')->first();
+        
         $mrfNo = 0;
         $defaultMrfNo = "0724";
-        if ($mrf > 0)
+        if ($mrf != null)
         {
-            $mrfNo = $defaultMrfNo+1;
+            $mrfNo = $mrf->mrf_no+1;
         }
         else
         {
@@ -137,7 +137,47 @@ class ManPowerRequisitionFormController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $mrf = ManPowerRequisitionForm::findOrFail($id);
+        // $mrf->mrf_no = $mrfNo;
+        $mrf->position_title = $request->position_title;
+        $mrf->department_id = $request->department;
+        $mrf->company_id = $request->company;
+        $mrf->target_date = $request->target_date;
+        $mrf->position_status = $request->position_status;
+        $mrf->justification = $request->justification;
+        if ($request->has('is_plantilla'))
+        {
+            $mrf->is_plantilla = 1;
+        }
+        if ($request->has('is_job_description'))
+        {
+            $mrf->is_job_description = 1;
+        }
+        $mrf->educational_attainment = $request->educational_attainment;
+        $mrf->work_experience = $request->work_experience;
+        $mrf->specific_field = $request->specific_field;
+        $mrf->special_skills = $request->special_skills;
+        $mrf->others = $request->others;
+        $mrf->employment_status = $request->employment_status;
+        $mrf->job_level = $request->job_level;
+        $mrf->salary_range = $request->salary_rate;
+        $mrf->other_remarks = $request->other_remarks;
+        $mrf->mrf_status = "Pending";
+        
+        if($request->has('mrf_attachment'))
+        {
+            $attachment = $request->file('mrf_attachment');
+            $name = time().'-'.$attachment->getClientOriginalName();
+            $attachment->move(public_path('mrf_attachments'), $name);
+            $file_name = '/mrf_attachments/'.$name;
+
+            $mrf->mrf_attachment = $file_name;
+        }
+
+        $mrf->save();
+
+        Alert::success('Successfully Updated')->persistent('Dismiss');
+        return back();
     }
 
     /**
@@ -148,7 +188,11 @@ class ManPowerRequisitionFormController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $mrf = ManPowerRequisitionForm::findOrFail($id);
+        $mrf->delete();
+
+        Alert::success('Successfully Deleted')->persistent('Dismiss');
+        return back();
     }
 
     public function employmentStatus()

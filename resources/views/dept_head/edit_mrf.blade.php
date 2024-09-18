@@ -82,7 +82,7 @@
                         </div>
                         <div class="col-md-12">
                             Upload Attachment :
-                            <input type="file" name="mrf_attachment" class="form-control form-control-sm" required>
+                            <input type="file" name="mrf_attachment" class="form-control form-control-sm">
                         </div>
                     </div>
                     <div class="row mb-3">

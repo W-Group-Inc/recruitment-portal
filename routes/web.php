@@ -44,4 +44,9 @@ Route::post('activate-department/{id}', 'DepartmentController@activate');
 # Department Head
 Route::get('mrf', 'ManPowerRequisitionFormController@index');
 Route::post('new-mrf', 'ManPowerRequisitionFormController@store');
-// Route::post('submit-mrf', 'ManPowerRequisitionFormController@store');
+Route::post('update-mrf/{id}', 'ManPowerRequisitionFormController@update');
+Route::post('delete-mrf/{id}', 'ManPowerRequisitionFormController@destroy');
+
+# Human Resources
+Route::get('for-approval', 'ForApprovalController@index');
+Route::post('mrf-action/{id}', 'ForApprovalController@update');
