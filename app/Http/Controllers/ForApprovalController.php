@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\ManPowerRequisitionForm;
-use Illuminate\Http\Request;
+use GuzzleHttp\Client;
+use GuzzleHttp\Psr7\Request;
+// use Illuminate\Http\Request;
 use RealRashid\SweetAlert\Facades\Alert;
 
 class ForApprovalController extends Controller
@@ -104,5 +106,11 @@ class ForApprovalController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function postIndeed($id)
+    {
+        $mrf = ManPowerRequisitionForm::findOrFail($id);
+        // dd($mrf);
     }
 }

@@ -43,6 +43,10 @@
                                             <i class="uil-eye"></i>
                                         </button>
 
+                                        <a href="{{url('print-mrf/'.$m->id)}}" class="btn btn-sm btn-danger" target="_blank">
+                                            <i class="dripicons-print"></i>
+                                        </a>
+
                                         {{-- <form action="{{url('delete-mrf/'.$m->id)}}" method="post" class="d-inline-block">
                                             @csrf
 

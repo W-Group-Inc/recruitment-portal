@@ -82,19 +82,30 @@
                                 <tr>
                                     <td>
                                         @if($m->mrf_status == "Approved")
+                                        <form action="{{url('post-indeed/'.$m->id)}}" method="post" onsubmit="show()">
+                                            @csrf
+
+                                            <button class="btn btn-sm btn-success post-to-indeed" type="button">
+                                                <i class="uil-check"></i>
+                                            </button>
+                                        </form>
+                                        @endif
+                                    </td>
+                                    {{-- <td>
+                                        @if($m->mrf_status == "Pending")
                                         <a href="{{url('print-mrf/'.$m->id)}}" class="btn btn-sm btn-info" target="_blank">
                                             <i class="dripicons-print"></i>
                                         </a>
                                         @endif
 
-                                        {{-- <form action="{{url('delete-mrf/'.$m->id)}}" method="post" class="d-inline-block">
+                                        <form action="{{url('delete-mrf/'.$m->id)}}" method="post" class="d-inline-block">
                                             @csrf
 
                                             <button type="button" class="btn btn-sm btn-danger delete-btn">
                                                 <i class="uil-trash"></i>
                                             </button>
-                                        </form> --}}
-                                    </td>
+                                        </form>
+                                    </td> --}}
                                     <td>{{date('M d, Y', strtotime($m->created_at))}}</td>
                                     <td>{{$m->mrf_no}}</td>
                                     <td>{{$m->position_title}}</td>
@@ -158,6 +169,22 @@
                 confirmButtonColor: "#3085d6",
                 cancelButtonColor: "#d33",
                 confirmButtonText: "Yes, delete it!"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $(this).closest('form').submit();
+                }
+            });
+        })
+
+        $('.post-to-indeed').on('click', function() {
+            Swal.fire({
+                title: "Are you sure?",
+                text: "If you submit this it will automatically post to indeed.",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Yes, approved it!"
             }).then((result) => {
                 if (result.isConfirmed) {
                     $(this).closest('form').submit();
