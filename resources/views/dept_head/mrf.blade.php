@@ -23,7 +23,7 @@
                     </div>
                 </div>
                 <div class="table-responsive">
-                    <table id="alternative-page-datatable" class="table dt-responsive table-bordered table-hover">
+                    <table id="alternative-page-datatable" class="table table-bordered table-hover">
                         <thead>
                             <tr>
                                 <th>Actions</th>

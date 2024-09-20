@@ -52,3 +52,7 @@ Route::get('print-mrf/{id}', 'ManPowerRequisitionFormController@print');
 Route::get('for-approval', 'ForApprovalController@index');
 Route::post('mrf-action/{id}', 'ForApprovalController@update');
 Route::post('post-indeed/{id}', 'ForApprovalController@postIndeed');
+
+# Applicant
+Route::get('applicant', 'ApplicantController@index');
+Route::get('view-applicant/{id}', 'ApplicantController@show');

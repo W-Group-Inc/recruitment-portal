@@ -102,6 +102,17 @@
                 </a>
             </li>
             @endif
+
+            @if(auth()->user()->role == "Human Resources")
+            <li class="side-nav-title side-nav-item">Applicant</li>
+
+            <li class="side-nav-item">
+                <a href="{{url('applicant')}}" class="side-nav-link" onclick="show()">
+                    <i class=" uil-user"></i>
+                    <span>Applicant</span>
+                </a>
+            </li>
+            @endif
         </ul>
         <!-- End Sidebar -->
 

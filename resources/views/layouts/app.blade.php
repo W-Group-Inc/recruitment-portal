@@ -10,19 +10,19 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <!-- third party css -->
-    <link href="assets/css/vendor/jquery-jvectormap-1.2.2.css" rel="stylesheet" type="text/css">
+    <link href="{{asset('assets/css/vendor/jquery-jvectormap-1.2.2.css')}}" rel="stylesheet" type="text/css">
     <!-- third party css end -->
 
     <!-- App css -->
-    <link href="assets/css/icons.min.css" rel="stylesheet" type="text/css">
-    <link href="assets/css/app.min.css" rel="stylesheet" type="text/css" id="light-style">
-    <link href="assets/css/app-dark.min.css" rel="stylesheet" type="text/css" id="dark-style">
+    <link href="{{asset('assets/css/icons.min.css')}}" rel="stylesheet" type="text/css">
+    <link href="{{asset('assets/css/app.min.css')}}" rel="stylesheet" type="text/css" id="light-style">
+    <link href="{{asset('assets/css/app-dark.min.css')}}" rel="stylesheet" type="text/css" id="dark-style">
 
     <!-- third party css -->
-    <link href="assets/css/vendor/dataTables.bootstrap5.css" rel="stylesheet" type="text/css">
-    <link href="assets/css/vendor/responsive.bootstrap5.css" rel="stylesheet" type="text/css">
-    <link href="assets/css/vendor/buttons.bootstrap5.css" rel="stylesheet" type="text/css">
-    <link href="assets/css/vendor/select.bootstrap5.css" rel="stylesheet" type="text/css">
+    <link href="{{asset('assets/css/vendor/dataTables.bootstrap5.css')}}" rel="stylesheet" type="text/css">
+    <link href="{{asset('assets/css/vendor/responsive.bootstrap5.css')}}" rel="stylesheet" type="text/css">
+    <link href="{{asset('assets/css/vendor/buttons.bootstrap5.css')}}" rel="stylesheet" type="text/css">
+    <link href="{{asset('assets/css/vendor/select.bootstrap5.css')}}" rel="stylesheet" type="text/css">
     <!-- third party css end -->
     @yield('css')
 </head>
@@ -110,25 +110,25 @@
         }
     </script>
     <!-- bundle -->
-    <script src="assets/js/vendor.min.js"></script>
-    <script src="assets/js/app.min.js"></script>
+    <script src="{{asset('assets/js/vendor.min.js')}}"></script>
+    <script src="{{asset('assets/js/app.min.js')}}"></script>
     <script src="{{asset('js/sweetalert2.all.min.js')}}"></script>
 
     <!-- third party js -->
-    <script src="assets/js/vendor/jquery.dataTables.min.js"></script>
-    <script src="assets/js/vendor/dataTables.bootstrap5.js"></script>
-    <script src="assets/js/vendor/dataTables.responsive.min.js"></script>
-    <script src="assets/js/vendor/responsive.bootstrap5.min.js"></script>
-    <script src="assets/js/vendor/dataTables.buttons.min.js"></script>
-    <script src="assets/js/vendor/buttons.bootstrap5.min.js"></script>
-    <script src="assets/js/vendor/buttons.html5.min.js"></script>
-    <script src="assets/js/vendor/buttons.flash.min.js"></script>
-    <script src="assets/js/vendor/buttons.print.min.js"></script>
-    <script src="assets/js/vendor/dataTables.keyTable.min.js"></script>
-    <script src="assets/js/vendor/dataTables.select.min.js"></script>
+    <script src="{{asset('assets/js/vendor/jquery.dataTables.min.js')}}"></script>
+    <script src="{{asset('assets/js/vendor/dataTables.bootstrap5.js')}}"></script>
+    <script src="{{asset('assets/js/vendor/dataTables.responsive.min.js')}}"></script>
+    <script src="{{asset('assets/js/vendor/responsive.bootstrap5.min.js')}}"></script>
+    <script src="{{asset('assets/js/vendor/dataTables.buttons.min.js')}}"></script>
+    <script src="{{asset('assets/js/vendor/buttons.bootstrap5.min.js')}}"></script>
+    <script src="{{asset('assets/js/vendor/buttons.html5.min.js')}}"></script>
+    <script src="{{asset('assets/js/vendor/buttons.flash.min.js')}}"></script>
+    <script src="{{asset('assets/js/vendor/buttons.print.min.js')}}"></script>
+    <script src="{{asset('assets/js/vendor/dataTables.keyTable.min.js')}}"></script>
+    <script src="{{asset('assets/js/vendor/dataTables.select.min.js')}}"></script>
     <!-- third party js ends -->
 
-    <script src="assets/js/pages/demo.datatable-init.js"></script>
+    <script src="{{asset('assets/js/pages/demo.datatable-init.js')}}"></script>
     {{-- <script>
         $(document).ready(function() {
             $('.modal').on('shown.bs.modal', function () {
