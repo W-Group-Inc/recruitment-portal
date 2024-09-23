@@ -52,12 +52,10 @@
                         </div>
                         <div class="col-md-6 mb-1 replacementOf" style="display: none;">
                             Replacement of :
-                            {{-- <select class="form-control cat" name="company">
-                                <option value="">-Company-</option>
-                                @foreach ($companies as $c)
-                                    <option value="{{$c->id}}">{{$c->code .' - '.$c->name}}</option>
-                                @endforeach
-                            </select> --}}
+                            <select class="form-control cat" name="replacement">
+                                <option value="">-Employee-</option>
+                                
+                            </select>
                         </div>
                         <div class="col-md-6 mb-1">
                             Justification :

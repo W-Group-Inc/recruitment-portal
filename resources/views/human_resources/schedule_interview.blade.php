@@ -9,6 +9,7 @@
                 @csrf 
 
                 <input type="hidden" name="email" value="{{$applicant->email}}">
+                <input type="hidden" name="applicant_id" value="{{$applicant->id}}">
 
                 <div class="modal-body">
                     <div class="row">

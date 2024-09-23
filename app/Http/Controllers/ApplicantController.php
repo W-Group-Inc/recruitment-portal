@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Applicant;
+use App\Schedule;
 use Carbon\Carbon;
 use Google_Client;
 use Spatie\GoogleCalendar\Event;
@@ -101,6 +102,12 @@ class ApplicantController extends Controller
         $event->endDateTime = $event->startDateTime->copy()->addHour();
         $event->googleEvent->colorId = 3;
         $event->save();
+
+        $schedule = new Schedule;
+        $schedule->schedule_name = $request->event_name;
+        $schedule->date_time = date('Y-m-d h:i:s', strtotime($request->event_start));
+        $schedule->applicant_id = $request->applicant_id;
+        $schedule->save();
 
         Alert::success('Successfully Saved')->persistent('Dismiss');
         return back();

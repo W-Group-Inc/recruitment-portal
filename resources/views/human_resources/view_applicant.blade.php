@@ -67,6 +67,40 @@
             </div> <!-- end card body -->
         </div> <!-- end card -->
     </div> <!-- end col -->
+
+    <div class="row">
+        <div class="col-lg-4">
+            <div class="card">
+                <div class="card-body">
+                    <div class="fs-3">Schedule</div>
+                    <hr>
+
+                    <div class="row">
+                        <div class="col-lg-4">
+                            <strong>Date</strong>
+                        </div>
+                        <div class="col-lg-4">
+                            <strong>Time</strong>
+                        </div>
+                        <div class="col-lg-4">
+                            <strong>Name</strong>
+                        </div>
+                        @foreach ($applicant->schedule as $sched)
+                            <div class="col-lg-4">
+                                {{date('M d, Y', strtotime($sched->date_time))}}
+                            </div>
+                            <div class="col-lg-4">
+                                {{date('h:i A', strtotime($sched->date_time))}}
+                            </div>
+                            <div class="col-lg-4 mb-2">
+                                {{$sched->schedule_name}}
+                            </div>
+                        @endforeach
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 @include('human_resources.schedule_interview')
 @endsection
