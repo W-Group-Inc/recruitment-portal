@@ -13,11 +13,21 @@
                 <button type="button" class="btn btn-danger btn-sm mb-2">Fail</button>
                 <button type="button" class="btn btn-success btn-sm mb-2">Pass</button>
                 <a href="javascript:void(0)" type="button" class="btn btn-primary btn-sm mb-2">Job Offer</a>
+                <button type="button" class="btn btn-secondary btn-sm mb-2" data-bs-toggle="modal" data-bs-target="#schedule">Schedule Interview</button>
+
                 <hr>
                 <div class="text-start mt-3">
                     <p class="text-muted mb-2 font-13"><strong>Email:</strong> <span class="ms-2">{{$applicant->email}}</span></p>
-
                     <p class="text-muted mb-2 font-13"><strong>Mobile :</strong><span class="ms-2">{{$applicant->mobile_number}}</span></p>
+                    <p class="text-muted mb-2 font-13"><strong>Status :</strong>
+                        @if($applicant->applicant_status == "Pending")
+                        <span class="ms-2 badge bg-warning">{{$applicant->applicant_status}}</span>
+                        @elseif($applicant->applicant_status == "Approved")
+                        <span class="ms-2 badge bg-success">{{$applicant->applicant_status}}</span>
+                        @elseif($applicant->applicant_status == "Failed")
+                        <span class="ms-2 badge bg-danger">{{$applicant->applicant_status}}</span>
+                        @endif
+                    </span></p>
                 </div>
             </div> <!-- end card-body -->
         </div> <!-- end card -->
@@ -58,4 +68,5 @@
         </div> <!-- end card -->
     </div> <!-- end col -->
 </div>
+@include('human_resources.schedule_interview')
 @endsection

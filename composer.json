@@ -15,7 +15,8 @@
         "harvesthq/chosen": "^1.8",
         "laravel/framework": "5.7.*",
         "laravel/tinker": "^1.0",
-        "realrashid/sweet-alert": "^7.2"
+        "realrashid/sweet-alert": "^7.2",
+        "spatie/laravel-google-calendar": "^2.2"
     },
     "require-dev": {
         "beyondcode/laravel-dump-server": "^1.0",
