@@ -17,7 +17,7 @@
   display: inline-block;
   position: relative;
   width: 100% !important;
-  font-size: 1rem;
+  /* font-size: 1rem; */
   text-align: left;
   vertical-align: middle;
   -webkit-user-select: none;
@@ -26,7 +26,7 @@
           user-select: none; }
   .chosen-container .chosen-drop {
     background: #fff;
-    border: 1px solid #80bdff;
+    border: 1px solid #727cf5;
     border-bottom-right-radius: 0.25rem;
     border-bottom-left-radius: 0.25rem;
     margin-top: -1px;
@@ -82,7 +82,7 @@
           background-position: center center;
           background-repeat: no-repeat; }
       .chosen-container .chosen-results li.highlighted {
-        background-color: #007bff;
+        background-color: #727cf5;
         background-image: none;
         color: white; }
         .chosen-container .chosen-results li.highlighted:before {
@@ -267,7 +267,7 @@
     border-bottom-right-radius: 0.25rem;
     border-bottom-left-radius: 0.25rem;
     cursor: default;
-    font-size: 0.875rem;
+    /* font-size: 0.875rem; */
     line-height: 1;
     color: #6c757d;
     overflow: hidden;
@@ -296,7 +296,7 @@
   display: none; }
 
 .chosen-container-active .chosen-single {
-  border: 1px solid #80bdff;
+  border: 1px solid #727cf5;
   box-shadow: 0 0 0 0.2rem rgba(128, 189, 255, 0.5);
   transition: border linear 0ms, box-shadow linear 0ms; }
   @media (prefers-reduced-motion: reduce) {
@@ -311,7 +311,7 @@
 
 .chosen-container-active.chosen-with-drop .chosen-single {
   background-color: #fff;
-  border: 1px solid #80bdff;
+  border: 1px solid #727cf5;
   border-bottom-right-radius: 0;
   border-bottom-left-radius: 0;
   box-shadow: none;
@@ -333,7 +333,7 @@
     background-repeat: no-repeat; }
 
 .chosen-container-active .chosen-choices {
-  border: 1px solid #80bdff;
+  border: 1px solid #727cf5;
   border-bottom-right-radius: 0;
   border-bottom-left-radius: 0;
   transition: border linear 0ms, box-shadow linear 0ms; }
@@ -361,7 +361,7 @@
 .chosen-container-optgroup-clickable li.group-result {
   text-transform: none !important; }
   .chosen-container-optgroup-clickable li.group-result:hover {
-    background-color: #007bff;
+    background-color: #727cf5;
     color: white;
     cursor: pointer; }
     .chosen-container-optgroup-clickable li.group-result:hover em {

@@ -81,7 +81,7 @@
                             @foreach ($mrf as $m)
                                 <tr>
                                     <td>
-                                        @if($m->mrf_status == "Approved")
+                                        {{-- @if($m->mrf_status == "Approved")
                                         <form action="{{url('post-indeed/'.$m->id)}}" method="post" onsubmit="show()">
                                             @csrf
 
@@ -89,7 +89,7 @@
                                                 <i class="uil-check"></i>
                                             </button>
                                         </form>
-                                        @endif
+                                        @endif --}}
                                     </td>
                                     {{-- <td>
                                         @if($m->mrf_status == "Pending")

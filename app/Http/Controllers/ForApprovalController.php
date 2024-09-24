@@ -111,6 +111,6 @@ class ForApprovalController extends Controller
     public function postIndeed($id)
     {
         $mrf = ManPowerRequisitionForm::findOrFail($id);
-        // dd($mrf);
+        dd($mrf);
     }
 }

@@ -87,11 +87,14 @@
 {{-- @include('dept_head.new_mrf') --}}
 
 @section('js')
+<script src="{{asset('js/chosen.jquery.min.js')}}"></script>
 <script>
     $(document).ready(function() {
-        $('.select2').select2({
-            dropdownParent: $('.modal')
-        })
+        // $('.select2').select2({
+        //     dropdownParent: $('.modal')
+        // })
+
+        $('.cat').chosen({width:"100%"})
     })
 </script>
 @endsection

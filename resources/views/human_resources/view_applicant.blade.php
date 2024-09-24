@@ -7,16 +7,15 @@
             <div class="card-body">
                 <img src="{{asset('img/user.png')}}" class="rounded-circle avatar-lg img-thumbnail" alt="profile-image">
 
-                <h4 class="mb-0 mt-2">{{$applicant->name}}</h4>
-                <p class="text-muted font-14">{{$applicant->position}}</p>
-
+                <h4 class="mb-2 mt-2">{{$applicant->name}}</h4>
                 <button type="button" class="btn btn-danger btn-sm mb-2">Fail</button>
                 <button type="button" class="btn btn-success btn-sm mb-2">Pass</button>
-                <a href="javascript:void(0)" type="button" class="btn btn-primary btn-sm mb-2">Job Offer</a>
+                <a href="{{url('print-jo/'.$applicant->id)}}" type="button" class="btn btn-primary btn-sm mb-2" target="_blank">Job Offer</a>
                 <button type="button" class="btn btn-secondary btn-sm mb-2" data-bs-toggle="modal" data-bs-target="#schedule">Schedule Interview</button>
 
                 <hr>
                 <div class="text-start mt-3">
+                    <p class="text-muted mb-2 font-13"><strong>Position Applied :</strong> <span class="ms-2">{{$applicant->position}}</span></p>
                     <p class="text-muted mb-2 font-13"><strong>Email:</strong> <span class="ms-2">{{$applicant->email}}</span></p>
                     <p class="text-muted mb-2 font-13"><strong>Mobile :</strong><span class="ms-2">{{$applicant->mobile_number}}</span></p>
                     <p class="text-muted mb-2 font-13"><strong>Status :</strong>
@@ -28,12 +27,39 @@
                         <span class="ms-2 badge bg-danger">{{$applicant->applicant_status}}</span>
                         @endif
                     </span></p>
+                    <p class="text-muted mb-2 font-13"><strong>Date Applied :</strong><span class="ms-2">{{date('M d, Y', strtotime($applicant->created_at))}}</span></p>
                 </div>
             </div> <!-- end card-body -->
         </div> <!-- end card -->
     </div> <!-- end col-->
 
-    <div class="col-xl-8 col-lg-7">
+    <div class="col-lg-4 ">
+        <div class="card">
+            <div class="card-body">
+                <h3 class="fs-3"><i class="uil-calendar-alt me-2"></i>Schedule</h3>
+                <hr>
+
+                <div class="row">
+                    <div class="col-lg-4"><b>Date</b></div>
+                    <div class="col-lg-4"><b>Time</b></div>
+                    <div class="col-lg-4"><b>Name</b></div>
+                    @foreach ($applicant->schedule as $sched)
+                        <div class="col-lg-4">
+                            {{date('M d, Y', strtotime($sched->date_time))}}
+                        </div>
+                        <div class="col-lg-4">
+                            {{date('h:i A', strtotime($sched->date_time))}}
+                        </div>
+                        <div class="col-lg-4 mb-2">
+                            {{$sched->schedule_name}}
+                        </div>
+                    @endforeach
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-xl-12 col-lg-7">
         <div class="card">
             <div class="card-body">
                 <ul class="nav nav-tabs mb-3">
@@ -67,40 +93,6 @@
             </div> <!-- end card body -->
         </div> <!-- end card -->
     </div> <!-- end col -->
-
-    <div class="row">
-        <div class="col-lg-4">
-            <div class="card">
-                <div class="card-body">
-                    <div class="fs-3">Schedule</div>
-                    <hr>
-
-                    <div class="row">
-                        <div class="col-lg-4">
-                            <strong>Date</strong>
-                        </div>
-                        <div class="col-lg-4">
-                            <strong>Time</strong>
-                        </div>
-                        <div class="col-lg-4">
-                            <strong>Name</strong>
-                        </div>
-                        @foreach ($applicant->schedule as $sched)
-                            <div class="col-lg-4">
-                                {{date('M d, Y', strtotime($sched->date_time))}}
-                            </div>
-                            <div class="col-lg-4">
-                                {{date('h:i A', strtotime($sched->date_time))}}
-                            </div>
-                            <div class="col-lg-4 mb-2">
-                                {{$sched->schedule_name}}
-                            </div>
-                        @endforeach
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
 </div>
 @include('human_resources.schedule_interview')
 @endsection

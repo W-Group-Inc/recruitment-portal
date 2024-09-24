@@ -8,6 +8,7 @@ use Carbon\Carbon;
 use Google_Client;
 use Spatie\GoogleCalendar\Event;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 use RealRashid\SweetAlert\Facades\Alert;
 
 class ApplicantController extends Controller
@@ -111,5 +112,17 @@ class ApplicantController extends Controller
 
         Alert::success('Successfully Saved')->persistent('Dismiss');
         return back();
+    }
+
+    public function printJo($id)
+    {
+        $applicant = Applicant::findOrFail($id);
+
+        $data = [];
+        $data['applicant'] = $applicant;
+
+        $pdf = App::make('dompdf.wrapper');
+        $pdf->loadView('human_resources.print_jo', $data)->setPaper('a4', 'portrait');
+        return $pdf->stream();
     }
 }

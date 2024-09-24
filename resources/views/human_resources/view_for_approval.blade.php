@@ -169,7 +169,7 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     Action :
-                                    <select data-placeholder="Select Action" name="action" class="form-control form-control-sm select2">
+                                    <select name="action" class="form-control form-control-sm cat">
                                         <option value="">-Select </option>
                                         <option value="Approved">Approve</option>
                                         <option value="Returned">Return</option>
