@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Applicant;
 use App\Company;
 use App\Department;
 use App\ManPowerRequisitionForm;
@@ -47,8 +48,9 @@ class HomeController extends Controller
         if(auth()->user()->role == "Human Resources")
         {
             $mrf = ManPowerRequisitionForm::get();
+            $applicant = Applicant::get();
 
-            return view('home', compact('mrf'));
+            return view('home', compact('mrf', 'applicant'));
         }
 
     }

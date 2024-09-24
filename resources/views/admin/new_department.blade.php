@@ -11,7 +11,7 @@
                     <div class="row">
                         <div class="col-md-12">
                             Company :
-                            <select class="form-control select2" name="company" data-toggle="select2" required>
+                            <select class="form-control cat" name="company" required>
                                 <option value="">-Company-</option>
                                 @foreach ($company as $c)
                                     <option value="{{$c->id}}">{{$c->code .' - '.$c->name}}</option>
@@ -25,6 +25,15 @@
                         <div class="col-md-12">
                             Name :
                             <input type="text" name="name" class="form-control form-control-sm" required>
+                        </div>
+                        <div class="col-md-12">
+                            Department Head :
+                            <select class="form-control cat" name="department_head" required>
+                                <option value="">-Select Department Head-</option>
+                                @foreach ($dept_head as $head)
+                                    <option value="{{$head->id}}">{{$head->name}}</option>
+                                @endforeach
+                            </select>
                         </div>
                     </div>
                 </div>

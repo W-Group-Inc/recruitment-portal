@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Applicant;
+use App\Notifications\NotifyDepartmentHead;
 use App\Schedule;
 use Carbon\Carbon;
 use Google_Client;
@@ -98,6 +99,7 @@ class ApplicantController extends Controller
     public function schedule(Request $request)
     {
         $event = new Event;
+        $event->creator = auth()->user()->email;
         $event->name = $request->event_name;
         $event->startDateTime = Carbon::parse($request->event_start);
         $event->endDateTime = $event->startDateTime->copy()->addHour();
@@ -116,13 +118,39 @@ class ApplicantController extends Controller
 
     public function printJo($id)
     {
-        $applicant = Applicant::findOrFail($id);
-
+        $applicant = Applicant::with('mrf')->findOrFail($id);
+        // dd($applicant->mrf->department->name);
         $data = [];
         $data['applicant'] = $applicant;
 
         $pdf = App::make('dompdf.wrapper');
         $pdf->loadView('human_resources.print_jo', $data)->setPaper('a4', 'portrait');
         return $pdf->stream();
+    }
+
+    public function updateApplicantStatus(Request $request, $id)
+    {
+        // dd($request->all(), $id);
+        $applicant = Applicant::with('mrf.department.head')->findOrFail($id);
+
+        if ($request->action == "passed")
+        {
+            $applicant->applicant_status = "Passed";
+            $applicant->save();
+
+            $dept_head = $applicant->mrf->department->head;
+            $dept_head->notify(new NotifyDepartmentHead($applicant->mrf->position_status));
+
+            Alert::success('The applicant has passed the job interview.')->persistent('Dismiss');
+        }
+        elseif($request->action == "failed")
+        {
+            $applicant->applicant_status = "Failed";
+            $applicant->save();
+
+            Alert::success('The applicant has failed the job interview.')->persistent('Dismiss');
+        }
+
+        return back();
     }
 }

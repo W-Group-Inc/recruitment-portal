@@ -8,20 +8,32 @@
                 <img src="{{asset('img/user.png')}}" class="rounded-circle avatar-lg img-thumbnail" alt="profile-image">
 
                 <h4 class="mb-2 mt-2">{{$applicant->name}}</h4>
-                <button type="button" class="btn btn-danger btn-sm mb-2">Fail</button>
-                <button type="button" class="btn btn-success btn-sm mb-2">Pass</button>
+                <form method="POST" class="d-inline-block" action="{{url('update-status/'.$applicant->id)}}" onsubmit="show()">
+                    @csrf
+
+                    <input type="hidden" name="action" value="failed">
+
+                    <button type="button" class="btn btn-danger btn-sm mb-2 failedBtn">Fail</button>
+                </form>
+                <form method="POST" action="{{url('update-status/'.$applicant->id)}}" class="d-inline-block" onsubmit="show()">
+                    @csrf
+
+                    <input type="hidden" name="action" value="passed">
+
+                    <button type="button" class="btn btn-success btn-sm mb-2 passedBtn">Pass</button>
+                </form>
                 <a href="{{url('print-jo/'.$applicant->id)}}" type="button" class="btn btn-primary btn-sm mb-2" target="_blank">Job Offer</a>
                 <button type="button" class="btn btn-secondary btn-sm mb-2" data-bs-toggle="modal" data-bs-target="#schedule">Schedule Interview</button>
 
                 <hr>
                 <div class="text-start mt-3">
-                    <p class="text-muted mb-2 font-13"><strong>Position Applied :</strong> <span class="ms-2">{{$applicant->position}}</span></p>
+                    <p class="text-muted mb-2 font-13"><strong>Position Applied :</strong> <span class="ms-2">{{$applicant->mrf->position_title}}</span></p>
                     <p class="text-muted mb-2 font-13"><strong>Email:</strong> <span class="ms-2">{{$applicant->email}}</span></p>
                     <p class="text-muted mb-2 font-13"><strong>Mobile :</strong><span class="ms-2">{{$applicant->mobile_number}}</span></p>
                     <p class="text-muted mb-2 font-13"><strong>Status :</strong>
                         @if($applicant->applicant_status == "Pending")
                         <span class="ms-2 badge bg-warning">{{$applicant->applicant_status}}</span>
-                        @elseif($applicant->applicant_status == "Approved")
+                        @elseif($applicant->applicant_status == "Passed")
                         <span class="ms-2 badge bg-success">{{$applicant->applicant_status}}</span>
                         @elseif($applicant->applicant_status == "Failed")
                         <span class="ms-2 badge bg-danger">{{$applicant->applicant_status}}</span>
@@ -95,4 +107,42 @@
     </div> <!-- end col -->
 </div>
 @include('human_resources.schedule_interview')
+
+@section('js')
+    <script>
+        $(document).ready(function() {
+            $('.passedBtn').on('click', function() {
+                Swal.fire({
+                    title: "Are you sure?",
+                    text: "The applicant will be passed",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#3085d6",
+                    cancelButtonColor: "#d33",
+                    confirmButtonText: "Yes, Passed it!"
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $(this).closest('form').submit()
+                    }
+                });
+            })
+
+            $('.failedBtn').on('click', function() {
+                Swal.fire({
+                    title: "Are you sure?",
+                    text: "The applicant will be failed",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#3085d6",
+                    cancelButtonColor: "#d33",
+                    confirmButtonText: "Yes, Failed it!"
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $(this).closest('form').submit()
+                    }
+                });
+            })
+        })
+    </script>
+@endsection
 @endsection

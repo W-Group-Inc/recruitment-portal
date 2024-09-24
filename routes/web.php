@@ -58,3 +58,4 @@ Route::get('applicant', 'ApplicantController@index');
 Route::get('view-applicant/{id}', 'ApplicantController@show');
 Route::post('schedule-interview', 'ApplicantController@schedule');
 Route::get('print-jo/{id}', 'ApplicantController@printJo');
+Route::post('update-status/{id}', 'ApplicantController@updateApplicantStatus');

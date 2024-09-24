@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Company;
 use App\Department;
+use App\User;
 use Illuminate\Http\Request;
 use RealRashid\SweetAlert\Facades\Alert;
 
@@ -18,8 +19,9 @@ class DepartmentController extends Controller
     {
         $departments = Department::get();
         $company = Company::where('status', 'Active')->get();
+        $dept_head = User::where('role', 'Department Head')->where('status', 'Active')->get();
 
-        return view('admin.department', compact('departments', 'company'));
+        return view('admin.department', compact('departments', 'company', 'dept_head'));
     }
 
     /**
@@ -48,6 +50,7 @@ class DepartmentController extends Controller
         $department->code = $request->code;
         $department->name = $request->name;
         $department->company_id = $request->company;
+        $department->user_id = $request->department_head;
         $department->status = 'Active';
         $department->save();
 
@@ -94,6 +97,7 @@ class DepartmentController extends Controller
         $department->code = $request->code;
         $department->name = $request->name;
         $department->company_id = $request->company;
+        $department->user_id = $request->department_head;
         $department->save();
 
         Alert::success('Successfully Updated')->persistent('Dismiss');

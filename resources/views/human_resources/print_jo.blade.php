@@ -241,7 +241,7 @@
                     <p style="font-size: 9;">I. Designation </p>
                 </td>
                 <td>
-                    <p style="font-size: 9">Sample Designation</p>
+                    <p style="font-size: 9">{{$applicant->mrf->position_title}}</p>
                 </td>
             </tr>
             <tr>
@@ -249,7 +249,7 @@
                     <p style="font-size: 9;">II. Department </p>
                 </td>
                 <td>
-                    <p style="font-size: 9">Sample Department</p>
+                    <p style="font-size: 9">{{$applicant->mrf->department->name}}</p>
                 </td>
             </tr>
             <tr>
@@ -265,7 +265,7 @@
                     <p style="font-size: 9;">IV. Employment Status </p>
                 </td>
                 <td>
-                    <p style="font-size: 9">Sample Employment Status</p>
+                    <p style="font-size: 9">{{$applicant->mrf->employment_status}}</p>
                 </td>
             </tr>
             <tr>
@@ -273,7 +273,7 @@
                     <p style="font-size: 9;">V. Immediate Head </p>
                 </td>
                 <td>
-                    <p style="font-size: 9">Sample Immediate Head</p>
+                    <p style="font-size: 9">{{$applicant->mrf->department->head->name}}</p>
                 </td>
             </tr>
             <tr>

@@ -10,4 +10,8 @@ class Department extends Model
     {
         return $this->belongsTo(Company::class);
     }
+    public function head()
+    {
+        return $this->belongsTo(User::class,'user_id');
+    }
 }

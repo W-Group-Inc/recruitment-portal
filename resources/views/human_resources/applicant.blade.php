@@ -30,8 +30,18 @@
                                         <td>{{$applicant->name}}</td>
                                         <td>{{$applicant->email}}</td>
                                         <td>{{$applicant->mobile_number}}</td>
-                                        <td></td>
-                                        <td></td>
+                                        <td>{{$applicant->position}}</td>
+                                        <td>
+                                            @if($applicant->applicant_status == "Pending")
+                                            <span class="badge bg-warning">
+                                            @elseif($applicant->applicant_status == "Passed")
+                                            <span class="badge bg-success">
+                                            @elseif($applicant->applicant_status == "Failed")
+                                            <span class="badge bg-danger">
+                                            @endif
+                                                {{$applicant->applicant_status}}
+                                            </span>
+                                        </td>
                                     </tr>
                                 @endforeach
                             </tbody>

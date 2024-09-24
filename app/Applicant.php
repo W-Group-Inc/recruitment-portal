@@ -10,4 +10,8 @@ class Applicant extends Model
     {
         return $this->hasMany(Schedule::class);
     }
+    public function mrf()
+    {
+        return $this->belongsTo(ManPowerRequisitionForm::class);
+    }
 }

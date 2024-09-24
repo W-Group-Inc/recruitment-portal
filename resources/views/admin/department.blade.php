@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('css')
-
+<link rel="stylesheet" href="{{asset('css/component-chosen.css')}}">
 @endsection
 
 @section('content')
@@ -27,6 +27,7 @@
                                 <th>Company</th>
                                 <th>Code</th>
                                 <th>Name</th>
+                                <th>Department Head</th>
                                 <th>Status</th>
                             </tr>
                         </thead>
@@ -59,6 +60,7 @@
                                     <td>{{optional($department->company)->name}}</td>
                                     <td>{{$department->code}}</td>
                                     <td>{{$department->name}}</td>
+                                    <td>{{optional($department->head)->name}}</td>
                                     <td>
                                         @if($department->status == "Active")
                                         <span class="badge bg-success">
@@ -85,8 +87,11 @@
 
 @include('admin.new_department')
 @section('js')
+<script src="{{asset('js/chosen.jquery.min.js')}}"></script>
 <script>
 $(document).ready(function() {
+    $('.cat').chosen({width:"100%"})
+
     $('.deactivate').on('click', function() {
         Swal.fire({
             title: "Are you sure?",
