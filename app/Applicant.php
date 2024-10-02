@@ -12,6 +12,6 @@ class Applicant extends Model
     }
     public function mrf()
     {
-        return $this->belongsTo(ManPowerRequisitionForm::class);
+        return $this->belongsTo(ManPowerRequisitionForm::class,'man_power_requisition_form_id');
     }
 }

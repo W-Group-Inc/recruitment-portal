@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Company;
 use App\Department;
+use App\Interviewer;
 use App\ManPowerRequisitionForm;
+use App\User;
 use Barryvdh\DomPDF\PDF;
 use Illuminate\Database\Capsule\Manager;
 use Illuminate\Http\Request;
@@ -25,8 +27,9 @@ class ManPowerRequisitionFormController extends Controller
         $departments = Department::where('status', 'Active')->get();
         $employment_status = $this->employmentStatus();
         $job_level = $this->jobLevel();
+        $user = User::where('status', 'Active')->get();
         
-        return view('dept_head.mrf', compact('mrf', 'departments', 'companies', 'employment_status', 'job_level'));
+        return view('dept_head.mrf', compact('mrf', 'departments', 'companies', 'employment_status', 'job_level', 'user'));
     }
 
     // public function new()
@@ -226,5 +229,37 @@ class ManPowerRequisitionFormController extends Controller
         $pdf = App::make('dompdf.wrapper');
         $pdf->loadView('human_resources.print_mrf', $data)->setPaper('a4', 'portrait');
         return $pdf->stream();
+    }
+
+    public function interviewer(Request $request)
+    {
+        if($request->has('interviewer'))
+        {
+            $interviewer = Interviewer::where('man_power_requisition_form_id', $request->mrf_id)->delete();
+            foreach($request->interviewer as $key=>$value)
+            {
+                $interviewer = new Interviewer;
+                $interviewer->man_power_requisition_form_id = $request->mrf_id;
+                $interviewer->user_id = $value;
+                $interviewer->level = $key+1;
+                if ($key == 0)
+                {
+                    $interviewer->status = 'Pending';
+                }
+                else
+                {
+                    $interviewer->status = 'Waiting';
+                }
+                
+                $interviewer->save();
+            }
+    
+            Alert::success('Successfully Saved')->persistent('Dismiss');
+        }
+        else
+        {
+            Alert::error('Error. Please add interviewer')->persistent('Dismiss');
+        }
+        return back();
     }
 }

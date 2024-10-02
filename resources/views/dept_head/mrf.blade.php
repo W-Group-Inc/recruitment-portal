@@ -33,6 +33,9 @@
                                 <th>Company</th>
                                 <th>Department</th>
                                 <th>Status</th>
+                                @if(auth()->user()->role == "Human Resources")
+                                <th>Interviewer</th>
+                                @endif
                             </tr>
                         </thead>
                         <tbody>
@@ -78,18 +81,22 @@
                             @endif
 
                             @if(auth()->user()->role == "Human Resources")
-                            @foreach ($mrf as $m)
+                            @foreach ($mrf as $key=>$m)
                                 <tr>
                                     <td>
-                                        {{-- @if($m->mrf_status == "Approved")
-                                        <form action="{{url('post-indeed/'.$m->id)}}" method="post" onsubmit="show()">
+                                        @if($m->mrf_status == "Approved")
+                                        {{-- <form action="{{url('post-indeed/'.$m->id)}}" method="post" onsubmit="show()">
                                             @csrf
 
                                             <button class="btn btn-sm btn-success post-to-indeed" type="button">
                                                 <i class="uil-check"></i>
                                             </button>
-                                        </form>
-                                        @endif --}}
+                                        </form> --}}
+
+                                        <button type="button" class="btn btn-sm btn-info" data-bs-toggle="modal" data-bs-target="#interviewer{{$m->id}}">
+                                            <i class="uil-user"></i>
+                                        </button>
+                                        @endif
                                     </td>
                                     {{-- <td>
                                         @if($m->mrf_status == "Pending")
@@ -125,6 +132,13 @@
                                         {{$m->mrf_status}}
                                         </span>
                                     </td>
+                                    <td>
+                                        @foreach ($m->interviewer as $i)
+                                            <small>
+                                                {{$i->level}}. {{$i->user->name}} <br>
+                                            </small>
+                                        @endforeach
+                                    </td>
                                 </tr>
 
                                 @include('dept_head.edit_mrf')
@@ -141,10 +155,57 @@
 
 
 @include('dept_head.new_mrf')
+@foreach ($mrf as $key=>$m)
+@include('dept_head.interviewer')
+@endforeach
 
 @section('js')
 <script src="{{asset('js/chosen.jquery.min.js')}}"></script>
 <script>
+    function add_interviewer(mrfId)
+    {
+        var lastId = $('.interviewer-container-'+mrfId).children().last().attr('id');
+        if (lastId)
+        {
+            var id = lastId.split('_')
+            var finalId = parseInt(id[2]) + 1
+        }
+        else
+        {
+            var finalId = 1
+        }
+
+        var new_row = `
+            <div class="row" id="interviewer_${mrfId}_${finalId}">
+                <div class="col-md-1">
+                    <small>${finalId}</small>
+                </div>
+                <div class="col-md-11 mb-3">
+                    <select name="interviewer[]" class="form-control cat">
+                        <option value="">- Interviewer -</option>
+                        @foreach ($user->whereIn('role', ['Department Head', 'Human Resources']) as $u)
+                            <option value="{{$u->id}}">{{$u->name}}</option>
+                        @endforeach
+                    </select>
+                </div>
+            </div>
+        `
+
+        $('.interviewer-container-'+mrfId).append(new_row)
+        $('.cat').chosen({width:"100%"})
+    }
+
+    function delete_interviewer(mrfId)
+    {
+        if ($('.interviewer-container-'+mrfId+' .row').length > 1)
+        {
+            var itemData = $('.interviewer-container-'+mrfId).children().last().attr('id')
+            
+            $("#"+itemData).remove()
+            // $('.interviewer-container-'+mrfId+' #interviewer_'+mrfId+).remove()
+        }
+    }
+
     $(document).ready(function() {
         $('.position_status').on('change', function() {
 

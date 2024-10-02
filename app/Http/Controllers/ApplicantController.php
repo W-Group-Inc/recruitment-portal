@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Applicant;
+use App\Interviewer;
 use App\Notifications\NotifyDepartmentHead;
 use App\Schedule;
 use Carbon\Carbon;
@@ -22,6 +23,12 @@ class ApplicantController extends Controller
     public function index()
     {
         $applicants = Applicant::get();
+        if (auth()->user()->role == "Department Head")
+        {
+            $applicants = Applicant::whereHas('mrf', function($q) {
+                $q->where('department_id', auth()->user()->department_id);
+            })->get();
+        }
 
         return view('human_resources.applicant', compact('applicants'));
     }
@@ -56,10 +63,12 @@ class ApplicantController extends Controller
     public function show($id)
     {
         $applicant = Applicant::findOrFail($id);
+        $interviewer = Interviewer::where('status', 'Pending')->first();
+        
         // $get_events = Event::get();
         // $events = $get_events[0];
 
-        return view('human_resources.view_applicant', compact('applicant'));
+        return view('human_resources.view_applicant', compact('applicant', 'interviewer'));
     }
 
     /**
@@ -131,15 +140,23 @@ class ApplicantController extends Controller
     public function updateApplicantStatus(Request $request, $id)
     {
         // dd($request->all(), $id);
-        $applicant = Applicant::with('mrf.department.head')->findOrFail($id);
+        $applicant = Applicant::with('mrf.department.head', 'mrf.interviewer')->findOrFail($id);
 
         if ($request->action == "passed")
         {
             $applicant->applicant_status = "Passed";
             $applicant->save();
 
-            $dept_head = $applicant->mrf->department->head;
-            $dept_head->notify(new NotifyDepartmentHead($applicant->mrf->position_status));
+            $interviewer = Interviewer::findOrFail($request->interviewer_id);
+            $interviewer->status = 'Passed';
+            $interviewer->save();
+
+            $nextInterviewer = Interviewer::where('status', 'Waiting')->orderBy('level', 'asc')->first();
+            $nextInterviewer->status = 'Pending';
+            $nextInterviewer->save();
+
+            // $dept_head = $applicant->mrf->department->head;
+            // $dept_head->notify(new NotifyDepartmentHead($applicant->mrf->position_status));
 
             Alert::success('The applicant has passed the job interview.')->persistent('Dismiss');
         }

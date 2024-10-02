@@ -14,4 +14,8 @@ class ManPowerRequisitionForm extends Model
     {
         return $this->belongsTo(Department::class);
     }
+    public function interviewer()
+    {
+        return $this->hasMany(Interviewer::class);
+    }
 }

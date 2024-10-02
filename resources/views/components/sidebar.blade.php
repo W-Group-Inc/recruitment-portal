@@ -103,7 +103,7 @@
             </li>
             @endif
 
-            @if(auth()->user()->role == "Human Resources")
+            @if(auth()->user()->role == "Human Resources" || auth()->user()->role == "Department Head")
             <li class="side-nav-title side-nav-item">Applicant</li>
 
             <li class="side-nav-item">

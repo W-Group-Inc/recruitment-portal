@@ -2,16 +2,18 @@
 
 @section('content')
 <div class="row">
-    <div class="col-xl-4 col-lg-5">
+    <div class="col-xl-4 col-lg-4">
         <div class="card text-center">
             <div class="card-body">
                 <img src="{{asset('img/user.png')}}" class="rounded-circle avatar-lg img-thumbnail" alt="profile-image">
 
                 <h4 class="mb-2 mt-2">{{$applicant->name}}</h4>
+                @if($interviewer->user_id == auth()->user()->id)
                 <form method="POST" class="d-inline-block" action="{{url('update-status/'.$applicant->id)}}" onsubmit="show()">
                     @csrf
 
                     <input type="hidden" name="action" value="failed">
+                    <input type="hidden" name="interviewer_id" value="{{$interviewer->id}}">
 
                     <button type="button" class="btn btn-danger btn-sm mb-2 failedBtn">Fail</button>
                 </form>
@@ -19,11 +21,16 @@
                     @csrf
 
                     <input type="hidden" name="action" value="passed">
+                    <input type="hidden" name="interviewer_id" value="{{$interviewer->id}}">
 
                     <button type="button" class="btn btn-success btn-sm mb-2 passedBtn">Pass</button>
                 </form>
+                @endif
+                
+                @if(auth()->user()->role == 'Human Resources')
                 <a href="{{url('print-jo/'.$applicant->id)}}" type="button" class="btn btn-primary btn-sm mb-2" target="_blank">Job Offer</a>
                 <button type="button" class="btn btn-secondary btn-sm mb-2" data-bs-toggle="modal" data-bs-target="#schedule">Schedule Interview</button>
+                @endif
 
                 <hr>
                 <div class="text-start mt-3">
@@ -45,13 +52,12 @@
         </div> <!-- end card -->
     </div> <!-- end col-->
 
-    <div class="col-lg-4 ">
-        <div class="card">
+    <div class="col-lg-4 d-flex align-items-stretch">
+        <div class="card w-100">
             <div class="card-body">
                 <h3 class="fs-3"><i class="uil-calendar-alt me-2"></i>Schedule</h3>
                 <hr>
-
-                <div class="row">
+                {{-- <div class="row">
                     <div class="col-lg-4"><b>Date</b></div>
                     <div class="col-lg-4"><b>Time</b></div>
                     <div class="col-lg-4"><b>Name</b></div>
@@ -66,6 +72,91 @@
                             {{$sched->schedule_name}}
                         </div>
                     @endforeach
+                </div> --}}
+
+                <div class="table-responsive">
+                    <table class="table tables table-hover table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Time</th>
+                                <th>Name of Schedule</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($applicant->schedule as $sched)
+                                <tr>
+                                    <td>
+                                        {{date('M d, Y', strtotime($sched->date_time))}}
+                                    </td>
+                                    <td>
+                                        {{date('h:i A', strtotime($sched->date_time))}}
+                                    </td>
+                                    <td>
+                                        {{$sched->schedule_name}}
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-4  d-flex align-items-stretch">
+        <div class="card w-100">
+            <div class="card-body">
+                <h3 class="fs-3">
+                    <i class="uil-user"></i>
+                    Interviewer
+                </h3>
+                <hr>
+                {{-- <div class="row">
+                    <div class="col-lg-6">
+                        <b>Name</b>
+                    </div>
+                    <div class="col-lg-6">
+                        <b>Status</b>
+                    </div>
+                    @foreach ($applicant->mrf->interviewer as $i)
+                        <div class="col-lg-6">
+                            {{$i->user->name}}
+                        </div>
+                        <div class="col-lg-6">
+                            @if($i->status == 'Pending')
+                                <div class="badge bg-warning">{{$i->status}}</div>
+                            @else
+                                <div class="badge bg-info">{{$i->status}}</div>
+                            @endif
+                        </div>
+                    @endforeach
+                </div> --}}
+                <div class="table-responsive">
+                    <table class="table table-bordered table-hover tables">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($applicant->mrf->interviewer as $i)
+                            <tr>
+                                <td>
+                                    {{$i->user->name}}
+                                </td>
+                                <td>
+                                    @if($i->status == 'Pending')
+                                        <div class="badge bg-warning">{{$i->status}}</div>
+                                    @else
+                                        <div class="badge bg-info">{{$i->status}}</div>
+                                    @endif
+                                </td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
@@ -110,6 +201,11 @@
 
 @section('js')
     <script>
+        $('.tables').DataTable({
+            ordering: false,
+            paginate: false
+        })
+
         $(document).ready(function() {
             $('.passedBtn').on('click', function() {
                 Swal.fire({
