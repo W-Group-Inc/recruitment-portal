@@ -28,51 +28,51 @@
                                     <strong>I. POSITION</strong>
                                 </div>
                                 <hr>
-                                <div class="row">
-                                    <div class="col-md-3">
+                                <dl class="row mb-0">
+                                    <dt class="col-md-3">
                                         Position Title :
-                                    </div>
-                                    <div class="col-md-9">
+                                    </dt>
+                                    <dd class="col-md-9">
                                         {{$m->position_title}}
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-3">
+                                    </dd>
+                                </dl>
+                                <dl class="row mb-0">
+                                    <dt class="col-md-3">
                                         Department :
-                                    </div>
-                                    <div class="col-md-9">
+                                    </dt>
+                                    <dd class="col-md-9">
                                         {{$m->department->name}}
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-3">
+                                    </dd>
+                                </dl>
+                                <dl class="row mb-0">
+                                    <dt class="col-md-3">
                                         Date Requested :
-                                    </div>
-                                    <div class="col-md-9">
+                                    </dt>
+                                    <dd class="col-md-9">
                                         {{date('M d, Y', strtotime($m->created_at))}}
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-3">
+                                    </dd>
+                                </dl>
+                                <dl class="row mb-0">
+                                    <dt class="col-md-3">
                                         Target Date :
-                                    </div>
-                                    <div class="col-md-9">
+                                    </dt>
+                                    <dd class="col-md-9">
                                         {{date('M d, Y', strtotime($m->target_date))}}
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-3">
+                                    </dd>
+                                </dl>
+                                <dl class="row mb-0">
+                                    <dt class="col-md-3">
                                         Position Status :
-                                    </div>
-                                    <div class="col-md-9">
+                                    </dt>
+                                    <dd class="col-md-9">
                                         {{$m->position_status}}
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-3">
+                                    </dd>
+                                </dl>
+                                <dl class="row mb-0">
+                                    <dt class="col-md-3">
                                         Attachment
-                                    </div>
-                                    <div class="col-md-9">
+                                    </dt>
+                                    <dd class="col-md-9">
                                         @if($m->is_plantilla == 1)
                                         Plantilla
                                         <a href="{{url($m->mrf_attachment)}}" target="_blank">
@@ -86,84 +86,84 @@
                                             <i class="uil-file"></i>
                                         </a>
                                         @endif
-                                    </div>
-                                </div>
+                                    </dd>
+                                </dl>
                             </div>
                             <div class="row mb-2">
                                 <div class="col-md-12">
                                     <strong>II. QUALIFICATION</strong>
                                 </div>
                                 <hr>
-                                <div class="row">
-                                    <div class="col-md-3">
+                                <dl class="row mb-0">
+                                    <dt class="col-md-3">
                                         Educational Attainment:
-                                    </div>
-                                    <div class="col-md-9  ">
+                                    </dt>
+                                    <dd class="col-md-9  ">
                                         {{$m->educational_attainment}}
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-3">
+                                    </dd>
+                                </dl>
+                                <dl class="row mb-0">
+                                    <dt class="col-md-3">
                                         Work Experience :
-                                    </div>
-                                    <div class="col-md-9">
+                                    </dt>
+                                    <dd class="col-md-9">
                                         {{$m->work_experience}}
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-3">
+                                    </dd>
+                                </dl>
+                                <dl class="row mb-0">
+                                    <dt class="col-md-3">
                                         Special Skills :
-                                    </div>
-                                    <div class="col-md-9">
+                                    </dt>
+                                    <dd class="col-md-9">
                                         {{$m->special_skills}}
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-3">
+                                    </dd>
+                                </dl>
+                                <dl class="row mb-0">
+                                    <dt class="col-md-3">
                                         Others :
-                                    </div>
-                                    <div class="col-md-9">
+                                    </dt>
+                                    <dd class="col-md-9">
                                         {{$m->others}}
-                                    </div>
-                                </div>
+                                    </dd>
+                                </dl>
                             </div>
                             <div class="row mb-2">
                                 <div class="col-md-12">
                                     <strong>III. EMPLOYMENT DETAILS</strong>
                                 </div>
                                 <hr>
-                                <div class="row">
-                                    <div class="col-md-3">
+                                <dl class="row mb-0">
+                                    <dt class="col-md-3">
                                         Employment Status :
-                                    </div>
-                                    <div class="col-md-9  ">
+                                    </dt>
+                                    <dd class="col-md-9  ">
                                         {{$m->employment_status}}
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-3">
+                                    </dd>
+                                </dl>
+                                <dl class="row mb-0">
+                                    <dt class="col-md-3">
                                         Job Level / Grade :
-                                    </div>
-                                    <div class="col-md-9">
+                                    </dt>
+                                    <dd class="col-md-9">
                                         {{$m->job_level}}
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-3">
+                                    </dd>
+                                </dl>
+                                <dl class="row mb-0">
+                                    <dt class="col-md-3">
                                         Salary Rate / Range :
-                                    </div>
-                                    <div class="col-md-9">
+                                    </dt>
+                                    <dd class="col-md-9">
                                         {{$m->salary_range}}
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-3">
+                                    </dd>
+                                </dl>
+                                <dl class="row mb-0">
+                                    <dt class="col-md-3">
                                         Others Remarks :
-                                    </div>
-                                    <div class="col-md-9">
+                                    </dt>
+                                    <dd class="col-md-9">
                                         {{$m->other_remarks}}
-                                    </div>
-                                </div>
+                                    </dd>
+                                </dl>
                             </div>
                             <hr>
                             <div class="row">

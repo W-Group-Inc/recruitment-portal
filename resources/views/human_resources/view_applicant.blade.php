@@ -8,12 +8,13 @@
                 <img src="{{asset('img/user.png')}}" class="rounded-circle avatar-lg img-thumbnail" alt="profile-image">
 
                 <h4 class="mb-2 mt-2">{{$applicant->name}}</h4>
-                @if($interviewer->user_id == auth()->user()->id)
+
+                @foreach ($applicant->mrf->interviewer->where('status', 'Pending')->where('user_id', auth()->user()->id) as $i)
                 <form method="POST" class="d-inline-block" action="{{url('update-status/'.$applicant->id)}}" onsubmit="show()">
                     @csrf
 
                     <input type="hidden" name="action" value="failed">
-                    <input type="hidden" name="interviewer_id" value="{{$interviewer->id}}">
+                    <input type="hidden" name="interviewer_id" value="{{$i->id}}">
 
                     <button type="button" class="btn btn-danger btn-sm mb-2 failedBtn">Fail</button>
                 </form>
@@ -21,11 +22,11 @@
                     @csrf
 
                     <input type="hidden" name="action" value="passed">
-                    <input type="hidden" name="interviewer_id" value="{{$interviewer->id}}">
+                    <input type="hidden" name="interviewer_id" value="{{$i->id}}">
 
                     <button type="button" class="btn btn-success btn-sm mb-2 passedBtn">Pass</button>
                 </form>
-                @endif
+                @endforeach
                 
                 @if(auth()->user()->role == 'Human Resources')
                 <a href="{{url('print-jo/'.$applicant->id)}}" type="button" class="btn btn-primary btn-sm mb-2" target="_blank">Job Offer</a>
@@ -149,6 +150,8 @@
                                 <td>
                                     @if($i->status == 'Pending')
                                         <div class="badge bg-warning">{{$i->status}}</div>
+                                    @elseif($i->status == 'Failed')
+                                        <div class="badge bg-danger">{{$i->status}}</div>
                                     @else
                                         <div class="badge bg-info">{{$i->status}}</div>
                                     @endif

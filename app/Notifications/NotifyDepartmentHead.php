@@ -9,7 +9,7 @@ use Illuminate\Notifications\Messages\MailMessage;
 
 class NotifyDepartmentHead extends Notification
 {
-    // use Queueable;
+    use Queueable;
 
     /**
      * Create a new notification instance.

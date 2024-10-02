@@ -63,12 +63,12 @@ class ApplicantController extends Controller
     public function show($id)
     {
         $applicant = Applicant::findOrFail($id);
-        $interviewer = Interviewer::where('status', 'Pending')->first();
+        // $interviewer = Interviewer::where('status', 'Pending')->first();
         
         // $get_events = Event::get();
         // $events = $get_events[0];
 
-        return view('human_resources.view_applicant', compact('applicant', 'interviewer'));
+        return view('human_resources.view_applicant', compact('applicant'));
     }
 
     /**
@@ -144,16 +144,32 @@ class ApplicantController extends Controller
 
         if ($request->action == "passed")
         {
-            $applicant->applicant_status = "Passed";
-            $applicant->save();
-
             $interviewer = Interviewer::findOrFail($request->interviewer_id);
             $interviewer->status = 'Passed';
             $interviewer->save();
 
-            $nextInterviewer = Interviewer::where('status', 'Waiting')->orderBy('level', 'asc')->first();
-            $nextInterviewer->status = 'Pending';
-            $nextInterviewer->save();
+            $nextInterviewer = Interviewer::where('status', 'Waiting')->orderBy('level', 'asc')->get();
+            if ($nextInterviewer->isNotEmpty())
+            {
+                foreach($nextInterviewer as $key=>$interviewer)
+                {
+                    if ($key == 0)
+                    {
+                        $interviewer->status = 'Pending';
+                    }
+                    else
+                    {
+                        $interviewer->status = 'Waiting';
+                    }
+
+                    $interviewer->save();
+                }
+            }
+            else
+            {
+                $applicant->applicant_status = "Passed";
+                $applicant->save();
+            }
 
             // $dept_head = $applicant->mrf->department->head;
             // $dept_head->notify(new NotifyDepartmentHead($applicant->mrf->position_status));
@@ -162,8 +178,27 @@ class ApplicantController extends Controller
         }
         elseif($request->action == "failed")
         {
-            $applicant->applicant_status = "Failed";
-            $applicant->save();
+            $interviewer = Interviewer::findOrFail($request->interviewer_id);
+            $interviewer->status = 'Failed';
+            $interviewer->save();
+
+            $nextInterviewer = Interviewer::where('status', 'Waiting')->orderBy('level', 'asc')->get();
+            if ($nextInterviewer->isNotEmpty())
+            {
+                foreach($nextInterviewer as $key=>$interviewer)
+                {
+                    $interviewer->status = 'Failed';
+                    $interviewer->save();
+                }
+            }
+            else
+            {
+                $applicant->applicant_status = "Failed";
+                $applicant->save();
+            }
+
+            // $dept_head = $applicant->mrf->department->head;
+            // $dept_head->notify(new NotifyDepartmentHead($applicant->mrf->position_status));
 
             Alert::success('The applicant has failed the job interview.')->persistent('Dismiss');
         }
