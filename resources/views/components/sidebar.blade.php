@@ -25,6 +25,7 @@
         <!--- Sidemenu -->
         <ul class="side-nav">
 
+            @if(auth()->user()->role != 'Applicant')
             <li class="side-nav-title side-nav-item">Home</li>
 
             <li class="side-nav-item">
@@ -33,6 +34,7 @@
                     <span> Dashboard </span>
                 </a>
             </li>
+            @endif
 
             @if(auth()->user()->role == "Administrator")
             {{-- <li class="side-nav-item">
@@ -108,6 +110,17 @@
 
             <li class="side-nav-item">
                 <a href="{{url('applicant')}}" class="side-nav-link" onclick="show()">
+                    <i class=" uil-user"></i>
+                    <span>Applicant</span>
+                </a>
+            </li>
+            @endif
+
+            @if(auth()->user()->role == 'Applicant')
+            <li class="side-nav-title side-nav-item">Applicant</li>
+
+            <li class="side-nav-item">
+                <a href="{{url('applicants')}}" class="side-nav-link" onclick="show()">
                     <i class=" uil-user"></i>
                     <span>Applicant</span>
                 </a>

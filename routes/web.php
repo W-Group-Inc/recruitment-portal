@@ -17,7 +17,7 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/home', 'HomeController@index')->name('home')->middleware('active_applicant_at');
 
 # User
 Route::get('user', 'UserController@index');
@@ -60,3 +60,6 @@ Route::get('view-applicant/{id}', 'ApplicantController@show');
 Route::post('schedule-interview', 'ApplicantController@schedule');
 Route::get('print-jo/{id}', 'ApplicantController@printJo');
 Route::post('update-status/{id}', 'ApplicantController@updateApplicantStatus');
+
+Route::get('applicants', 'ApplicantController@applicant');
+Route::post('submit-ja', 'ApplicantController@jobApplicationForm');

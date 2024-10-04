@@ -7,7 +7,7 @@ use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 
-class NotifyDepartmentHead extends Notification
+class FailedApplicantNotification extends Notification
 {
     use Queueable;
 
@@ -45,7 +45,7 @@ class NotifyDepartmentHead extends Notification
     {
         return (new MailMessage)
                     ->greeting('Hello, '.$this->dept_head->name)
-                    ->line('The applicant for the position of '. $this->mrf->position_title .' has passed.')
+                    ->line('The applicant for the position of '. $this->mrf->position_title .' has failed.')
                     ->action('View Applicants', url('/applicant'))
                     ->line('Thank you for using our application!');
     }

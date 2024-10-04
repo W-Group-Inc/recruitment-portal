@@ -4,9 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Applicant;
 use App\Interviewer;
+use App\Notifications\FailedApplicantNotification;
 use App\Notifications\NotifyDepartmentHead;
 use App\Schedule;
+use App\User;
 use Carbon\Carbon;
+use DateTime;
 use Google_Client;
 use Spatie\GoogleCalendar\Event;
 use Illuminate\Http\Request;
@@ -169,10 +172,24 @@ class ApplicantController extends Controller
             {
                 $applicant->applicant_status = "Passed";
                 $applicant->save();
+                
+                $user = new User;
+                $user->name = $applicant->name;
+                $user->email = $applicant->email;
+                $user->password = bcrypt('wgroup123');
+                $user->status = 'Active';
+                $user->role = 'Applicant';
+                $user->department_id = $applicant->mrf->department_id;
+                $user->company_id = $applicant->mrf->company_id;
+                $user->applicant_id = $applicant->id;
+                $user->save();
             }
 
-            // $dept_head = $applicant->mrf->department->head;
-            // $dept_head->notify(new NotifyDepartmentHead($applicant->mrf->position_status));
+            if (auth()->user()->role == 'Human Resources')
+            {
+                $dept_head = $applicant->mrf->department->head;
+                $dept_head->notify(new NotifyDepartmentHead($applicant->mrf, $dept_head));
+            }
 
             Alert::success('The applicant has passed the job interview.')->persistent('Dismiss');
         }
@@ -197,12 +214,25 @@ class ApplicantController extends Controller
                 $applicant->save();
             }
 
-            // $dept_head = $applicant->mrf->department->head;
-            // $dept_head->notify(new NotifyDepartmentHead($applicant->mrf->position_status));
+            if (auth()->user()->role == 'Human Resources')
+            {
+                $dept_head = $applicant->mrf->department->head;
+                $dept_head->notify(new FailedApplicantNotification($applicant->mrf, $dept_head));
+            }
 
             Alert::success('The applicant has failed the job interview.')->persistent('Dismiss');
         }
 
         return back();
+    }
+
+    public function applicant()
+    {
+        return view('applicant.applicants');
+    }
+
+    public function jobApplicationForm(Request $request)
+    {
+        dd($request->all());
     }
 }

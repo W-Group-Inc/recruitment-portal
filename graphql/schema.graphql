@@ -1,0 +1,61 @@
+type Mutation {
+    createSourcedJobPostings(input: CreateJobPostingsInput!): CreateJobPostingsPayload
+}
+
+input CreateJobPostingsInput {
+    jobPostings: [JobPostingInput!]!
+}
+
+input JobPostingInput {
+    body: JobBodyInput!
+    metadata: JobMetadataInput!
+}
+
+input JobBodyInput {
+    title: String!
+    description: String!
+    location: LocationInput!
+    benefits: [String!]
+}
+
+input LocationInput {
+    country: String!
+    cityRegionPostal: String!
+}
+
+input JobMetadataInput {
+    jobSource: JobSourceInput!
+    jobPostingId: String!
+    datePublished: String!
+    url: String!
+    contacts: [ContactInput!]!
+}
+
+input JobSourceInput {
+    companyName: String!
+    sourceName: String!
+    sourceType: String!
+}
+
+input ContactInput {
+    contactType: [String!]!
+    contactInfo: ContactInfoInput!
+}
+
+input ContactInfoInput {
+    contactEmail: String!
+    contactPhone: String!
+    contactName: String!
+}
+
+type CreateJobPostingsPayload {
+    results: [JobPostingResult!]!
+}
+
+type JobPostingResult {
+    jobPosting: JobPostingOutput!
+}
+
+type JobPostingOutput {
+    sourcedPostingId: String!
+}
