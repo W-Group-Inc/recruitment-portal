@@ -14,4 +14,8 @@ class Applicant extends Model
     {
         return $this->belongsTo(ManPowerRequisitionForm::class,'man_power_requisition_form_id');
     }
+    public function jobApplication()
+    {
+        return $this->hasOne(JobApplication::class,'applicant_id');
+    }
 }

@@ -10,13 +10,13 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <!-- third party css -->
-    <link href="{{asset('assets/css/vendor/jquery-jvectormap-1.2.2.css')}}" rel="stylesheet" type="text/css">
+    {{-- <link href="{{asset('assets/css/vendor/jquery-jvectormap-1.2.2.css')}}" rel="stylesheet" type="text/css"> --}}
     <!-- third party css end -->
 
     <!-- App css -->
     <link href="{{asset('assets/css/icons.min.css')}}" rel="stylesheet" type="text/css">
     <link href="{{asset('assets/css/app.min.css')}}" rel="stylesheet" type="text/css" id="light-style">
-    <link href="{{asset('assets/css/app-dark.min.css')}}" rel="stylesheet" type="text/css" id="dark-style">
+    {{-- <link href="{{asset('assets/css/app-dark.min.css')}}" rel="stylesheet" type="text/css" id="dark-style"> --}}
 
     <!-- third party css -->
     <link href="{{asset('assets/css/vendor/dataTables.bootstrap5.css')}}" rel="stylesheet" type="text/css">
@@ -39,9 +39,15 @@
         opacity: .8;
         background-size: 120px 120px;
     } 
+
+    .wizard-pane {
+        max-height: 500px;
+        overflow-y: auto;
+        overflow-x: hidden;
+    }
 </style>
 
-<body class="loading" data-layout-config='{"leftSideBarTheme":"dark","layoutBoxed":false, "leftSidebarCondensed":false, "leftSidebarScrollable":false,"darkMode":false, "showRightSidebarOnStart": true}'>
+<body class="loading" data-layout-config='{"leftSideBarTheme":"dark","layoutBoxed":false, "leftSidebarCondensed":false, "leftSidebarScrollable":false,"darkMode":false, "showRightSidebarOnStart": false}'>
     <!-- Begin page -->
     <div class="wrapper">
         <!-- ========== Left Sidebar Start ========== -->
@@ -69,22 +75,22 @@
             <!-- content -->
 
             <!-- Footer Start -->
-            <footer class="footer">
+            {{-- <footer class="footer bg-white">
                 <div class="container-fluid">
                     <div class="row">
                         <div class="col-md-6">
-                            {{-- <script>document.write(new Date().getFullYear())</script> © Hyper - Coderthemes.com --}}
+                            <script>document.write(new Date().getFullYear())</script> © Hyper - Coderthemes.com
                         </div>
-                        {{-- <div class="col-md-6">
+                        <div class="col-md-6">
                             <div class="text-md-end footer-links d-none d-md-block">
                                 <a href="javascript: void(0);">About</a>
                                 <a href="javascript: void(0);">Support</a>
                                 <a href="javascript: void(0);">Contact Us</a>
                             </div>
-                        </div> --}}
+                        </div>
                     </div>
                 </div>
-            </footer>
+            </footer> --}}
             <!-- end Footer -->
 
         </div>
