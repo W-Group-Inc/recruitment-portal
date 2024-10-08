@@ -7,6 +7,7 @@ use App\ChildrenInformation;
 use App\HistoryApplicant;
 use App\Interviewer;
 use App\JobApplication;
+use App\ManPowerRequisitionForm;
 use App\Notifications\ApplicantCredentialsNotification;
 use App\Notifications\ApplicantStatusFailedNotification;
 use App\Notifications\ApplicantStatusNotification;
@@ -33,6 +34,7 @@ class ApplicantController extends Controller
     public function index()
     {
         $applicants = Applicant::get();
+        $mrf = ManPowerRequisitionForm::where('is_close', null)->where('mrf_status', 'Active')->get();
         if (auth()->user()->role == "Department Head")
         {
             $applicants = Applicant::whereHas('mrf', function($q) {
@@ -40,7 +42,7 @@ class ApplicantController extends Controller
             })->get();
         }
 
-        return view('human_resources.applicant', compact('applicants'));
+        return view('human_resources.applicant', compact('applicants', 'mrf'));
     }
 
     /**
@@ -61,7 +63,23 @@ class ApplicantController extends Controller
      */
     public function store(Request $request)
     {
+        // dd($request->all());
+        $applicant = new Applicant;
+        $applicant->name = $request->name;
+        $applicant->email = $request->email;
+        $applicant->mobile_number = $request->mobile_number;
+        $applicant->man_power_requisition_form_id = $request->position;
+        $applicant->applicant_status = 'Pending';
         
+        $attachment = $request->file('resume');
+        $name = time().'_'.$attachment->getClientOriginalName();
+        $attachment->move(public_path('resume'),$name);
+
+        $applicant->resume = '/resume/'.$name;
+        $applicant->save();
+
+        Alert::success('Successfully Saved')->persistent('Dismiss');
+        return back();
     }
 
     /**

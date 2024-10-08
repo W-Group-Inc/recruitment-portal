@@ -1,5 +1,7 @@
 @extends('layouts.app')
-
+@section('css')
+<link rel="stylesheet" href="{{asset('css/component-chosen.css')}}">
+@endsection
 @section('content')
     <div class="row">
         <h4 class="header-title">Applicants</h4>
@@ -7,6 +9,10 @@
             <div class="card">
                 <div class="card-body">
                     @include('components.error')
+                    <button class="mb-3 btn btn-success btn-sm" type="button" data-bs-toggle="modal" data-bs-target="#add">
+                        <i class="uil-plus"></i>
+                        Add Applicant
+                    </button>
                     <div class="table-responsive">
                         <table id="alternative-page-datatable" class="table table-bordered table-hover">
                             <thead>
@@ -31,7 +37,7 @@
                                         <td>{{$applicant->name}}</td>
                                         <td>{{$applicant->email}}</td>
                                         <td>{{$applicant->mobile_number}}</td>
-                                        <td>{{$applicant->position}}</td>
+                                        <td>{{$applicant->mrf->position_title}}</td>
                                         <td>
                                             @if($applicant->applicant_status == "Pending")
                                             <span class="badge bg-warning">
@@ -58,7 +64,7 @@
                                         <td>{{$applicant->name}}</td>
                                         <td>{{$applicant->email}}</td>
                                         <td>{{$applicant->mobile_number}}</td>
-                                        <td>{{$applicant->position}}</td>
+                                        <td>{{$applicant->mrf->position_title}}</td>
                                         <td>
                                             @if($applicant->applicant_status == "Pending")
                                             <span class="badge bg-warning">
@@ -81,4 +87,16 @@
             </div> <!-- end card -->
         </div>
     </div>
+
+@include('human_resources.new_applicant')
+@endsection
+
+@section('js')
+<script src="{{asset('js/chosen.jquery.min.js')}}"></script>
+
+<script>
+    $(document).ready(function() {
+        $('.cat').chosen({width:"100%"})
+    })
+</script>
 @endsection

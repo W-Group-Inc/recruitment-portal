@@ -56,6 +56,7 @@ Route::post('post-indeed/{id}', 'ForApprovalController@postIndeed');
 
 # Applicant
 Route::get('applicant', 'ApplicantController@index');
+Route::post('add-applicant', 'ApplicantController@store');
 Route::get('view-applicant/{id}', 'ApplicantController@show');
 Route::post('schedule-interview', 'ApplicantController@schedule');
 Route::get('print-jo/{id}', 'ApplicantController@printJo');
