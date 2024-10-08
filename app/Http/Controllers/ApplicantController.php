@@ -4,8 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Applicant;
 use App\ChildrenInformation;
+use App\HistoryApplicant;
 use App\Interviewer;
 use App\JobApplication;
+use App\Notifications\ApplicantCredentialsNotification;
+use App\Notifications\ApplicantStatusFailedNotification;
+use App\Notifications\ApplicantStatusNotification;
 use App\Notifications\FailedApplicantNotification;
 use App\Notifications\NotifyDepartmentHead;
 use App\Schedule;
@@ -68,7 +72,7 @@ class ApplicantController extends Controller
      */
     public function show($id)
     {
-        $applicant = Applicant::findOrFail($id);
+        $applicant = Applicant::with('schedule', 'mrf', 'historyApplicant')->findOrFail($id);
         // $interviewer = Interviewer::where('status', 'Pending')->first();
         
         // $get_events = Event::get();
@@ -157,18 +161,18 @@ class ApplicantController extends Controller
             $nextInterviewer = Interviewer::where('status', 'Waiting')->orderBy('level', 'asc')->get();
             if ($nextInterviewer->isNotEmpty())
             {
-                foreach($nextInterviewer as $key=>$interviewer)
+                foreach($nextInterviewer as $key=>$nextInterview)
                 {
                     if ($key == 0)
                     {
-                        $interviewer->status = 'Pending';
+                        $nextInterview->status = 'Pending';
                     }
                     else
                     {
-                        $interviewer->status = 'Waiting';
+                        $nextInterview->status = 'Waiting';
                     }
 
-                    $interviewer->save();
+                    $nextInterview->save();
                 }
             }
             else
@@ -186,13 +190,25 @@ class ApplicantController extends Controller
                 $user->company_id = $applicant->mrf->company_id;
                 $user->applicant_id = $applicant->id;
                 $user->save();
+
+                $applicant->notify(new ApplicantCredentialsNotification($user, $applicant));
             }
 
             if (auth()->user()->role == 'Human Resources')
             {
                 $dept_head = $applicant->mrf->department->head;
                 $dept_head->notify(new NotifyDepartmentHead($applicant->mrf, $dept_head));
+
+                $applicant->notify(new ApplicantStatusNotification($applicant));
             }
+
+            $history = new HistoryApplicant;
+            $history->applicant_id = $applicant->id;
+            $history->status = $interviewer->status;
+            $history->position = $applicant->position;
+            $history->date_applied = date('Y-m-d', strtotime($applicant->created_at));
+            $history->user_id = $interviewer->user_id;
+            $history->save();
 
             Alert::success('The applicant has passed the job interview.')->persistent('Dismiss');
         }
@@ -205,10 +221,10 @@ class ApplicantController extends Controller
             $nextInterviewer = Interviewer::where('status', 'Waiting')->orderBy('level', 'asc')->get();
             if ($nextInterviewer->isNotEmpty())
             {
-                foreach($nextInterviewer as $key=>$interviewer)
+                foreach($nextInterviewer as $key=>$nextInterview)
                 {
-                    $interviewer->status = 'Failed';
-                    $interviewer->save();
+                    $nextInterview->status = 'Failed';
+                    $nextInterview->save();
                 }
             }
             else
@@ -221,7 +237,17 @@ class ApplicantController extends Controller
             {
                 $dept_head = $applicant->mrf->department->head;
                 $dept_head->notify(new FailedApplicantNotification($applicant->mrf, $dept_head));
+
+                $applicant->notify(new ApplicantStatusFailedNotification($applicant));
             }
+
+            $history = new HistoryApplicant;
+            $history->applicant_id = $applicant->id;
+            $history->status = $interviewer->status;
+            $history->position = $applicant->position;
+            $history->date_applied = date('Y-m-d', strtotime($applicant->created_at));
+            $history->user_id = $interviewer->user_id;
+            $history->save();
 
             Alert::success('The applicant has failed the job interview.')->persistent('Dismiss');
         }

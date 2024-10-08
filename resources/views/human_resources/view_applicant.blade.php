@@ -183,14 +183,28 @@
                             <table id="alternative-page-datatable" class="table table-bordered table-hover">
                                 <thead>
                                     <tr>
-                                        <th>Status</th>
-                                        <th>Name</th>
-                                        <th>Email</th>
                                         <th>Position</th>
                                         <th>Date Applied</th>
+                                        <th>Interviewed By</th>
+                                        <th>Status</th>
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    @foreach ($applicant->historyApplicant as $history)
+                                        {{-- {{dd($history)}} --}}
+                                        <tr>
+                                            <td>{{$history->position}}</td>
+                                            <td>{{date('M d, Y', strtotime($history->date_applied))}}</td>
+                                            <td>{{$history->interviewer->name}}</td>
+                                            <td>
+                                                @if($history->status == 'Passed')
+                                                <span class="badge bg-success">{{$history->status}}</span>
+                                                @else
+                                                <span class="badge bg-danger">{{$history->status}}</span>
+                                                @endif
+                                            </td>
+                                        </tr>
+                                    @endforeach
                                 </tbody>
                             </table>
                         </div>

@@ -3,9 +3,12 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Notifications\Notifiable;
 
 class Applicant extends Model
 {
+    use Notifiable;
+
     public function schedule()
     {
         return $this->hasMany(Schedule::class);
@@ -17,5 +20,9 @@ class Applicant extends Model
     public function jobApplication()
     {
         return $this->hasOne(JobApplication::class,'applicant_id');
+    }
+    public function historyApplicant()
+    {
+        return $this->hasMany(HistoryApplicant::class);
     }
 }
