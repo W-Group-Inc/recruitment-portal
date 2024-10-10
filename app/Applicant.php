@@ -25,4 +25,8 @@ class Applicant extends Model
     {
         return $this->hasMany(HistoryApplicant::class);
     }
+    public function interviewAssessment()
+    {
+        return $this->hasOne(InterviewAssessment::class);
+    }
 }

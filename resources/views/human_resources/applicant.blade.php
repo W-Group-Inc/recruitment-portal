@@ -9,10 +9,14 @@
             <div class="card">
                 <div class="card-body">
                     @include('components.error')
+                    
+                    @if(auth()->user()->role == "Human Resources")
                     <button class="mb-3 btn btn-success btn-sm" type="button" data-bs-toggle="modal" data-bs-target="#add">
                         <i class="uil-plus"></i>
                         Add Applicant
                     </button>
+                    @endif
+
                     <div class="table-responsive">
                         <table id="alternative-page-datatable" class="table table-bordered table-hover">
                             <thead>
@@ -30,14 +34,20 @@
                                 @foreach ($applicants as $applicant)
                                     <tr>
                                         <td>
-                                            <a href="{{url('view-applicant/'.$applicant->id)}}" class="btn btn-sm btn-info" target="_blank">
+                                            <a href="{{url('view-applicant/'.$applicant->id)}}" class="btn btn-sm btn-info" target="_blank" title="View Applicant">
                                                 <i class="uil-eye"></i>
                                             </a>
+                                            
+                                            @if($applicant->applicant_status == "Pending")
+                                            <button type="button" class="btn btn-warning btn-sm" title="Edit" data-bs-toggle="modal" data-bs-target="#edit{{$applicant->id}}">
+                                                <i class="dripicons-pencil"></i>
+                                            </button>
+                                            @endif
                                         </td>
                                         <td>{{$applicant->name}}</td>
                                         <td>{{$applicant->email}}</td>
                                         <td>{{$applicant->mobile_number}}</td>
-                                        <td>{{$applicant->mrf->position_title}}</td>
+                                        <td>{{$applicant->mrf->position_title}}</td>    
                                         <td>
                                             @if($applicant->applicant_status == "Pending")
                                             <span class="badge bg-warning">
@@ -50,6 +60,8 @@
                                             </span>
                                         </td>
                                     </tr>
+
+                                    @include('human_resources.edit_applicant')
                                 @endforeach
                                 @endif
 

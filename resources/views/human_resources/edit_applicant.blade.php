@@ -1,25 +1,25 @@
-<div class="modal" id="add">
+<div class="modal" id="edit{{$applicant->id}}">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Add Applicant</h5>
+                <h5 class="modal-title">Edit Applicant</h5>
             </div>
-            <form method="POST" action="{{url('add-applicant')}}" enctype="multipart/form-data" onsubmit="show()">
+            <form method="POST" action="{{url('update-applicant/'.$applicant->id)}}" enctype="multipart/form-data" onsubmit="show()">
                 @csrf
                 
                 <div class="modal-body">
                     <div class="row">
                         <div class="col-md-12 mb-2">
                             Name
-                            <input type="text" name="name" class="form-control form-control-sm" required>
+                            <input type="text" name="name" class="form-control form-control-sm" value="{{$applicant->name}}" required>
                         </div>
                         <div class="col-md-12 mb-2">
                             Email
-                            <input type="email" name="email" class="form-control form-control-sm" required>
+                            <input type="email" name="email" class="form-control form-control-sm" value="{{$applicant->email}}" required>
                         </div>
                         <div class="col-md-12 mb-2">
                             Mobile Number
-                            <input type="text" name="mobile_number" class="form-control form-control-sm" required>
+                            <input type="text" name="mobile_number" class="form-control form-control-sm" value="{{$applicant->mobile_number}}" required>
                         </div>
                         <div class="col-md-12 mb-2">
                             Position
@@ -27,13 +27,13 @@
                             <select name="position" class="form-control cat">
                                 <option value="">Select Position</option>
                                 @foreach ($mrf as $m)
-                                    <option value="{{$m->id}}">{{$m->position_title}}</option>
+                                    <option value="{{$m->id}}" @if($m->id == $applicant->man_power_requisition_form_id) selected @endif>{{$m->position_title}}</option>
                                 @endforeach
                             </select>
                         </div>
                         <div class="col-md-12 mb-2">
                             Resume
-                            <input type="file" name="resume" class="form-control form-control-sm" required>
+                            <input type="file" name="resume" class="form-control form-control-sm">
                         </div>
                     </div>
                 </div>

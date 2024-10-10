@@ -93,7 +93,7 @@
                                             </button>
                                         </form> --}}
 
-                                        <button type="button" class="btn btn-sm btn-info" data-bs-toggle="modal" data-bs-target="#interviewer{{$m->id}}">
+                                        <button type="button" class="btn btn-sm btn-info" data-bs-toggle="modal" data-bs-target="#interviewer{{$m->id}}" title="Add Interviewer">
                                             <i class="uil-user"></i>
                                         </button>
                                         @endif

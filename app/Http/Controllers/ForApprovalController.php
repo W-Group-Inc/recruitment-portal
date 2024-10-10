@@ -4,8 +4,8 @@ namespace App\Http\Controllers;
 
 use App\ManPowerRequisitionForm;
 use GuzzleHttp\Client;
-use GuzzleHttp\Psr7\Request;
-// use Illuminate\Http\Request;
+// use GuzzleHttp\Psr7\Request;
+use Illuminate\Http\Request;
 use RealRashid\SweetAlert\Facades\Alert;
 
 class ForApprovalController extends Controller

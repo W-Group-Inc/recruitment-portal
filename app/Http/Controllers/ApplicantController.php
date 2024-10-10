@@ -34,7 +34,7 @@ class ApplicantController extends Controller
     public function index()
     {
         $applicants = Applicant::get();
-        $mrf = ManPowerRequisitionForm::where('is_close', null)->where('mrf_status', 'Active')->get();
+        $mrf = ManPowerRequisitionForm::where('is_close', null)->where('mrf_status', 'Approved')->get();
         if (auth()->user()->role == "Department Head")
         {
             $applicants = Applicant::whereHas('mrf', function($q) {
@@ -119,7 +119,16 @@ class ApplicantController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        // dd($request->all(), $id);
+        $applicant = Applicant::findOrFail($id);
+        $applicant->name = $request->name;
+        $applicant->email = $request->email;
+        $applicant->mobile_number = $request->mobile_number;
+        $applicant->man_power_requisition_form_id = $request->position;
+        $applicant->save();
+
+        Alert::success('Successfully Saved')->persistent('Dismiss');
+        return back();
     }
 
     /**
@@ -210,6 +219,10 @@ class ApplicantController extends Controller
                 $user->save();
 
                 $applicant->notify(new ApplicantCredentialsNotification($user, $applicant));
+
+                $mrf = ManPowerRequisitionForm::where('id', $applicant->man_power_requisition_form_id)->first();
+                $mrf->is_close = 1;
+                $mrf->save();
             }
 
             if (auth()->user()->role == 'Human Resources')
@@ -223,7 +236,7 @@ class ApplicantController extends Controller
             $history = new HistoryApplicant;
             $history->applicant_id = $applicant->id;
             $history->status = $interviewer->status;
-            $history->position = $applicant->position;
+            $history->position = $applicant->mrf->position_title;
             $history->date_applied = date('Y-m-d', strtotime($applicant->created_at));
             $history->user_id = $interviewer->user_id;
             $history->save();

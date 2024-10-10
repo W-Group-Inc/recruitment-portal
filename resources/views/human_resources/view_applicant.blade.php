@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="row">
-    <div class="col-xl-4 col-lg-4">
+    <div class="col-xl-4 col-lg-3">
         <div class="card text-center">
             <div class="card-body">
                 <img src="{{asset('img/user.png')}}" class="rounded-circle avatar-lg img-thumbnail" alt="profile-image">
@@ -30,7 +30,11 @@
                 
                 @if(auth()->user()->role == 'Human Resources')
                 <a href="{{url('print-jo/'.$applicant->id)}}" type="button" class="btn btn-primary btn-sm mb-2" target="_blank">Job Offer</a>
+
                 <button type="button" class="btn btn-secondary btn-sm mb-2" data-bs-toggle="modal" data-bs-target="#schedule">Schedule Interview</button>
+
+                <a href="{{url('interview-assessment/'.$applicant->id)}}" class="btn btn-warning btn-sm mb-2">Interview Assessment Form</a>
+
                 @endif
 
                 <hr>
@@ -48,6 +52,7 @@
                         @endif
                     </span></p>
                     <p class="text-muted mb-2 font-13"><strong>Date Applied :</strong><span class="ms-2">{{date('M d, Y', strtotime($applicant->created_at))}}</span></p>
+                    <p class="text-muted mb-2 font-13"><strong>Resume</strong><span class="ms-2"><a href="{{url($applicant->resume)}}"><i class="uil-file"></i></a></span></p>
                 </div>
             </div> <!-- end card-body -->
         </div> <!-- end card -->

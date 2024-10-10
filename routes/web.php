@@ -57,10 +57,15 @@ Route::post('post-indeed/{id}', 'ForApprovalController@postIndeed');
 # Applicant
 Route::get('applicant', 'ApplicantController@index');
 Route::post('add-applicant', 'ApplicantController@store');
+Route::post('update-applicant/{id}', 'ApplicantController@update');
 Route::get('view-applicant/{id}', 'ApplicantController@show');
 Route::post('schedule-interview', 'ApplicantController@schedule');
 Route::get('print-jo/{id}', 'ApplicantController@printJo');
 Route::post('update-status/{id}', 'ApplicantController@updateApplicantStatus');
-
 Route::get('applicants', 'ApplicantController@applicant');
 Route::post('submit-ja', 'ApplicantController@jobApplicationForm');
+
+# Interview Assessment
+Route::get('interview-assessment/{id}', 'InterviewAssessmentController@show');
+Route::post('submit-interview-assessment', 'InterviewAssessmentController@store');
+Route::get('print-interview-assessment/{id}', 'InterviewAssessmentController@printInterviewAssessment');
