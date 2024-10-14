@@ -88,6 +88,10 @@ class ManPowerRequisitionFormController extends Controller
         {
             $mrf->is_job_description = 1;
         }
+        if ($request->has('is_resignation_letter'))
+        {
+            $mrf->is_resignation_letter = 1;
+        }
         $mrf->educational_attainment = $request->educational_attainment;
         $mrf->work_experience = $request->work_experience;
         $mrf->specific_field = $request->specific_field;
@@ -158,6 +162,10 @@ class ManPowerRequisitionFormController extends Controller
         {
             $mrf->is_job_description = 1;
         }
+        if ($request->has('is_resignation_letter'))
+        {
+            $mrf->is_resignation_letter = 1;
+        }
         $mrf->educational_attainment = $request->educational_attainment;
         $mrf->work_experience = $request->work_experience;
         $mrf->specific_field = $request->specific_field;
@@ -206,7 +214,8 @@ class ManPowerRequisitionFormController extends Controller
             'Probationary' => 'Probationary',
             'Special Project' => 'Special Project',
             'Contractual' => 'Contractual',
-            'Consultant' => 'Consultant'
+            'Consultant' => 'Consultant',
+            'Intern' => 'Intern'
         ];
     }
 

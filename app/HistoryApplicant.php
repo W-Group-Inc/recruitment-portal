@@ -10,4 +10,8 @@ class HistoryApplicant extends Model
     {
         return $this->belongsTo(User::class, 'user_id');
     }
+    public function applicant()
+    {
+        return $this->belongsTo(Applicant::class);
+    }
 }

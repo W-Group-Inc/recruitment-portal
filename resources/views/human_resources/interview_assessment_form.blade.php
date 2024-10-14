@@ -4,13 +4,30 @@
     <div class="col-lg-12">
         <div class="card">
             <div class="card-body">
+                <dl class="row mb-0">
+                    <dt class="col-md-1">
+                        <p class="mb-0">MRF No.</p>
+                    </dt>
+                    <dd class="col-md-9">
+                        <p class="mb-0">MRF-{{str_pad($applicant->mrf->mrf_no, "4", 0, STR_PAD_LEFT)}}</p>
+                    </dd>
+                </dl>
+                <dl class="row mb-0">
+                    <dt class="col-md-1">
+                        <p class="mb-0">Applicant Name</p>
+                    </dt>
+                    <dd class="col-md-9">
+                        <p class="mb-0">{{$applicant->name}}</p>
+                    </dd>
+                </dl>
+                <hr class="mt-0 mb-2">
                 <h1 class="header-title mb-3">Interview Assessment Form</h1>
                 <form method="POST" action="{{url('submit-interview-assessment')}}" onsubmit="show()">
                     @csrf
-                    {{-- {{dd($applicant)}} --}}
+                    
                     <input type="hidden" name="applicant_id" value="{{$applicant->id}}">
 
-                    <h4 class="header-title">BACKGROUND</h4>
+                    {{-- <h4 class="header-title">BACKGROUND</h4>
                     <div class="row">
                         <div class="col-lg-6 mb-2">
                             Personal Background
@@ -28,8 +45,9 @@
                             Examination Result
                             <input type="text" name="examination_result" class="form-control" value="{{optional($applicant->interviewAssessment)->examination_result}}">
                         </div>
-                    </div>
-    
+                    </div> --}}
+
+                    @if(auth()->user()->role == 'Human Resources')
                     <h4 class="header-title">HBU ASSESSMENT</h4>
                     <div class="row">
                         <div class="col-lg-6 mb-2">
@@ -398,15 +416,63 @@
                             <textarea name="superior_improvements" class="form-control" cols="30" rows="10"></textarea>
                         </div> --}}
 
-                        <div class="col-lg-12">
-                            <div class="d-grid">
-                                @if($applicant->interviewAssessment != null)
-                                <a href="{{url('print-interview-assessment/'.$applicant->interviewAssessment->id)}}" class="btn btn-danger mb-2" target="_blank">Print</a>
-                                @endif
-                                <button type="submit" class="btn btn-success">Submit</button>
-                            </div>
-                        </div> 
                     </div>
+                    @endif
+
+                    @if(auth()->user()->role == 'Department Head')
+                    <h4 class="header-title">Department Head Assessment</h4>
+                    <div class="col-lg-12">
+                        <div class="col-lg-12 mb-2">
+                            <b>Job Knowledge</b>
+                            <div class="row">
+                                <div class="col-lg-2">
+                                    <div class="form-check">
+                                        <input type="radio" class="form-check-input" name="head_job_knowledge" value="1" @if(optional($applicant->interviewAssessment)->head_job_knowledge == 1) checked @endif>
+                                        <label class="ms-1">None as pertains to this position</label>
+                                    </div>
+                                </div>
+                                <div class="col-lg-2">
+                                    <div class="form-check">
+                                        <input type="radio" name="head_job_knowledge" class="form-check-input" value="2" @if(optional($applicant->interviewAssessment)->head_job_knowledge == 2) checked @endif>
+                                        <label class="ms-1">Will need considerable training</label>
+                                    </div>
+                                </div>
+                                <div class="col-lg-2">
+                                    <div class="form-check">
+                                        <input type="radio" name="head_job_knowledge" class="form-check-input" value="3" @if(optional($applicant->interviewAssessment)->head_job_knowledge == 3) checked @endif>
+                                        <label class="ms-1">Basic but will learn on</label>
+                                    </div>
+                                </div>
+                                <div class="col-lg-2">
+                                    <div class="form-check">
+                                        <input type="radio" name="head_job_knowledge" class="form-check-input" value="4" @if(optional($applicant->interviewAssessment)->head_job_knowledge == 4) checked @endif>
+                                        <label class="ms-1">Well versed in position, little training needed</label>
+                                    </div>
+                                </div>
+                                <div class="col-lg-2">
+                                    <div class="form-check">
+                                        <input type="radio" name="head_job_knowledge" class="form-check-input" value="5" @if(optional($applicant->interviewAssessment)->head_job_knowledge == 5) checked @endif>
+                                        <label class="ms-1">Extremely well versed, able to work without further training</label>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    Strength
+                                    <textarea name="head_strength" class="form-control" cols="30" rows="10" required>{!! nl2br($applicant->interviewAssessment->head_strength) !!}</textarea>
+                                </div>
+                                <div class="col-lg-6">
+                                    Areas for Improvement
+                                    <textarea name="head_areas_for_improvement" class="form-control" cols="30" rows="10" required>{!! nl2br($applicant->interviewAssessment->head_areas_for_improvement) !!}</textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="d-grid">
+                            @if($applicant->interviewAssessment != null)
+                            <a href="{{url('print-interview-assessment/'.$applicant->interviewAssessment->id)}}" class="btn btn-danger mb-2" target="_blank">Print</a>
+                            @endif
+                            <button type="submit" class="btn btn-success">Submit</button>
+                        </div>
+                    </div> 
+                    @endif
                 </form>
             </div>
         </div>

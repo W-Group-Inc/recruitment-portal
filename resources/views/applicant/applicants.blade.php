@@ -100,7 +100,7 @@
                                     <div class="col-lg-3 col-md-12 mb-2">
                                         Date Available for Employment
                                         
-                                        <input type="date" name="date_available_for_employment" value="{{date('Y-m-d', strtotime(optional($applicant->jobApplication)->date_available_for_employment))}}" class="form-control form-control-sm required" >
+                                        <input type="date" name="date_available_for_employment" @if($applicant->jobApplication != null) value="{{date('Y-m-d', strtotime(optional($applicant->jobApplication)->date_available_for_employment))}}"@endif class="form-control form-control-sm required" >
                                     </div> 
                                 </div> 
                             </div>
@@ -214,46 +214,48 @@
                                             </button>
                                         </h5> 
                                         <div class="sibling-container">
-                                            @if(optional($applicant->jobApplication)->siblingInformation->isNotEmpty())
-                                                @foreach (optional($applicant->jobApplication)->siblingInformation as $sibling)
+                                            @if($applicant->jobApplication != null)
+                                                @if(optional($applicant->jobApplication)->siblingInformation->isNotEmpty())
+                                                    @foreach (optional($applicant->jobApplication)->siblingInformation as $sibling)
+                                                    <div class="row mb-2" id="sibling_1">
+                                                        <div class="col-lg-3">
+                                                            Name
+                                                            <input type="text" name="sibling_name[]" class="form-control form-control-sm" value="{{$sibling->sibling_name}}">
+                                                        </div>
+                                                        <div class="col-lg-3">
+                                                            Occupation
+                                                            <input type="text" name="sibling_occupation[]" class="form-control form-control-sm" value="{{$sibling->sibling_occupation}}">
+                                                        </div>
+                                                        <div class="col-lg-3">
+                                                            Company Location
+                                                            <input type="text" name="sibling_company_location[]" class="form-control form-control-sm" value="{{$sibling->sibling_company_location}}">
+                                                        </div>
+                                                        <div class="col-lg-3">
+                                                            Contact No
+                                                            <input type="text" name="sibling_contact_no[]" class="form-control form-control-sm" value="{{$sibling->sibling_contact_no}}">
+                                                        </div>
+                                                    </div>
+                                                    @endforeach
+                                                @endif
+                                            @else
                                                 <div class="row mb-2" id="sibling_1">
                                                     <div class="col-lg-3">
                                                         Name
-                                                        <input type="text" name="sibling_name[]" class="form-control form-control-sm" value="{{$sibling->sibling_name}}">
+                                                        <input type="text" name="sibling_name[]" class="form-control form-control-sm">
                                                     </div>
                                                     <div class="col-lg-3">
                                                         Occupation
-                                                        <input type="text" name="sibling_occupation[]" class="form-control form-control-sm" value="{{$sibling->sibling_occupation}}">
+                                                        <input type="text" name="sibling_occupation[]" class="form-control form-control-sm">
                                                     </div>
                                                     <div class="col-lg-3">
                                                         Company Location
-                                                        <input type="text" name="sibling_company_location[]" class="form-control form-control-sm" value="{{$sibling->sibling_company_location}}">
+                                                        <input type="text" name="sibling_company_location[]" class="form-control form-control-sm">
                                                     </div>
                                                     <div class="col-lg-3">
                                                         Contact No
-                                                        <input type="text" name="sibling_contact_no[]" class="form-control form-control-sm" value="{{$sibling->sibling_contact_no}}">
+                                                        <input type="text" name="sibling_contact_no[]" class="form-control form-control-sm">
                                                     </div>
                                                 </div>
-                                                @endforeach
-                                            @else
-                                            <div class="row mb-2" id="sibling_1">
-                                                <div class="col-lg-3">
-                                                    Name
-                                                    <input type="text" name="sibling_name[]" class="form-control form-control-sm">
-                                                </div>
-                                                <div class="col-lg-3">
-                                                    Occupation
-                                                    <input type="text" name="sibling_occupation[]" class="form-control form-control-sm">
-                                                </div>
-                                                <div class="col-lg-3">
-                                                    Company Location
-                                                    <input type="text" name="sibling_company_location[]" class="form-control form-control-sm">
-                                                </div>
-                                                <div class="col-lg-3">
-                                                    Contact No
-                                                    <input type="text" name="sibling_contact_no[]" class="form-control form-control-sm">
-                                                </div>
-                                            </div>
                                             @endif
                                         </div>
                                     </div> 
@@ -289,28 +291,29 @@
                                         </h5> 
 
                                         <div class="children-container">
-                                            @if(optional($applicant->jobApplication)->childrenInformation->isNotEmpty())
-
-                                            @foreach (optional($applicant->jobApplication)->childrenInformation as $children)
-                                            <div class="row mb-2" id="children_1">
-                                                <div class="col-lg-3 col-md-12 mb-2">
-                                                    Name
-                                                    <input type="text" name="children_name[]" class="form-control form-control-sm" value="{{$children->children_name}}">
-                                                </div> 
-                                                <div class="col-lg-3 col-md-12 mb-2">
-                                                    Occupation
-                                                    <input type="text" name="children_occupation[]" class="form-control form-control-sm" value="{{$children->children_occupation}}">
-                                                </div> 
-                                                <div class="col-lg-3 col-md-12 mb-2">
-                                                    Company Location
-                                                    <input type="text" name="children_company_location[]" class="form-control form-control-sm" value="{{$children->children_company_location}}">
-                                                </div> 
-                                                <div class="col-lg-3 col-md-12 mb-2">
-                                                    Contact No
-                                                    <input type="text" name="children_contact_no[]" class="form-control form-control-sm" value="{{$children->children_contact_no}}">
-                                                </div> 
-                                            </div>
-                                            @endforeach
+                                            @if($applicant->jobApplication != null)
+                                                @if(optional($applicant->jobApplication)->childrenInformation->isNotEmpty())
+                                                    @foreach (optional($applicant->jobApplication)->childrenInformation as $children)
+                                                    <div class="row mb-2" id="children_1">
+                                                        <div class="col-lg-3 col-md-12 mb-2">
+                                                            Name
+                                                            <input type="text" name="children_name[]" class="form-control form-control-sm" value="{{$children->children_name}}">
+                                                        </div> 
+                                                        <div class="col-lg-3 col-md-12 mb-2">
+                                                            Occupation
+                                                            <input type="text" name="children_occupation[]" class="form-control form-control-sm" value="{{$children->children_occupation}}">
+                                                        </div> 
+                                                        <div class="col-lg-3 col-md-12 mb-2">
+                                                            Company Location
+                                                            <input type="text" name="children_company_location[]" class="form-control form-control-sm" value="{{$children->children_company_location}}">
+                                                        </div> 
+                                                        <div class="col-lg-3 col-md-12 mb-2">
+                                                            Contact No
+                                                            <input type="text" name="children_contact_no[]" class="form-control form-control-sm" value="{{$children->children_contact_no}}">
+                                                        </div> 
+                                                    </div>
+                                                    @endforeach
+                                                @endif
                                             @else 
                                             <div class="row mb-2" id="children_1">
                                                 <div class="col-lg-3 col-md-12 mb-2">

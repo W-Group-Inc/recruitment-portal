@@ -86,6 +86,13 @@
                                             <i class="uil-file"></i>
                                         </a>
                                         @endif
+
+                                        @if($m->is_resignation_letter == 1)
+                                        Resignation Letter
+                                        <a href="{{url($m->mrf_attachment)}}" target="_blank">
+                                            <i class="uil-file"></i>
+                                        </a>
+                                        @endif
                                     </dd>
                                 </dl>
                             </div>

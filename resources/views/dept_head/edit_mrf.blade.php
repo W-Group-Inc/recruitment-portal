@@ -59,25 +59,31 @@
                             Justification :
                             <textarea name="justification" class="form-control form-control-sm" cols="30" rows="10" required>{{$m->justification}}</textarea>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-12">
                             Attach the following :
 
                             <div class="row">
-                                <div class="col-md-6">
+                                <div class="col-md-4">
                                     <div class="form-check">
                                         <input type="checkbox" id="plantilla" class="form-check-input" name="is_plantilla" @if($m->is_plantilla == 1) checked @endif>
                                         <label class="form-check-label" for="plantilla">Plantilla</label>
                                     </div>
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-md-4">
                                     <div class="form-check">
                                         <input type="checkbox" id="job_description" class="form-check-input" name="is_job_description" @if($m->is_job_description == 1) checked @endif>
                                         <label class="form-check-label" for="job_description">Job Description</label>
                                     </div>
                                 </div>
+                                <div class="col-md-4">
+                                    <div class="form-check">
+                                        <input type="checkbox" id="job_description" class="form-check-input" name="is_job_description" @if($m->is_resignation_letter == 1) checked @endif>
+                                        <label class="form-check-label" for="job_description">Resignation Letter</label>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-12">
                             Upload Attachment :
                             <input type="file" name="mrf_attachment" class="form-control form-control-sm">
                         </div>

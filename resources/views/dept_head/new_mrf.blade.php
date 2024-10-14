@@ -21,7 +21,7 @@
                         <div class="col-md-6 mb-1">
                             Department :
                             <select class="form-control cat" name="department" required>
-                                <option value="">-Department-</option>
+                                {{-- <option value="">-Department-</option> --}}
                                 @foreach ($departments->where('id', auth()->user()->department_id) as $d)
                                     <option value="{{$d->id}}">{{$d->code .' - '.$d->name}}</option>
                                 @endforeach
@@ -37,7 +37,7 @@
                             </select>
                         </div>
                         <div class="col-md-6 mb-1">
-                            Target Date :
+                            Target Date of On-boarding:
                             <input type="date" name="target_date" class="form-control form-control-sm" required>
                         </div>
                         <div class="col-md-6 mb-1">
@@ -61,25 +61,31 @@
                             Justification :
                             <textarea name="justification" class="form-control form-control-sm" cols="30" rows="10" required></textarea>
                         </div>
-                        <div class="col-md-6 mb-1">
+                        <div class="col-md-12 mb-1">
                             Attach the following :
 
                             <div class="row">
-                                <div class="col-md-6 mb-1">
+                                <div class="col-md-4 mb-1">
                                     <div class="form-check">
                                         <input type="checkbox" id="plantilla" class="form-check-input" name="is_plantilla">
                                         <label class="form-check-label" for="plantilla">Plantilla</label>
                                     </div>
                                 </div>
-                                <div class="col-md-6 mb-1">
+                                <div class="col-md-4 mb-1">
                                     <div class="form-check">
                                         <input type="checkbox" id="job_description" class="form-check-input" name="is_job_description">
                                         <label class="form-check-label" for="job_description">Job Description</label>
                                     </div>
                                 </div>
+                                <div class="col-md-4 mb-1">
+                                    <div class="form-check">
+                                        <input type="checkbox" id="resignationLetter" class="form-check-input" name="is_resignation_letter">
+                                        <label class="form-check-label" for="resignationLetter">Resignation Letter</label>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                        <div class="col-md-6 mb-1">
+                        <div class="col-md-12 mb-1">
                             Upload Attachment :
                             <input type="file" name="mrf_attachment" class="form-control form-control-sm" required>
                         </div>

@@ -260,11 +260,11 @@
                 </td>
                 <td width="25">
                     <p class="ml-1 mb-0">
-                        @php
+                        {{-- @php
                             $hr_interviewer = $interview_assessment->applicant->mrf->interviewer->first();
                         @endphp
 
-                        {{$hr_interviewer->user->name}}
+                        {{$hr_interviewer->user->name}} --}}
                     </p>
                 </td>
                 <td width="25">
@@ -272,7 +272,7 @@
                 </td>
                 <td width="25">
                     <p class="ml-1 mb-0">
-                        {{date('M d, Y')}}
+                        {{-- {{date('M d, Y')}} --}}
                     </p>
                 </td>
             </tr>
@@ -545,11 +545,11 @@
                 </td>
                 <td width="25">
                     <p class="ml-1 mb-0">
-                        @php
+                        {{-- @php
                             $hr_interviewer = $interview_assessment->applicant->mrf->interviewer->first();
                         @endphp
 
-                        {{$hr_interviewer->user->name}}
+                        {{$hr_interviewer->user->name}} --}}
                     </p>
                 </td>
                 <td width="25">
@@ -557,7 +557,7 @@
                 </td>
                 <td width="25">
                     <p class="ml-1 mb-0">
-                        {{date('M d, Y')}}
+                        {{-- {{date('M d, Y')}} --}}
                     </p>
                 </td>
             </tr>
@@ -676,11 +676,11 @@
                 </td>
                 <td width="25">
                     <p class="ml-1 mb-0">
-                        @php
+                        {{-- @php
                             $hr_interviewer = $interview_assessment->applicant->mrf->interviewer->first();
                         @endphp
 
-                        {{$hr_interviewer->user->name}}
+                        {{$hr_interviewer->user->name}} --}}
                     </p>
                 </td>
                 <td width="25">
@@ -688,7 +688,7 @@
                 </td>
                 <td width="25">
                     <p class="ml-1 mb-0">
-                        {{date('M d, Y')}}
+                        {{-- {{date('M d, Y')}} --}}
                     </p>
                 </td>
             </tr>
@@ -723,23 +723,23 @@
                                 <p class="mb-0 text-center">Job Knowledge</p>
                             </td>
                             <td>
-                                <div class="shade-box ml-1 d-inline-block"></div>
+                                <div class="shade-box ml-1 d-inline-block" @if($interview_assessment->head_job_knowledge == 1) style="background-color:black;" @endif></div>
                                 <p class="mb-0 d-inline" style="vertical-align: middle;"><small>None as pertains to this position</small></p>
                             </td>
                             <td>
-                                <div class="shade-box ml-1 d-inline-block"></div>
+                                <div class="shade-box ml-1 d-inline-block" @if($interview_assessment->head_job_knowledge == 2) style="background-color:black;" @endif></div>
                                 <p class="mb-0 d-inline" style="vertical-align: middle;"><small>Will need considerable training</small></p>
                             </td>
                             <td>
-                                <div class="shade-box ml-1 d-inline-block"></div>
+                                <div class="shade-box ml-1 d-inline-block" @if($interview_assessment->head_job_knowledge == 3) style="background-color:black;" @endif></div>
                                 <p class="mb-0 d-inline" style="vertical-align: middle;"><small>Basic but will learn on</small></p>
                             </td>
                             <td>
-                                <div class="shade-box ml-1 d-inline-block"></div>
+                                <div class="shade-box ml-1 d-inline-block" @if($interview_assessment->head_job_knowledge == 4) style="background-color:black;" @endif></div>
                                 <p class="mb-0 d-inline" style="vertical-align: middle;"><small>Well versed in position, little training needed</small></p>
                             </td>
                             <td>
-                                <div class="shade-box ml-1 d-inline-block"></div>
+                                <div class="shade-box ml-1 d-inline-block" @if($interview_assessment->head_job_knowledge == 5) style="background-color:black;" @endif></div>
                                 <p class="mb-0 d-inline" style="vertical-align: middle;"><small>Extremely well versed, able to work without further training</small></p>
                             </td>
                         </tr>
@@ -755,11 +755,11 @@
                 </td>
             </tr>
             <tr>
-                <td colspan="2" height="80" width="50">
-                    <p class="mb-0 ml-1"></p>
+                <td colspan="2" height="80" width="50%">
+                    <p class="mb-0 ml-1">{!! nl2br($interview_assessment->head_strength) !!}</p>
                 </td>
-                <td colspan="2" height="80" width="50">
-                    <p class="mb-0 ml-1"></p>
+                <td colspan="2" height="80" width="50%">
+                    <p class="mb-0 ml-1">{!! nl2br($interview_assessment->head_areas_for_improvement) !!}</p>
                 </td>
             </tr>
         </table>

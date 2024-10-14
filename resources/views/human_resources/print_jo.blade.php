@@ -368,7 +368,7 @@
             <tr>
                 <td width="33.33%" class="text-center p-1">
                     <div class="mt-4">
-                        <p style="font-size: 9" class="text-center">Juan Dela Cruz</p>
+                        <p style="font-size: 9" class="text-center">{{auth()->user()->name}}</p>
                         <p style="text-align: center; border-top: 1px solid black; margin: 0 auto; width: 80%; padding-top: 2px;">
                             <b>HR Assistant</b> <br>
                             <span>(Signature over Printed Name/Date)</span>
@@ -377,7 +377,7 @@
                 </td>
                 <td width="33.33%" class="text-center p-1">
                     <div class="mt-4">
-                        <p style="font-size: 9" class="text-center">Juan Dela Cruz</p>
+                        <p style="font-size: 9" class="text-center">&nbsp;</p>
                         <p style="text-align: center; border-top: 1px solid black; margin: 0 auto; width: 80%; padding-top: 2px;">
                             <b>Head of Business Unit</b> <br>
                             <span>(Signature over Printed Name/Date)</span>

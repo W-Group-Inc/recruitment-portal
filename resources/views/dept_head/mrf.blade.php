@@ -93,7 +93,7 @@
                                             </button>
                                         </form> --}}
 
-                                        <button type="button" class="btn btn-sm btn-info" data-bs-toggle="modal" data-bs-target="#interviewer{{$m->id}}" title="Add Interviewer">
+                                        <button type="button" class="btn btn-sm btn-info" data-bs-toggle="modal" data-bs-target="#interviewer{{$m->id}}" title="Add Interviewer" @if(count($m->interviewer->whereIn('status', ['Passed', 'Failed'])) > 0) disabled @endif>
                                             <i class="uil-user"></i>
                                         </button>
                                         @endif
@@ -141,7 +141,7 @@
                                     </td>
                                 </tr>
 
-                                @include('dept_head.edit_mrf')
+                                {{-- @include('dept_head.edit_mrf') --}}
                             @endforeach
                             @endif
                         </tbody>

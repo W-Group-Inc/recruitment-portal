@@ -249,6 +249,9 @@ class ApplicantController extends Controller
             $interviewer->status = 'Failed';
             $interviewer->save();
 
+            $applicant->remarks = $request->remarks;
+            $applicant->save();
+
             $nextInterviewer = Interviewer::where('status', 'Waiting')->orderBy('level', 'asc')->get();
             if ($nextInterviewer->isNotEmpty())
             {
@@ -257,6 +260,9 @@ class ApplicantController extends Controller
                     $nextInterview->status = 'Failed';
                     $nextInterview->save();
                 }
+
+                $applicant->applicant_status = "Failed";
+                $applicant->save();
             }
             else
             {
@@ -275,7 +281,7 @@ class ApplicantController extends Controller
             $history = new HistoryApplicant;
             $history->applicant_id = $applicant->id;
             $history->status = $interviewer->status;
-            $history->position = $applicant->position;
+            $history->position = $applicant->mrf->position_title;
             $history->date_applied = date('Y-m-d', strtotime($applicant->created_at));
             $history->user_id = $interviewer->user_id;
             $history->save();

@@ -44,6 +44,9 @@
             </div> <!-- end card body-->
         </div> <!-- end card -->
     </div><!-- end col-->
+    <div class="col-md-12">
+
+    </div>
     @endif
 
     @if(auth()->user()->role == "Department Head")
@@ -104,7 +107,43 @@
             </div>
         </div>
     </div>
-    <div class="col-lg-4">
+    <div class="col-lg-3">
+        <div class="card">
+            <div class="card-body text-center">
+                <i class="uil-user text-muted" style="font-size: 24px;"></i>
+                <h3><span>{{count($applicant)}}</span></h3>
+                <p class="text-muted font-15 mb-0">Total Applicants</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-3">
+        <div class="card">
+            <div class="card-body text-center">
+                <i class="uil-user text-muted" style="font-size: 24px;"></i>
+                <h3><span>{{count($applicant->where('applicant_status','Pending'))}}</span></h3>
+                <p class="text-muted font-15 mb-0">Total Pending Applicant</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-3">
+        <div class="card">
+            <div class="card-body text-center">
+                <i class="uil-user text-muted" style="font-size: 24px;"></i>
+                <h3><span>{{count($applicant->where('applicant_status','Passed'))}}</span></h3>
+                <p class="text-muted font-15 mb-0">Total Passed Applicant</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-3">
+        <div class="card">
+            <div class="card-body text-center">
+                <i class="uil-user text-muted" style="font-size: 24px;"></i>
+                <h3><span>{{count($applicant->where('applicant_status','Rejected'))}}</span></h3>
+                <p class="text-muted font-15 mb-0">Total Failed Applicant</p>
+            </div>
+        </div>
+    </div>
+    {{-- <div class="col-lg-4">
         <div class="card">
             <div class="card-body">
                 <h5 class="header-title mb-4">Applicants</h5>
@@ -117,7 +156,40 @@
 
             </div> <!-- end card body-->
         </div> <!-- end card -->
-    </div><!-- end col-->
+    </div><!-- end col--> --}}
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="header-title">MRF Status</h5>
+
+                <div class="table-responsive">
+                    <table class="table tables table-bordered" width="100%">
+                        <thead>
+                            <tr>
+                                <th>Item</th>
+                                <th>Status</th>
+                                <th>MRF Received</th>
+                                <th>Date Served</th>
+                                <th>Running Days</th>
+                                <th>Within TAT</th>
+                                <th>Easy or Critical</th>
+                                <th>Company</th>
+                                <th>Report</th>
+                                <th>Hiring Manager</th>
+                                <th>Department</th>
+                                <th>Designation</th>
+                                <th>Justification</th>
+                                <th>Status</th>
+                                <th>Salary Offer</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
     @endif
 </div>
 @endsection
@@ -171,6 +243,13 @@
 
 @if(auth()->user()->role == "Human Resources")
 <script>
+    $('.tables').DataTable({
+        ordering:false,
+        processing: false,
+        serverside:false,
+        pageLength: 10
+    })
+
     var ctx = document.getElementById('applicant');
     var chartColors = ctx.getAttribute('data-colors').split(',');
 

@@ -10,14 +10,9 @@
                 <h4 class="mb-2 mt-2">{{$applicant->name}}</h4>
 
                 @foreach ($applicant->mrf->interviewer->where('status', 'Pending')->where('user_id', auth()->user()->id) as $i)
-                <form method="POST" class="d-inline-block" action="{{url('update-status/'.$applicant->id)}}" onsubmit="show()">
-                    @csrf
-
-                    <input type="hidden" name="action" value="failed">
-                    <input type="hidden" name="interviewer_id" value="{{$i->id}}">
-
-                    <button type="button" class="btn btn-danger btn-sm mb-2 failedBtn">Fail</button>
-                </form>
+            
+                <button type="button" class="btn btn-danger btn-sm mb-2" data-bs-toggle="modal" data-bs-target="#failedApplicant">Fail</button>
+                
                 <form method="POST" action="{{url('update-status/'.$applicant->id)}}" class="d-inline-block" onsubmit="show()">
                     @csrf
 
@@ -32,10 +27,9 @@
                 <a href="{{url('print-jo/'.$applicant->id)}}" type="button" class="btn btn-primary btn-sm mb-2" target="_blank">Job Offer</a>
 
                 <button type="button" class="btn btn-secondary btn-sm mb-2" data-bs-toggle="modal" data-bs-target="#schedule">Schedule Interview</button>
-
-                <a href="{{url('interview-assessment/'.$applicant->id)}}" class="btn btn-warning btn-sm mb-2">Interview Assessment Form</a>
-
                 @endif
+                
+                <a href="{{url('interview-assessment/'.$applicant->id)}}" class="btn btn-warning btn-sm mb-2">Interview Assessment Form</a>
 
                 <hr>
                 <div class="text-start mt-3">
@@ -191,16 +185,17 @@
                                         <th>Position</th>
                                         <th>Date Applied</th>
                                         <th>Interviewed By</th>
+                                        <th>Remarks</th>
                                         <th>Status</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @foreach ($applicant->historyApplicant as $history)
-                                        {{-- {{dd($history)}} --}}
                                         <tr>
                                             <td>{{$history->position}}</td>
                                             <td>{{date('M d, Y', strtotime($history->date_applied))}}</td>
                                             <td>{{$history->interviewer->name}}</td>
+                                            <td>{{$history->applicant->remarks}}</td>
                                             <td>
                                                 @if($history->status == 'Passed')
                                                 <span class="badge bg-success">{{$history->status}}</span>
@@ -219,7 +214,11 @@
         </div> <!-- end card -->
     </div> <!-- end col -->
 </div>
-@include('human_resources.schedule_interview')
+@include('human_resources.schedule_interview')vv
+
+@foreach ($applicant->mrf->interviewer->where('status', 'Pending')->where('user_id', auth()->user()->id) as $i)
+@include('human_resources.failed_applicant')
+@endforeach
 
 @section('js')
     <script>

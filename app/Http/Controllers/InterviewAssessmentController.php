@@ -133,6 +133,9 @@ class InterviewAssessmentController extends Controller
         $interview_assessment->job_knowledge = $request->job_knowledge;
         $interview_assessment->hr_strengths = $request->hr_strengths;
         $interview_assessment->hr_areas_of_improvements = $request->hr_areas_of_improvements;
+        $interview_assessment->head_job_knowledge = $request->head_job_knowledge;
+        $interview_assessment->head_strength = $request->head_strength;
+        $interview_assessment->head_areas_for_improvement = $request->head_areas_for_improvement;
         $interview_assessment->applicant_id = $request->applicant_id;
         $interview_assessment->save();
 
