@@ -69,3 +69,11 @@ Route::post('submit-ja', 'ApplicantController@jobApplicationForm');
 Route::get('interview-assessment/{id}', 'InterviewAssessmentController@show');
 Route::post('submit-interview-assessment', 'InterviewAssessmentController@store');
 Route::get('print-interview-assessment/{id}', 'InterviewAssessmentController@printInterviewAssessment');
+
+# Upload Documents
+Route::get('applicant-documents', 'ApplicantDocumentController@index');
+
+# Document
+Route::get('document', 'DocumentController@index');
+Route::post('new-document', 'DocumentController@store');
+Route::post('update-document/{id}', 'DocumentController@update');

@@ -114,6 +114,13 @@
                     <span>Applicant</span>
                 </a>
             </li>
+
+            <li class="side-nav-item">
+                <a href="{{url('document')}}" class="side-nav-link" onclick="show()">
+                    <i class=" uil-file"></i>
+                    <span>Document</span>
+                </a>
+            </li>
             @endif
 
             @if(auth()->user()->role == 'Applicant')
@@ -123,6 +130,13 @@
                 <a href="{{url('applicants')}}" class="side-nav-link" onclick="show()">
                     <i class=" uil-user"></i>
                     <span>Applicant</span>
+                </a>
+            </li>
+
+            <li class="side-nav-item">
+                <a href="{{url('applicant-documents')}}" class="side-nav-link" onclick="show()">
+                    <i class=" uil-upload"></i>
+                    <span>Applicant Documents</span>
                 </a>
             </li>
             @endif
