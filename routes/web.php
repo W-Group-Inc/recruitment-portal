@@ -17,7 +17,7 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home')->middleware('active_applicant_at');
+Route::get('/home', 'HomeController@index')->name('home');
 
 # User
 Route::get('user', 'UserController@index');
@@ -72,6 +72,7 @@ Route::get('print-interview-assessment/{id}', 'InterviewAssessmentController@pri
 
 # Upload Documents
 Route::get('applicant-documents', 'ApplicantDocumentController@index');
+Route::post('new-applicant-document', 'ApplicantDocumentController@store');
 
 # Document
 Route::get('document', 'DocumentController@index');
