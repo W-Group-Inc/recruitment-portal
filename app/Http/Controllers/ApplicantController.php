@@ -338,17 +338,17 @@ class ApplicantController extends Controller
             $job_application->mother_occupation = $request->mother_occupation;
             $job_application->mother_company_location = $request->mother_company_location;
             $job_application->mother_contact_no = $request->mother_contact_no;
-            $job_application->college_course = $request->course;
+            // $job_application->college_course = $request->course;
             $job_application->college_school_name = $request->college_school_name;
             $job_application->college_school_address = $request->college_school_address;
             $job_application->college_year_attended = $request->college_year_attended;
             $job_application->college_awards = $request->college_awards;
-            $job_application->hs_course = $request->hs_course;
+            // $job_application->hs_course = $request->hs_course;
             $job_application->hs_school_name = $request->hs_school_name;
             $job_application->hs_school_address = $request->hs_school_address;
             $job_application->hs_year_attended = $request->hs_year_attended;
             $job_application->hs_awards = $request->hs_awards;
-            $job_application->others_course = $request->others_course;
+            // $job_application->others_course = $request->others_course;
             $job_application->others_school_name = $request->others_school_name;
             $job_application->others_school_address = $request->others_school_address;
             $job_application->others_year_attended = $request->others_year_attended;
@@ -365,6 +365,14 @@ class ApplicantController extends Controller
             $job_application->company_industry = $request->company_industry;
             $job_application->reason_for_leaving = $request->reason_for_leaving;
             $job_application->applicant_id = auth()->user()->applicant_id;
+            $job_application->contact_number = $request->contact_number;
+            $job_application->civil_status = $request->civil_status;
+            $job_application->age = $request->age;
+            $job_application->gender = $request->gender;
+            $job_application->citizenship = $request->citizenship;
+            $job_application->date_of_birth = $request->date_of_birth;
+            $job_application->place_of_birth = $request->place_of_birth;
+            $job_application->same_as = $request->same_as;
             $job_application->save();
 
             if ($request->has('sibling_name'))
@@ -426,17 +434,17 @@ class ApplicantController extends Controller
             $job_application->mother_occupation = $request->mother_occupation;
             $job_application->mother_company_location = $request->mother_company_location;
             $job_application->mother_contact_no = $request->mother_contact_no;
-            $job_application->college_course = $request->course;
+            // $job_application->college_course = $request->course;
             $job_application->college_school_name = $request->college_school_name;
             $job_application->college_school_address = $request->college_school_address;
             $job_application->college_year_attended = $request->college_year_attended;
             $job_application->college_awards = $request->college_awards;
-            $job_application->hs_course = $request->hs_course;
+            // $job_application->hs_course = $request->hs_course;
             $job_application->hs_school_name = $request->hs_school_name;
             $job_application->hs_school_address = $request->hs_school_address;
             $job_application->hs_year_attended = $request->hs_year_attended;
             $job_application->hs_awards = $request->hs_awards;
-            $job_application->others_course = $request->others_course;
+            // $job_application->others_course = $request->others_course;
             $job_application->others_school_name = $request->others_school_name;
             $job_application->others_school_address = $request->others_school_address;
             $job_application->others_year_attended = $request->others_year_attended;
@@ -453,6 +461,14 @@ class ApplicantController extends Controller
             $job_application->company_industry = $request->company_industry;
             $job_application->reason_for_leaving = $request->reason_for_leaving;
             // $job_application->applicant_id = auth()->user()->applicant_id;
+            $job_application->contact_number = $request->contact_number;
+            $job_application->civil_status = $request->civil_status;
+            $job_application->age = $request->age;
+            $job_application->gender = $request->gender;
+            $job_application->citizenship = $request->citizenship;
+            $job_application->date_of_birth = $request->date_of_birth;
+            $job_application->place_of_birth = $request->place_of_birth;
+            $job_application->same_as = $request->same_as;
             $job_application->save();
 
             if ($request->has('sibling_name'))
@@ -493,13 +509,13 @@ class ApplicantController extends Controller
 
     public function printJobApplicationForm($id)
     {
-        $job_application = JobApplication::findOrFail($id);
+        $job_application = JobApplication::with('siblingInformation', 'childrenInformation', 'company')->findOrFail($id);
         
         $data = [];
         $data['job_application'] = $job_application;
 
         $pdf = App::make('dompdf.wrapper');
-        $pdf->loadView('applicant.print_job_application', $data)->setPaper('a4', 'portrait');
+        $pdf->loadView('applicant.print_job_application', $data)->setPaper('legal', 'portrait');
         return $pdf->stream();
     }
 

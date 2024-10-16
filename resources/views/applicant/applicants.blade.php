@@ -25,42 +25,42 @@
 
                         <ul class="nav nav-pills nav-justified form-wizard-header mb-3">
                             <li class="nav-item">
-                                <a href="#source" data-bs-toggle="tab" data-toggle="tab"
+                                <a href="#source"  data-toggle="tab"
                                     class="nav-link rounded-0 pt-2 pb-2">
                                     {{-- <i class="mdi mdi-account-circle me-1"></i> --}}
                                     <span class="d-none d-sm-inline">Source & Position Applied</span>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="#personal_data" data-bs-toggle="tab" data-toggle="tab"
+                                <a href="#personal_data"  data-toggle="tab"
                                     class="nav-link rounded-0 pt-2 pb-2">
                                     {{-- <i class="mdi mdi-face-profile me-1"></i> --}}
                                     <span class="d-none d-sm-inline">Personal Data</span>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="#familyBackground" data-bs-toggle="tab" data-toggle="tab"
+                                <a href="#familyBackground"  data-toggle="tab"
                                     class="nav-link rounded-0 pt-2 pb-2">
                                     {{-- <i class="mdi mdi-checkbox-marked-circle-outline me-1"></i> --}}
                                     <span class="d-none d-sm-inline">Family Background</span>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="#educationalBackground" data-bs-toggle="tab" data-toggle="tab"
+                                <a href="#educationalBackground"  data-toggle="tab"
                                     class="nav-link rounded-0 pt-2 pb-2">
                                     {{-- <i class="mdi mdi-checkbox-marked-circle-outline me-1"></i> --}}
                                     <span class="d-none d-sm-inline">Educational Background</span>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="#examination" data-bs-toggle="tab" data-toggle="tab"
+                                <a href="#examination"  data-toggle="tab"
                                     class="nav-link rounded-0 pt-2 pb-2">
                                     {{-- <i class="mdi mdi-checkbox-marked-circle-outline me-1"></i> --}}
                                     <span class="d-none d-sm-inline">Examination Undertaken</span>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="#workExperience" data-bs-toggle="tab" data-toggle="tab"
+                                <a href="#workExperience"  data-toggle="tab"
                                     class="nav-link rounded-0 pt-2 pb-2">
                                     {{-- <i class="mdi mdi-checkbox-marked-circle-outline me-1"></i> --}}
                                     <span class="d-none d-sm-inline">Work Experiences</span>
@@ -83,7 +83,7 @@
                                         <input type="text" name="" class="form-control form-control-sm"
                                             value="{{auth()->user()->company->name}}" readonly>
                                     </div> 
-                                    <div class="col-lg-3 col-md-12 mb-2">
+                                    <div class="col-lg-3 col-md-12 mb-2" id="sourceField">
                                         Source
                                         <select name="source" id="" class="form-control cat required">
                                             <option value="">- Source -</option>
@@ -95,6 +95,17 @@
                                             <option value="6" @if(optional($applicant->jobApplication)->source == 6) selected @endif>Employee Referral</option>
                                         </select>
                                     </div> 
+                                    @if(optional($applicant->jobApplication)->source == 5)
+                                    <div class="col-lg-3 col-md-12 mb-2">
+                                        Application
+                                        <input type="text" name="application" class="form-control form-control-sm required" placeholder="Example: Jobstreet, Indeed, Social Media etc.">
+                                    </div>
+                                    @elseif(optional($applicant->jobApplication)->source == 6)
+                                    <div class="col-lg-3 col-md-12 mb-2">
+                                        Name of Employee
+                                        <input type="text" name="employee" class="form-control form-control-sm required" value="{{optional($applicant->jobApplication)->employee}}">
+                                    </div>
+                                    @endif
                                     <div class="col-lg-3 col-md-12">
                                         Position
                                         <input type="text" name="position" class="form-control form-control-sm" value="{{auth()->user()->applicant->mrf->position_title}}" readonly>
@@ -113,18 +124,52 @@
 
                             <div class="tab-pane" id="personal_data">
                                 <div class="row">
-                                    <div class="col-lg-3 col-md-12">
+                                    <div class="col-lg-3 col-md-12 mb-2">
                                         Lastname
-                                        <input type="text" name="lastname" class="form-control form-control-sm required" @if($applicant->jobApplication != null) value="{{optional($applicant->jobApplication)->lastname}}" readonly @endif>
+                                        <input type="text" name="lastname" class="form-control form-control-sm required" value="{{$applicant->lastname}}" readonly>
                                     </div> 
-                                    <div class="col-lg-3 col-md-12">
+                                    <div class="col-lg-3 col-md-12 mb-2">
                                         Firstname
-                                        <input type="text" name="firstname" class="form-control form-control-sm required" @if($applicant->jobApplication != null) value="{{optional($applicant->jobApplication)->firstname}}" readonly @endif>
+                                        <input type="text" name="firstname" class="form-control form-control-sm required" value="{{$applicant->firstname}}" readonly>
                                     </div> 
-                                    <div class="col-lg-3 col-md-12">
+                                    <div class="col-lg-3 col-md-12 mb-2">
                                         Middlename
-                                        <input type="text" name="middlename" class="form-control form-control-sm required" @if($applicant->jobApplication != null) value="{{optional($applicant->jobApplication)->middlename}}" readonly @endif>
-                                    </div> 
+                                        <input type="text" name="middlename" class="form-control form-control-sm required" value="{{$applicant->middlename}}" readonly>
+                                    </div>
+                                    <div class="col-lg-3 col-md-12 mb-2">
+                                    </div>
+                                    <div class="col-lg-3 col-md-12 mb-2">
+                                        Contact Number
+                                        <input type="number" name="contact_number" class="form-control form-control-sm required" value="{{optional($applicant->jobApplication)->contact_number}}">
+                                    </div>
+                                    <div class="col-lg-3 col-md-12 mb-2">
+                                        Civil Status
+                                        <input type="text" name="civil_status" class="form-control form-control-sm required" value="{{optional($applicant->jobApplication)->civil_status}}">
+                                    </div>
+                                    <div class="col-lg-3 col-md-12 mb-2">
+                                        Age
+                                        <input type="number" name="age" class="form-control form-control-sm required" value="{{optional($applicant->jobApplication)->age}}">
+                                    </div>
+                                    <div class="col-lg-3 col-md-12 mb-2">
+                                        Gender
+                                        <select name="gender" class="form-control form-control-sm required">
+                                            <option value="">Choose Gender</option>
+                                            <option value="M" @if(optional($applicant->jobApplication)->gender == 'M') selected @endif>Male</option>
+                                            <option value="F" @if(optional($applicant->jobApplication)->gender == 'F') selected @endif>Female</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-lg-3 col-md-12 mb-2">
+                                        Citizenship
+                                        <input type="text" name="citizenship" class="form-control form-control-sm required" value="{{optional($applicant->jobApplication)->citizenship}}">
+                                    </div>
+                                    <div class="col-lg-3 col-md-12 mb-2">
+                                        Date of Birth
+                                        <input type="date" name="date_of_birth" class="form-control form-control-sm required" max="{{date('Y-m-d', strtotime('-18 year'))}}" value="{{optional($applicant->jobApplication)->date_of_birth}}">
+                                    </div>
+                                    <div class="col-lg-3 col-md-12 mb-2">
+                                        Place of Birth
+                                        <input type="text" name="place_of_birth" class="form-control form-control-sm required" value="{{optional($applicant->jobApplication)->place_of_birth}}">
+                                    </div>
                                     <div class="col-lg-12">
                                         <h5 class="header-title mt-2">Present Address</h5>
                                     </div>
@@ -153,19 +198,19 @@
                                     </div>
                                     <div class="col-lg-2">
                                         House No./Bldg No.
-                                        <input type="text" name="permanent_house_no" class="form-control form-control-sm required" value="{{optional($applicant->jobApplication)->permanent_house_no}}">
+                                        <input type="text" name="permanent_house_no" class="form-control form-control-sm required" value="{{optional($applicant->jobApplication)->permanent_house_no}}" @if(optional($applicant->jobApplication)->same_as == 'on') readonly @endif>
                                     </div>
                                     <div class="col-lg-3">
                                         Street 
-                                        <input type="text" name="permanent_street_name" class="form-control form-control-sm required" value="{{optional($applicant->jobApplication)->permanent_street_name}}">
+                                        <input type="text" name="permanent_street_name" class="form-control form-control-sm required" value="{{optional($applicant->jobApplication)->permanent_street_name}}" @if(optional($applicant->jobApplication)->same_as == 'on') readonly @endif>
                                     </div>
                                     <div class="col-lg-3">
                                         Barangay
-                                        <input type="text" name="permanent_barangay" class="form-control form-control-sm required" value="{{optional($applicant->jobApplication)->permanent_barangay}}">
+                                        <input type="text" name="permanent_barangay" class="form-control form-control-sm required" value="{{optional($applicant->jobApplication)->permanent_barangay}}" @if(optional($applicant->jobApplication)->same_as == 'on') readonly @endif>
                                     </div>
                                     <div class="col-lg-4">
                                         Municipality
-                                        <input type="text" name="permanent_municipality" class="form-control form-control-sm required" value="{{optional($applicant->jobApplication)->permanent_municipality}}">
+                                        <input type="text" name="permanent_municipality" class="form-control form-control-sm required" value="{{optional($applicant->jobApplication)->permanent_municipality}}" @if(optional($applicant->jobApplication)->same_as == 'on') readonly @endif>
                                     </div>
                                 </div> 
                             </div>
@@ -350,10 +395,10 @@
                                     <div class="col-lg-12 col-md-12 mb-2">
                                         <h5 class="header-title">College</h5>
                                     </div> 
-                                    <div class="col-lg-3 col-md-12 mb-2">
+                                    {{-- <div class="col-lg-3 col-md-12 mb-2">
                                         Course
                                         <input type="text" name="course" class="form-control form-control-sm required" value="{{optional($applicant->jobApplication)->college_course}}">
-                                    </div> 
+                                    </div>  --}}
                                     <div class="col-lg-3 col-md-12 mb-2">
                                         School Name
                                         <input type="text" name="college_school_name" class="form-control form-control-sm required" value="{{optional($applicant->jobApplication)->college_school_name}}">
@@ -373,10 +418,10 @@
                                     <div class="col-lg-12 col-md-12 mb-2">
                                         <h5 class="header-title">High School</h5>
                                     </div> 
-                                    <div class="col-lg-3 col-md-12 mb-2">
+                                    {{-- <div class="col-lg-3 col-md-12 mb-2">
                                         Course
                                         <input type="text" name="hs_course" class="form-control form-control-sm required" value="{{optional($applicant->jobApplication)->hs_course}}">
-                                    </div> 
+                                    </div>  --}}
                                     <div class="col-lg-3 col-md-12 mb-2">
                                         School Name
                                         <input type="text" name="hs_school_name" class="form-control form-control-sm required" value="{{optional($applicant->jobApplication)->hs_school_name}}">
@@ -396,10 +441,10 @@
                                     <div class="col-lg-12 col-md-12 mb-2">
                                         <h5 class="header-title">Others</h5> 
                                     </div> 
-                                    <div class="col-lg-3 col-md-12 mb-2">
+                                    {{-- <div class="col-lg-3 col-md-12 mb-2">
                                         Course
                                         <input type="text" name="others_course" class="form-control form-control-sm required" value="{{optional($applicant->jobApplication)->others_course}}">
-                                    </div> 
+                                    </div>  --}}
                                     <div class="col-lg-3 col-md-12 mb-2">
                                         School Name
                                         <input type="text" name="others_school_name" class="form-control form-control-sm required" value="{{optional($applicant->jobApplication)->others_school_name}}">
@@ -471,7 +516,7 @@
                                     </div> 
                                     <div class="col-lg-3 col-md-12 mb-2">
                                         Last Salary
-                                        <input type="text" name="last_salary" class="form-control form-control-sm required" value="{{optional($applicant->jobApplication)->last_salary}}" data-toggle="input-mask" data-mask-format="000.000.000.000.000,00" data-reverse="true">
+                                        <input type="text" name="last_salary" class="form-control form-control-sm required" value="{{optional($applicant->jobApplication)->last_salary}}" >
                                     </div> 
                                 </div> 
                             </div>
@@ -556,22 +601,22 @@
                 var newColumn = `
                     <div class="col-lg-3 col-md-12 mb-2">
                         Application
-                        <input type="text" name="application" class="form-control form-control-sm" placeholder="Example: Jobstreet, Indeed, Social Media etc.">
+                        <input type="text" name="application" class="form-control form-control-sm required" placeholder="Example: Jobstreet, Indeed, Social Media etc.">
                     </div>
                 `;
                 
-                $('.cat').closest('.col-lg-3').after(newColumn);
+                $('.cat').closest('#sourceField').after(newColumn);
             }
             else if($(this).val() == 6) 
             {
                 var newColumn = `
                     <div class="col-lg-3 col-md-12 mb-2">
                         Name of Employee
-                        <input type="text" name="employee" class="form-control form-control-sm">
+                        <input type="text" name="employee" class="form-control form-control-sm required">
                     </div>
                 `;
                 
-                $('.cat').closest('.col-lg-3').after(newColumn);
+                $('.cat').closest('#sourceField').after(newColumn);
             }
         })
 

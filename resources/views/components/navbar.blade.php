@@ -47,6 +47,7 @@
             </div>
         </li> --}}
 
+        @if(auth()->user()->role != 'Applicant')
         <li class="dropdown notification-list">
             <a class="nav-link dropdown-toggle arrow-none" href="{{url('for-interview')}}">
                 <i class="dripicons-bell noti-icon"></i>
@@ -138,6 +139,7 @@
 
             </div> --}}
         </li>
+        @endif
 
         {{-- <li class="dropdown notification-list d-none d-sm-inline-block">
             <a class="nav-link dropdown-toggle arrow-none" data-bs-toggle="dropdown" href="#" role="button"

@@ -5,7 +5,9 @@
         <h4 class="header-title">Change Password</h4>
         <div class="card w-50 mx-auto">
             @include('components.error')
-
+            <div class="alert alert-info mb-2">
+                Before you proceed, please change your password
+            </div>
             <div class="card-body">
                 <form method="POST" action="{{url('change-password/'.auth()->user()->id)}}" onsubmit="show()">
                     @csrf
