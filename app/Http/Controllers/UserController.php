@@ -137,9 +137,26 @@ class UserController extends Controller
 
         $user = User::findOrFail($id);
         $user->password = bcrypt($request->password);
+        if ($request->has('is_login'))
+        {
+            $user->is_login = $request->is_login;
+        }
         $user->save();
 
         Alert::success('Successfully Change Password')->persistent('Dismiss');
-        return back();
+
+        if ($request->route == 'view-password')
+        {
+            return redirect('/applicants');
+        }
+        else
+        {
+            return back();
+        }
+    }
+
+    public function viewPassword() 
+    {
+        return view('applicant.change_password');
     }
 }

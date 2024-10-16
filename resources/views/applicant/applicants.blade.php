@@ -10,7 +10,13 @@
         <div class="card mx-auto" >
             <div class="card-body" >
 
-                <h4 class="header-title mb-3">Job Application Form</h4>
+                <h4 class="header-title mb-3 d-inline-block">Job Application Form</h4>
+                @if($applicant->jobApplication != null)
+                <a href="{{url('print-job-application/'.$applicant->jobApplication->id)}}" class="btn btn-sm btn-danger float-end" target="_blank">
+                    <i class="dripicons-print"></i>
+                    Print Job Application
+                </a>
+                @endif
 
                 <form method="POST" action="{{url('submit-ja')}}" onsubmit="show()">
                     @csrf
@@ -95,7 +101,7 @@
                                     </div> 
                                     <div class="col-lg-3 col-md-12 mb-2">
                                         Minimum Expected Salary
-                                        <input type="text" name="minimum_expected_salary" class="form-control form-control-sm required" value="{{optional($applicant->jobApplication)->minimum_expected_salary}}" data-toggle="input-mask" data-mask-format="000.000.000.000.000,00" data-reverse="true">
+                                        <input type="number" name="minimum_expected_salary" class="form-control form-control-sm required" value="{{optional($applicant->jobApplication)->minimum_expected_salary}}">
                                     </div> 
                                     <div class="col-lg-3 col-md-12 mb-2">
                                         Date Available for Employment
@@ -139,7 +145,7 @@
                                         <input type="text" name="present_municipality" class="form-control form-control-sm required" value="{{optional($applicant->jobApplication)->present_municipality}}">
                                     </div>
                                     <div class="col-lg-12">
-                                        <input type="checkbox" name="same_as" id="same_as">
+                                        <input type="checkbox" name="same_as" id="same_as" @if(optional($applicant->jobApplication)->same_as == 'on') checked @endif>
                                         <small><i>Same as present address</i></small>
                                     </div>
                                     <div class="col-lg-12">
@@ -151,15 +157,15 @@
                                     </div>
                                     <div class="col-lg-3">
                                         Street 
-                                        <input type="text" name="permanent_street_name" class="form-control form-control-sm required" value="{{optional($applicant->jobApplication)->permanent_house_no}}">
+                                        <input type="text" name="permanent_street_name" class="form-control form-control-sm required" value="{{optional($applicant->jobApplication)->permanent_street_name}}">
                                     </div>
                                     <div class="col-lg-3">
                                         Barangay
-                                        <input type="text" name="permanent_barangay" class="form-control form-control-sm required" value="{{optional($applicant->jobApplication)->permanent_house_no}}">
+                                        <input type="text" name="permanent_barangay" class="form-control form-control-sm required" value="{{optional($applicant->jobApplication)->permanent_barangay}}">
                                     </div>
                                     <div class="col-lg-4">
                                         Municipality
-                                        <input type="text" name="permanent_municipality" class="form-control form-control-sm required" value="{{optional($applicant->jobApplication)->permanent_house_no}}">
+                                        <input type="text" name="permanent_municipality" class="form-control form-control-sm required" value="{{optional($applicant->jobApplication)->permanent_municipality}}">
                                     </div>
                                 </div> 
                             </div>

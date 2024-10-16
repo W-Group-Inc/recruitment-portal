@@ -123,7 +123,7 @@
             </li>
             @endif
 
-            @if(auth()->user()->role == 'Applicant')
+            @if(auth()->user()->role == 'Applicant' && auth()->user()->is_login == 1)
             <li class="side-nav-title side-nav-item">Applicant</li>
 
             <li class="side-nav-item">

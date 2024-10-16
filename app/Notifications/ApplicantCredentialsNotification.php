@@ -18,10 +18,12 @@ class ApplicantCredentialsNotification extends Notification
      */
     protected $user;
     protected $applicant;
-    public function __construct($user, $applicant)
+    protected $password;
+    public function __construct($user, $applicant, $password)
     {
         $this->user = $user;
         $this->applicant = $applicant;
+        $this->password = $password;
     }
 
     /**
@@ -47,7 +49,7 @@ class ApplicantCredentialsNotification extends Notification
                     ->greeting('Hello Mr./Ms. '.$this->applicant->name)
                     ->line('Congratulations! You passed the final interview for the position of ' . $this->applicant->position. ' this is your credentials to submit job application form in our system')
                     ->line('Email : ' . $this->applicant->email)
-                    ->line('Password : wgroup123')
+                    ->line('Password : '.$this->password)
                     ->action('Go to Website', url('/'))
                     ->line('Thank you for using our application!');
     }

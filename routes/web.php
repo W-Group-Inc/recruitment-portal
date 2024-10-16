@@ -17,7 +17,7 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/home', 'HomeController@index')->name('home')->middleware('active_applicant_at');
 
 # User
 Route::get('user', 'UserController@index');
@@ -26,6 +26,7 @@ Route::post('update_user/{id}', 'UserController@update');
 Route::post('deactivate/{id}', 'UserController@deactivate');
 Route::post('activate/{id}', 'UserController@activate');
 Route::post('change-password/{id}', 'UserController@changePassword');
+Route::get('view-password', 'UserController@viewPassword');
 
 # Company
 Route::get('company', 'CompanyController@index');
@@ -64,6 +65,7 @@ Route::get('print-jo/{id}', 'ApplicantController@printJo');
 Route::post('update-status/{id}', 'ApplicantController@updateApplicantStatus');
 Route::get('applicants', 'ApplicantController@applicant');
 Route::post('submit-ja', 'ApplicantController@jobApplicationForm');
+Route::get('print-job-application/{id}', 'ApplicantController@printJobApplicationForm');
 
 # Interview Assessment
 Route::get('interview-assessment/{id}', 'InterviewAssessmentController@show');

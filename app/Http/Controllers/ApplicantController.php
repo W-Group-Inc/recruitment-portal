@@ -23,6 +23,7 @@ use Spatie\GoogleCalendar\Event;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 use RealRashid\SweetAlert\Facades\Alert;
+use Illuminate\Support\Str;
 
 class ApplicantController extends Controller
 {
@@ -206,11 +207,13 @@ class ApplicantController extends Controller
             {
                 $applicant->applicant_status = "Passed";
                 $applicant->save();
-                
+
+                $password = Str::random(8);
+
                 $user = new User;
                 $user->name = $applicant->name;
                 $user->email = $applicant->email;
-                $user->password = bcrypt('wgroup123');
+                $user->password = bcrypt($password);
                 $user->status = 'Active';
                 $user->role = 'Applicant';
                 $user->department_id = $applicant->mrf->department_id;
@@ -218,7 +221,7 @@ class ApplicantController extends Controller
                 $user->applicant_id = $applicant->id;
                 $user->save();
 
-                $applicant->notify(new ApplicantCredentialsNotification($user, $applicant));
+                $applicant->notify(new ApplicantCredentialsNotification($user, $applicant, $password));
 
                 $mrf = ManPowerRequisitionForm::where('id', $applicant->man_power_requisition_form_id)->first();
                 $mrf->is_close = 1;
@@ -301,7 +304,6 @@ class ApplicantController extends Controller
 
     public function jobApplicationForm(Request $request)
     {
-        // dd($request->all());
         $job_application = JobApplication::where('applicant_id', auth()->user()->applicant_id)->first();
 
         if ($job_application == null)
@@ -390,6 +392,8 @@ class ApplicantController extends Controller
                     $children->save();
                 }
             }
+
+            Alert::success('Successfully Saved')->persistent('Dismiss');
         }
         else
         {
@@ -444,7 +448,7 @@ class ApplicantController extends Controller
             $job_application->employment_period = $request->employment_period;
             $job_application->company_industry = $request->company_industry;
             $job_application->reason_for_leaving = $request->reason_for_leaving;
-            $job_application->applicant_id = auth()->user()->applicant_id;
+            // $job_application->applicant_id = auth()->user()->applicant_id;
             $job_application->save();
 
             if ($request->has('sibling_name'))
@@ -476,9 +480,22 @@ class ApplicantController extends Controller
                     $children->save();
                 }
             }
+
+            Alert::success('Successfully Updated')->persistent('Dismiss');
         }
 
-        Alert::success('Successfully Saved')->persistent('Dismiss');
         return back();
+    }
+
+    public function printJobApplicationForm($id)
+    {
+        $job_application = JobApplication::findOrFail($id);
+        
+        $data = [];
+        $data['job_application'] = $job_application;
+
+        $pdf = App::make('dompdf.wrapper');
+        $pdf->loadView('applicant.print_job_application', $data)->setPaper('a4', 'portrait');
+        return $pdf->stream();
     }
 }

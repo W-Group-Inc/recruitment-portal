@@ -457,11 +457,11 @@
                                 </div>
                                 <div class="col-lg-6">
                                     Strength
-                                    <textarea name="head_strength" class="form-control" cols="30" rows="10" required>{!! nl2br($applicant->interviewAssessment->head_strength) !!}</textarea>
+                                    <textarea name="head_strength" class="form-control" cols="30" rows="10" required>{!! nl2br(optional($applicant->interviewAssessment)->head_strength) !!}</textarea>
                                 </div>
                                 <div class="col-lg-6">
                                     Areas for Improvement
-                                    <textarea name="head_areas_for_improvement" class="form-control" cols="30" rows="10" required>{!! nl2br($applicant->interviewAssessment->head_areas_for_improvement) !!}</textarea>
+                                    <textarea name="head_areas_for_improvement" class="form-control" cols="30" rows="10" required>{!! nl2br(optional($applicant->interviewAssessment)->head_areas_for_improvement) !!}</textarea>
                                 </div>
                             </div>
                         </div>
