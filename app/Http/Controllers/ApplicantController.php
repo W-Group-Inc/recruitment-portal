@@ -66,7 +66,9 @@ class ApplicantController extends Controller
     {
         // dd($request->all());
         $applicant = new Applicant;
-        $applicant->name = $request->name;
+        $applicant->lastname = $request->lastname;
+        $applicant->firstname = $request->firstname;
+        $applicant->middlename = $request->middlename;
         $applicant->email = $request->email;
         $applicant->mobile_number = $request->mobile_number;
         $applicant->man_power_requisition_form_id = $request->position;
@@ -122,7 +124,9 @@ class ApplicantController extends Controller
     {
         // dd($request->all(), $id);
         $applicant = Applicant::findOrFail($id);
-        $applicant->name = $request->name;
+        $applicant->lastname = $request->lastname;
+        $applicant->firstname = $request->firstname;
+        $applicant->middlename = $request->middlename;
         $applicant->email = $request->email;
         $applicant->mobile_number = $request->mobile_number;
         $applicant->man_power_requisition_form_id = $request->position;

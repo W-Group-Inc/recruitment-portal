@@ -10,8 +10,16 @@
                 <div class="modal-body">
                     <div class="row">
                         <div class="col-md-12 mb-2">
-                            Name
-                            <input type="text" name="name" class="form-control form-control-sm" value="{{$applicant->name}}" required>
+                            Lastname
+                            <input type="text" name="lastname" class="form-control form-control-sm" value="{{$applicant->lastname}}" required>
+                        </div>
+                        <div class="col-md-12 mb-2">
+                            Firstname
+                            <input type="text" name="firstname" class="form-control form-control-sm" value="{{$applicant->firstname}}" required>
+                        </div>
+                        <div class="col-md-12 mb-2">
+                            Middlename <small><i>(Add N/A if not applicable)</i></small>
+                            <input type="text" name="middlename" class="form-control form-control-sm" value="{{$applicant->middlename}}" required>
                         </div>
                         <div class="col-md-12 mb-2">
                             Email

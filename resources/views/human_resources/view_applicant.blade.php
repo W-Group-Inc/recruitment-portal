@@ -7,7 +7,7 @@
             <div class="card-body">
                 <img src="{{asset('img/user.png')}}" class="rounded-circle avatar-lg img-thumbnail" alt="profile-image">
 
-                <h4 class="mb-2 mt-2">{{$applicant->name}}</h4>
+                <h4 class="mb-2 mt-2">{{$applicant->lastname.' '.$applicant->firstname.' '.$applicant->middlename}}</h4>
 
                 @foreach ($applicant->mrf->interviewer->where('status', 'Pending')->where('user_id', auth()->user()->id) as $i)
             

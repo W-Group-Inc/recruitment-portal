@@ -22,7 +22,9 @@
                             <thead>
                                 <tr>
                                     <th>Actions</th>
-                                    <th>Name</th>
+                                    <th>Lastname</th>
+                                    <th>Firstname</th>
+                                    <th>Middlename</th>
                                     <th>Email</th>
                                     <th>Mobile Number</th>
                                     <th>Position</th>
@@ -46,7 +48,9 @@
                                             </button>
                                             @endif
                                         </td>
-                                        <td>{{$applicant->name}}</td>
+                                        <td>{{$applicant->lastname}}</td>
+                                        <td>{{$applicant->firstname}}</td>
+                                        <td>{{$applicant->middlename}}</td>
                                         <td>{{$applicant->email}}</td>
                                         <td>{{$applicant->mobile_number}}</td>
                                         <td>{{$applicant->mrf->position_title}}</td>    
