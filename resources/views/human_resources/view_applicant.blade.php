@@ -9,7 +9,7 @@
 
                 <h4 class="mb-2 mt-2">{{$applicant->lastname.' '.$applicant->firstname.' '.$applicant->middlename}}</h4>
 
-                @foreach ($applicant->mrf->interviewer->where('status', 'Pending')->where('user_id', auth()->user()->id) as $i)
+                @foreach ($applicant->interviewers->where('status', 'Pending')->where('user_id', auth()->user()->id) as $i)
             
                 <button type="button" class="btn btn-danger btn-sm mb-2" data-bs-toggle="modal" data-bs-target="#failedApplicant">Fail</button>
                 
@@ -141,7 +141,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($applicant->mrf->interviewer as $i)
+                            @foreach ($applicant->interviewers as $i)
                             <tr>
                                 <td>
                                     {{$i->user->name}}
@@ -151,6 +151,9 @@
                                         <div class="badge bg-warning">{{$i->status}}</div>
                                     @elseif($i->status == 'Failed')
                                         <div class="badge bg-danger">{{$i->status}}</div>
+                                        
+                                    @elseif($i->status == 'Passed')
+                                        <div class="badge bg-success">{{$i->status}}</div>
                                     @else
                                         <div class="badge bg-info">{{$i->status}}</div>
                                     @endif

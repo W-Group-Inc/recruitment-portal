@@ -29,4 +29,8 @@ class Applicant extends Model
     {
         return $this->hasOne(InterviewAssessment::class);
     }
+    public function interviewers()
+    {
+        return $this->hasMany(Interviewer::class);
+    }
 }

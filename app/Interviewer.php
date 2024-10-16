@@ -10,4 +10,12 @@ class Interviewer extends Model
     {
         return $this->belongsTo(User::class);
     }
+    public function applicant()
+    {
+        return $this->belongsTo(Applicant::class);
+    }
+    public function mrf()
+    {
+        return $this->belongsTo(ManPowerRequisitionForm::class);
+    }
 }

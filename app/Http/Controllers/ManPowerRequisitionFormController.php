@@ -239,36 +239,4 @@ class ManPowerRequisitionFormController extends Controller
         $pdf->loadView('human_resources.print_mrf', $data)->setPaper('a4', 'portrait');
         return $pdf->stream();
     }
-
-    public function interviewer(Request $request)
-    {
-        if($request->has('interviewer'))
-        {
-            $interviewer = Interviewer::where('man_power_requisition_form_id', $request->mrf_id)->delete();
-            foreach($request->interviewer as $key=>$value)
-            {
-                $interviewer = new Interviewer;
-                $interviewer->man_power_requisition_form_id = $request->mrf_id;
-                $interviewer->user_id = $value;
-                $interviewer->level = $key+1;
-                if ($key == 0)
-                {
-                    $interviewer->status = 'Pending';
-                }
-                else
-                {
-                    $interviewer->status = 'Waiting';
-                }
-                
-                $interviewer->save();
-            }
-    
-            Alert::success('Successfully Saved')->persistent('Dismiss');
-        }
-        else
-        {
-            Alert::error('Error. Please add interviewer')->persistent('Dismiss');
-        }
-        return back();
-    }
 }

@@ -116,6 +116,13 @@
             </li>
 
             <li class="side-nav-item">
+                <a href="{{url('for-interview')}}" class="side-nav-link" onclick="show()">
+                    <i class="uil-folder"></i>
+                    <span>For Interview</span>
+                </a>
+            </li>
+
+            <li class="side-nav-item">
                 <a href="{{url('document')}}" class="side-nav-link" onclick="show()">
                     <i class=" uil-file"></i>
                     <span>Document</span>

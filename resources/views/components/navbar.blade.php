@@ -47,13 +47,13 @@
             </div>
         </li> --}}
 
-        {{-- <li class="dropdown notification-list">
-            <a class="nav-link dropdown-toggle arrow-none" data-bs-toggle="dropdown" href="#" role="button"
-                aria-haspopup="false" aria-expanded="false">
+        <li class="dropdown notification-list">
+            <a class="nav-link dropdown-toggle arrow-none" href="{{url('for-interview')}}">
                 <i class="dripicons-bell noti-icon"></i>
-                <span class="noti-icon-badge"></span>
+                {{-- <span class="noti-icon-badge"></span> --}}
+                <span class="badge bg-danger">0</span>
             </a>
-            <div class="dropdown-menu dropdown-menu-end dropdown-menu-animated dropdown-lg">
+            {{-- <div class="dropdown-menu dropdown-menu-end dropdown-menu-animated dropdown-lg">
 
                 <!-- item-->
                 <div class="dropdown-item noti-title">
@@ -136,10 +136,10 @@
                     View All
                 </a>
 
-            </div>
+            </div> --}}
         </li>
 
-        <li class="dropdown notification-list d-none d-sm-inline-block">
+        {{-- <li class="dropdown notification-list d-none d-sm-inline-block">
             <a class="nav-link dropdown-toggle arrow-none" data-bs-toggle="dropdown" href="#" role="button"
                 aria-haspopup="false" aria-expanded="false">
                 <i class="dripicons-view-apps noti-icon"></i>

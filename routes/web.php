@@ -48,7 +48,6 @@ Route::post('new-mrf', 'ManPowerRequisitionFormController@store');
 Route::post('update-mrf/{id}', 'ManPowerRequisitionFormController@update');
 Route::post('delete-mrf/{id}', 'ManPowerRequisitionFormController@destroy');
 Route::get('print-mrf/{id}', 'ManPowerRequisitionFormController@print');
-Route::post('add_interviewer/{id}', 'ManPowerRequisitionFormController@interviewer');
 
 # Human Resources
 Route::get('for-approval', 'ForApprovalController@index');
@@ -66,6 +65,8 @@ Route::post('update-status/{id}', 'ApplicantController@updateApplicantStatus');
 Route::get('applicants', 'ApplicantController@applicant');
 Route::post('submit-ja', 'ApplicantController@jobApplicationForm');
 Route::get('print-job-application/{id}', 'ApplicantController@printJobApplicationForm');
+Route::post('add_interviewer/{id}', 'ApplicantController@interviewer');
+Route::get('for-interview', 'ApplicantController@forInterview');
 
 # Interview Assessment
 Route::get('interview-assessment/{id}', 'InterviewAssessmentController@show');

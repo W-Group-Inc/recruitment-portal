@@ -26,16 +26,15 @@
                     <table id="alternative-page-datatable" class="table table-bordered table-hover">
                         <thead>
                             <tr>
+                                @if(auth()->user()->role == "Department Head")
                                 <th>Actions</th>
+                                @endif
                                 <th>Date Requested</th>
                                 <th>MRF #</th>
                                 <th>Position</th>
                                 <th>Company</th>
                                 <th>Department</th>
                                 <th>Status</th>
-                                @if(auth()->user()->role == "Human Resources")
-                                <th>Interviewer</th>
-                                @endif
                             </tr>
                         </thead>
                         <tbody>
@@ -83,36 +82,6 @@
                             @if(auth()->user()->role == "Human Resources")
                             @foreach ($mrf as $key=>$m)
                                 <tr>
-                                    <td>
-                                        @if($m->mrf_status == "Approved")
-                                        {{-- <form action="{{url('post-indeed/'.$m->id)}}" method="post" onsubmit="show()">
-                                            @csrf
-
-                                            <button class="btn btn-sm btn-success post-to-indeed" type="button">
-                                                <i class="uil-check"></i>
-                                            </button>
-                                        </form> --}}
-
-                                        <button type="button" class="btn btn-sm btn-info" data-bs-toggle="modal" data-bs-target="#interviewer{{$m->id}}" title="Add Interviewer" @if(count($m->interviewer->whereIn('status', ['Passed', 'Failed'])) > 0) disabled @endif>
-                                            <i class="uil-user"></i>
-                                        </button>
-                                        @endif
-                                    </td>
-                                    {{-- <td>
-                                        @if($m->mrf_status == "Pending")
-                                        <a href="{{url('print-mrf/'.$m->id)}}" class="btn btn-sm btn-info" target="_blank">
-                                            <i class="dripicons-print"></i>
-                                        </a>
-                                        @endif
-
-                                        <form action="{{url('delete-mrf/'.$m->id)}}" method="post" class="d-inline-block">
-                                            @csrf
-
-                                            <button type="button" class="btn btn-sm btn-danger delete-btn">
-                                                <i class="uil-trash"></i>
-                                            </button>
-                                        </form>
-                                    </td> --}}
                                     <td>{{date('M d, Y', strtotime($m->created_at))}}</td>
                                     <td>MRF-{{str_pad($m->mrf_no, 4, '0', STR_PAD_LEFT)}}</td>
                                     <td>{{$m->position_title}}</td>
@@ -132,13 +101,13 @@
                                         {{$m->mrf_status}}
                                         </span>
                                     </td>
-                                    <td>
+                                    {{-- <td>
                                         @foreach ($m->interviewer as $i)
                                             <small>
                                                 {{$i->level}}. {{$i->user->name}} <br>
                                             </small>
                                         @endforeach
-                                    </td>
+                                    </td> --}}
                                 </tr>
 
                                 {{-- @include('dept_head.edit_mrf') --}}
@@ -155,57 +124,10 @@
 
 
 @include('dept_head.new_mrf')
-@foreach ($mrf as $key=>$m)
-@include('dept_head.interviewer')
-@endforeach
 
 @section('js')
 <script src="{{asset('js/chosen.jquery.min.js')}}"></script>
 <script>
-    function add_interviewer(mrfId)
-    {
-        var lastId = $('.interviewer-container-'+mrfId).children().last().attr('id');
-        if (lastId)
-        {
-            var id = lastId.split('_')
-            var finalId = parseInt(id[2]) + 1
-        }
-        else
-        {
-            var finalId = 1
-        }
-
-        var new_row = `
-            <div class="row" id="interviewer_${mrfId}_${finalId}">
-                <div class="col-md-1">
-                    <small>${finalId}</small>
-                </div>
-                <div class="col-md-11 mb-3">
-                    <select name="interviewer[]" class="form-control cat">
-                        <option value="">- Interviewer -</option>
-                        @foreach ($user->whereIn('role', ['Department Head', 'Human Resources']) as $u)
-                            <option value="{{$u->id}}">{{$u->name}}</option>
-                        @endforeach
-                    </select>
-                </div>
-            </div>
-        `
-
-        $('.interviewer-container-'+mrfId).append(new_row)
-        $('.cat').chosen({width:"100%"})
-    }
-
-    function delete_interviewer(mrfId)
-    {
-        if ($('.interviewer-container-'+mrfId+' .row').length > 1)
-        {
-            var itemData = $('.interviewer-container-'+mrfId).children().last().attr('id')
-            
-            $("#"+itemData).remove()
-            // $('.interviewer-container-'+mrfId+' #interviewer_'+mrfId+).remove()
-        }
-    }
-
     $(document).ready(function() {
         $('.position_status').on('change', function() {
 

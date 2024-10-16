@@ -28,6 +28,7 @@
                                     <th>Email</th>
                                     <th>Mobile Number</th>
                                     <th>Position</th>
+                                    <th>Interviewer</th>
                                     <th>Status</th>
                                 </tr>
                             </thead>
@@ -36,15 +37,21 @@
                                 @foreach ($applicants as $applicant)
                                     <tr>
                                         <td>
-                                            @if(count($applicant->mrf->interviewer) > 0)
+                                            {{-- @if(count($applicant->interviewers) > 0)
                                             <a href="{{url('view-applicant/'.$applicant->id)}}" class="btn btn-sm btn-info" target="_blank" title="View Applicant">
                                                 <i class="uil-eye"></i>
                                             </a>    
-                                            @endif
+                                            @endif --}}
                                             
                                             @if($applicant->applicant_status == "Pending")
                                             <button type="button" class="btn btn-warning btn-sm" title="Edit" data-bs-toggle="modal" data-bs-target="#edit{{$applicant->id}}">
                                                 <i class="dripicons-pencil"></i>
+                                            </button>
+                                            @endif
+                                            
+                                            @if($applicant->applicant_status == "Pending")
+                                            <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#interviewer{{$applicant->id}}">
+                                                <i class="uil-user"></i>
                                             </button>
                                             @endif
                                         </td>
@@ -54,6 +61,11 @@
                                         <td>{{$applicant->email}}</td>
                                         <td>{{$applicant->mobile_number}}</td>
                                         <td>{{$applicant->mrf->position_title}}</td>    
+                                        <td>
+                                            @foreach ($applicant->interviewers as $interviewer)
+                                                <small>{{$interviewer->level}} . {{$interviewer->user->name}} - {{$interviewer->status}}</small> <br>
+                                            @endforeach
+                                        </td>
                                         <td>
                                             @if($applicant->applicant_status == "Pending")
                                             <span class="badge bg-warning">
@@ -75,14 +87,21 @@
                                 @foreach ($applicants as $applicant)
                                     <tr>
                                         <td>
-                                            <a href="{{url('view-applicant/'.$applicant->id)}}" class="btn btn-sm btn-info" target="_blank">
+                                            {{-- <a href="{{url('view-applicant/'.$applicant->id)}}" class="btn btn-sm btn-info" target="_blank">
                                                 <i class="uil-eye"></i>
-                                            </a>
+                                            </a> --}}
                                         </td>
-                                        <td>{{$applicant->name}}</td>
+                                        <td>{{$applicant->lastname}}</td>
+                                        <td>{{$applicant->firstname}}</td>
+                                        <td>{{$applicant->middlename}}</td>
                                         <td>{{$applicant->email}}</td>
                                         <td>{{$applicant->mobile_number}}</td>
                                         <td>{{$applicant->mrf->position_title}}</td>
+                                        <td>
+                                            @foreach ($applicant->interviewers as $interviewer)
+                                                <small>{{$interviewer->level}} . {{$interviewer->user->name}} - {{$interviewer->status}}</small> <br>
+                                            @endforeach
+                                        </td>
                                         <td>
                                             @if($applicant->applicant_status == "Pending")
                                             <span class="badge bg-warning">
@@ -107,12 +126,59 @@
     </div>
 
 @include('human_resources.new_applicant')
+@foreach ($applicants as $key=>$applicant)
+@include('dept_head.interviewer')
+@endforeach
 @endsection
 
 @section('js')
 <script src="{{asset('js/chosen.jquery.min.js')}}"></script>
 
 <script>
+    function add_interviewer(mrfId)
+    {
+        var lastId = $('.interviewer-container-'+mrfId).children().last().attr('id');
+        if (lastId)
+        {
+            var id = lastId.split('_')
+            var finalId = parseInt(id[2]) + 1
+        }
+        else
+        {
+            var finalId = 1
+        }
+
+        var new_row = `
+            <div class="row" id="interviewer_${mrfId}_${finalId}">
+                <div class="col-md-1">
+                    <small>${finalId}</small>
+                </div>
+                <div class="col-md-11 mb-3">
+                    <select name="interviewer[]" class="form-control cat">
+                        <option value="">- Interviewer -</option>
+                        @foreach ($interviewers->whereIn('role', ['Department Head', 'Human Resources']) as $interviewer)
+                            <option value="{{$interviewer->id}}">{{$interviewer->name}}</option>
+                        @endforeach
+                    </select>
+                </div>
+            </div>
+        `
+
+        $('.interviewer-container-'+mrfId).append(new_row)
+        $('.cat').chosen({width:"100%"})
+    }
+
+    function delete_interviewer(mrfId)
+    {
+        if ($('.interviewer-container-'+mrfId+' .row').length > 1)
+        {
+            var itemData = $('.interviewer-container-'+mrfId).children().last().attr('id')
+            
+            $("#"+itemData).remove()
+            // $('.interviewer-container-'+mrfId+' #interviewer_'+mrfId+).remove()
+        }
+    }
+    
     $(document).ready(function() {
         $('.cat').chosen({width:"100%"})
     })

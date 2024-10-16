@@ -35,6 +35,7 @@ class ApplicantController extends Controller
     public function index()
     {
         $applicants = Applicant::get();
+        $interviewers = User::where('status', 'Active')->get();
         $mrf = ManPowerRequisitionForm::where('is_close', null)->where('mrf_status', 'Approved')->get();
         if (auth()->user()->role == "Department Head")
         {
@@ -43,7 +44,7 @@ class ApplicantController extends Controller
             })->get();
         }
 
-        return view('human_resources.applicant', compact('applicants', 'mrf'));
+        return view('human_resources.applicant', compact('applicants', 'mrf', 'interviewers'));
     }
 
     /**
@@ -93,11 +94,9 @@ class ApplicantController extends Controller
      */
     public function show($id)
     {
-        $applicant = Applicant::with('schedule', 'mrf', 'historyApplicant')->findOrFail($id);
+        $applicant = Applicant::with('schedule', 'mrf', 'historyApplicant', 'interviewers')->findOrFail($id);
+
         // $interviewer = Interviewer::where('status', 'Pending')->first();
-        
-        // $get_events = Event::get();
-        // $events = $get_events[0];
 
         return view('human_resources.view_applicant', compact('applicant'));
     }
@@ -190,7 +189,7 @@ class ApplicantController extends Controller
             $interviewer->status = 'Passed';
             $interviewer->save();
 
-            $nextInterviewer = Interviewer::where('status', 'Waiting')->orderBy('level', 'asc')->get();
+            $nextInterviewer = Interviewer::where('status', 'Waiting')->where('applicant_id', $applicant->id)->orderBy('level', 'asc')->get();
             if ($nextInterviewer->isNotEmpty())
             {
                 foreach($nextInterviewer as $key=>$nextInterview)
@@ -213,9 +212,10 @@ class ApplicantController extends Controller
                 $applicant->save();
 
                 $password = Str::random(8);
+                $name = $applicant->firstname.' '.$applicant->middlename.' '.$applicant->lastname;
 
                 $user = new User;
-                $user->name = $applicant->name;
+                $user->name = $name;
                 $user->email = $applicant->email;
                 $user->password = bcrypt($password);
                 $user->status = 'Active';
@@ -235,9 +235,9 @@ class ApplicantController extends Controller
             if (auth()->user()->role == 'Human Resources')
             {
                 $dept_head = $applicant->mrf->department->head;
-                $dept_head->notify(new NotifyDepartmentHead($applicant->mrf, $dept_head));
+                // $dept_head->notify(new NotifyDepartmentHead($applicant->mrf, $dept_head));
 
-                $applicant->notify(new ApplicantStatusNotification($applicant));
+                // $applicant->notify(new ApplicantStatusNotification($applicant));
             }
 
             $history = new HistoryApplicant;
@@ -259,7 +259,7 @@ class ApplicantController extends Controller
             $applicant->remarks = $request->remarks;
             $applicant->save();
 
-            $nextInterviewer = Interviewer::where('status', 'Waiting')->orderBy('level', 'asc')->get();
+            $nextInterviewer = Interviewer::where('status', 'Waiting')->where('applicant_id', $applicant->id)->orderBy('level', 'asc')->get();
             if ($nextInterviewer->isNotEmpty())
             {
                 foreach($nextInterviewer as $key=>$nextInterview)
@@ -501,5 +501,45 @@ class ApplicantController extends Controller
         $pdf = App::make('dompdf.wrapper');
         $pdf->loadView('applicant.print_job_application', $data)->setPaper('a4', 'portrait');
         return $pdf->stream();
+    }
+
+    public function interviewer(Request $request, $id)
+    {
+        if($request->has('interviewer'))
+        {
+            $interviewer = Interviewer::where('man_power_requisition_form_id', $request->mrf_id)->where('applicant_id', $request->applicant_id)->delete();
+            foreach($request->interviewer as $key=>$value)
+            {
+                $interviewer = new Interviewer;
+                $interviewer->man_power_requisition_form_id = $request->mrf_id;
+                $interviewer->applicant_id = $request->applicant_id;
+                $interviewer->user_id = $value;
+                $interviewer->level = $key+1;
+                if ($key == 0)
+                {
+                    $interviewer->status = 'Pending';
+                }
+                else
+                {
+                    $interviewer->status = 'Waiting';
+                }
+                
+                $interviewer->save();
+            }
+    
+            Alert::success('Successfully Saved')->persistent('Dismiss');
+        }
+        else
+        {
+            Alert::error('Error. Please add interviewer')->persistent('Dismiss');
+        }
+        return back();
+    }
+
+    public function forInterview()
+    {
+        $interviewers = Interviewer::where('user_id', auth()->user()->id)->where('status', 'Pending')->get();
+
+        return view('human_resources.for_interview', compact('interviewers'));
     }
 }
