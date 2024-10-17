@@ -17,7 +17,6 @@
                         <div class="col-md-6">
                             Department :
                             <select class="form-control cat" name="department" required>
-                                <option value="">-Department-</option>
                                 @foreach ($departments->where('id', auth()->user()->department_id) as $d)
                                     <option value="{{$d->id}}" @if($d->id == $m->department_id) selected @endif>{{$d->code .' - '.$d->name}}</option>
                                 @endforeach
@@ -26,8 +25,7 @@
                         <div class="col-md-6">
                             Company :
                             <select class="form-control cat" name="company" required>
-                                <option value="">-Company-</option>
-                                @foreach ($companies as $c)
+                                @foreach ($companies->where('id', auth()->user()->department->company->id) as $c)
                                     <option value="{{$c->id}}" @if($c->id == $m->company_id) selected @endif>{{$c->code .' - '.$c->name}}</option>
                                 @endforeach
                             </select>

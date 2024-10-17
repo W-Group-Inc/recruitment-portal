@@ -30,8 +30,7 @@
                         <div class="col-md-6 mb-1">
                             Company :
                             <select class="form-control cat" name="company" required>
-                                <option value="">-Company-</option>
-                                @foreach ($companies as $c)
+                                @foreach ($companies->where('id', auth()->user()->department->company->id) as $c)
                                     <option value="{{$c->id}}">{{$c->code .' - '.$c->name}}</option>
                                 @endforeach
                             </select>

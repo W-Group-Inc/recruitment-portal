@@ -122,12 +122,15 @@
                 </a>
             </li>
 
+            @if(auth()->user()->role == 'Human Resources')
             <li class="side-nav-item">
                 <a href="{{url('document')}}" class="side-nav-link" onclick="show()">
                     <i class=" uil-file"></i>
                     <span>Document</span>
                 </a>
             </li>
+            @endif
+
             @endif
 
             @if(auth()->user()->role == 'Applicant' && auth()->user()->is_login == 1)

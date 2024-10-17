@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\ManPowerRequisitionForm;
+use App\Notifications\MrfNotification;
 use GuzzleHttp\Client;
 // use GuzzleHttp\Psr7\Request;
 use Illuminate\Http\Request;
@@ -92,6 +93,9 @@ class ForApprovalController extends Controller
         {
             $message = "Successfully Rejected";
         }
+
+        $dept_head = $mrf->department->head;
+        $dept_head->notify(new MrfNotification($mrf, $request->action, $dept_head));
 
         Alert::success($message)->persistent('Dismiss');
         return back();

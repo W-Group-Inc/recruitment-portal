@@ -40,7 +40,7 @@ class HomeController extends Controller
 
         if(auth()->user()->role == "Department Head")
         {
-            $mrf = ManPowerRequisitionForm::get();
+            $mrf = ManPowerRequisitionForm::where('department_id', auth()->user()->department_id)->get();
 
             return view('home', compact('mrf'));
         }
