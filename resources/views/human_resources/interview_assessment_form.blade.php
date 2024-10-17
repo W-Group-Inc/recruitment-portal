@@ -465,14 +465,14 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="d-grid">
-                            @if($applicant->interviewAssessment != null)
-                            <a href="{{url('print-interview-assessment/'.$applicant->interviewAssessment->id)}}" class="btn btn-danger mb-2" target="_blank">Print</a>
-                            @endif
-                            <button type="submit" class="btn btn-success">Submit</button>
-                        </div>
                     </div> 
                     @endif
+                    <div class="d-grid">
+                        @if($applicant->interviewAssessment != null)
+                        <a href="{{url('print-interview-assessment/'.$applicant->interviewAssessment->id)}}" class="btn btn-danger mb-2" target="_blank">Print</a>
+                        @endif
+                        <button type="submit" class="btn btn-success">Submit</button>
+                    </div>
                 </form>
             </div>
         </div>

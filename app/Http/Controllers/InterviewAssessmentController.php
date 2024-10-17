@@ -157,6 +157,8 @@ class InterviewAssessmentController extends Controller
     {
         // dd($request->all(), $id);
         $interview_assessment = InterviewAssessment::findOrFail($id);
+        $applicant = Applicant::with('jobApplication')->where('id', $interview_assessment->applicant_id)->first();
+        
         $data = [];
         $data['interview_assessment'] = $interview_assessment;
 

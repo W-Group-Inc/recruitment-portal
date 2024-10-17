@@ -122,8 +122,9 @@
     </div><!-- end col-->
 </div>
 
-
+@if(auth()->user()->role == 'Department Head')
 @include('dept_head.new_mrf')
+@endif
 
 @section('js')
 <script src="{{asset('js/chosen.jquery.min.js')}}"></script>
