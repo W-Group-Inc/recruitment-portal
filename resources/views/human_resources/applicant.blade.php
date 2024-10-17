@@ -37,7 +37,7 @@
                                 @foreach ($applicants as $applicant)
                                     <tr>
                                         <td>
-                                            @if($applicant->applicant_status == 'Passed' || $applicant->applicant_status == 'Failed')
+                                            @if($applicant->applicant_status != 'Pending')
                                             <a href="{{url('view-applicant/'.$applicant->id)}}" class="btn btn-sm btn-info" target="_blank" title="View Applicant">
                                                 <i class="uil-eye"></i>
                                             </a>    
@@ -72,6 +72,8 @@
                                             @elseif($applicant->applicant_status == "Passed")
                                             <span class="badge bg-success">
                                             @elseif($applicant->applicant_status == "Failed")
+                                            <span class="badge bg-danger">
+                                            @elseif($applicant->applicant_status == "Cancelled")
                                             <span class="badge bg-danger">
                                             @endif
                                                 {{$applicant->applicant_status}}
@@ -108,6 +110,8 @@
                                             @elseif($applicant->applicant_status == "Passed")
                                             <span class="badge bg-success">
                                             @elseif($applicant->applicant_status == "Failed")
+                                            <span class="badge bg-danger">
+                                            @elseif($applicant->applicant_status == "Cancelled")
                                             <span class="badge bg-danger">
                                             @endif
                                                 {{$applicant->applicant_status}}

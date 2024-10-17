@@ -26,15 +26,16 @@
                     <table id="alternative-page-datatable" class="table table-bordered table-hover">
                         <thead>
                             <tr>
-                                @if(auth()->user()->role == "Department Head")
                                 <th>Actions</th>
-                                @endif
                                 <th>Date Requested</th>
                                 <th>MRF #</th>
                                 <th>Position</th>
                                 <th>Company</th>
                                 <th>Department</th>
                                 <th>Status</th>
+                                @if(auth()->user()->role == 'Human Resources')
+                                <th>Progress</th>
+                                @endif
                             </tr>
                         </thead>
                         <tbody>
@@ -82,6 +83,11 @@
                             @if(auth()->user()->role == "Human Resources")
                             @foreach ($mrf as $key=>$m)
                                 <tr>
+                                    <td>
+                                        <button type="button" class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#editProgress{{$m->id}}">
+                                            <i class="dripicons-pencil"></i>
+                                        </button>
+                                    </td>
                                     <td>{{date('M d, Y', strtotime($m->created_at))}}</td>
                                     <td>MRF-{{str_pad($m->mrf_no, 4, '0', STR_PAD_LEFT)}}</td>
                                     <td>{{$m->position_title}}</td>
@@ -101,16 +107,25 @@
                                         {{$m->mrf_status}}
                                         </span>
                                     </td>
-                                    {{-- <td>
-                                        @foreach ($m->interviewer as $i)
-                                            <small>
-                                                {{$i->level}}. {{$i->user->name}} <br>
-                                            </small>
-                                        @endforeach
-                                    </td> --}}
+                                    <td>
+                                        @if($m->progress == "Open")
+                                        <span class="badge bg-success">
+                                        @elseif($m->progress == "Serve")
+                                        <span class="badge bg-success">
+                                        @elseif($m->progress == "Hold")
+                                        <span class="badge bg-warning">
+                                        @elseif($m->progress == "Cancelled")
+                                        <span class="badge bg-danger">
+                                        @elseif($m->progress == "Reject")
+                                        <span class="badge bg-danger">
+                                        @endif  
+
+                                        {{$m->progress}}
+                                        </span>
+                                    </td>
                                 </tr>
 
-                                {{-- @include('dept_head.edit_mrf') --}}
+                                @include('human_resources.edit_progress')
                             @endforeach
                             @endif
                         </tbody>

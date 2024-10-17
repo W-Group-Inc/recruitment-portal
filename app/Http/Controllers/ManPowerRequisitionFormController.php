@@ -239,4 +239,14 @@ class ManPowerRequisitionFormController extends Controller
         $pdf->loadView('human_resources.print_mrf', $data)->setPaper('a4', 'portrait');
         return $pdf->stream();
     }
+
+    public function progress(Request $request, $id)
+    {
+        $mrf = ManPowerRequisitionForm::findOrFail($id);
+        $mrf->progress = $request->progress;
+        $mrf->save();
+
+        Alert::success('Successfully Saved')->persistent('Dismiss');
+        return back();
+    }
 }

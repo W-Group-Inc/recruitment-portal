@@ -36,7 +36,7 @@ class ApplicantController extends Controller
     {
         $applicants = Applicant::get();
         $interviewers = User::where('status', 'Active')->get();
-        $mrf = ManPowerRequisitionForm::where('is_close', null)->where('mrf_status', 'Approved')->get();
+        $mrf = ManPowerRequisitionForm::where('is_close', null)->where('mrf_status', 'Approved')->where('progress', 'Open')->get();
         if (auth()->user()->role == "Department Head")
         {
             $applicants = Applicant::whereHas('mrf', function($q) {
@@ -183,6 +183,10 @@ class ApplicantController extends Controller
         // dd($request->all(), $id);
         $applicant = Applicant::with('mrf.department.head', 'mrf.interviewer')->findOrFail($id);
 
+        $mrf = ManPowerRequisitionForm::findOrFail($applicant->mrf->id);
+        $mrf->progress = 'Serve';
+        $mrf->save();
+
         if ($request->action == "passed")
         {
             $interviewer = Interviewer::findOrFail($request->interviewer_id);
@@ -211,6 +215,30 @@ class ApplicantController extends Controller
                 $applicant->applicant_status = "Passed";
                 $applicant->save();
 
+                $mrf = ManPowerRequisitionForm::findOrFail($applicant->man_power_requisition_form_id);
+                $mrf->progress = 'Serve';
+                $mrf->save();
+
+                if ($mrf->progress == 'Serve')
+                {
+                    $interviewers = Interviewer::where('man_power_requisition_form_id', $mrf->id)
+                        ->where(function($query)use($request) {
+                            $query->where('status', 'Pending')
+                                ->orWhere('status', 'Waiting');
+                        })
+                        ->get();
+
+                    foreach($interviewers as $key=>$interviewer)
+                    {
+                        $interviewer->status = 'Cancelled';
+                        $interviewer->save();
+
+                        $applicant = Applicant::where('id', $interviewer->applicant_id)->first();
+                        $applicant->applicant_status = 'Cancelled';
+                        $applicant->save();
+                    }
+                }
+
                 $password = Str::random(8);
                 $name = $applicant->firstname.' '.$applicant->middlename.' '.$applicant->lastname;
 
@@ -234,7 +262,7 @@ class ApplicantController extends Controller
 
             if (auth()->user()->role == 'Human Resources')
             {
-                $dept_head = $applicant->mrf->department->head;
+                // $dept_head = $applicant->mrf->department->head;
                 // $dept_head->notify(new NotifyDepartmentHead($applicant->mrf, $dept_head));
 
                 // $applicant->notify(new ApplicantStatusNotification($applicant));
@@ -255,7 +283,7 @@ class ApplicantController extends Controller
             $interviewer = Interviewer::findOrFail($request->interviewer_id);
             $interviewer->status = 'Failed';
             $interviewer->save();
-
+            
             $applicant->remarks = $request->remarks;
             $applicant->save();
 
@@ -279,10 +307,10 @@ class ApplicantController extends Controller
 
             if (auth()->user()->role == 'Human Resources')
             {
-                $dept_head = $applicant->mrf->department->head;
-                $dept_head->notify(new FailedApplicantNotification($applicant->mrf, $dept_head));
+                // $dept_head = $applicant->mrf->department->head;
+                // $dept_head->notify(new FailedApplicantNotification($applicant->mrf, $dept_head));
 
-                $applicant->notify(new ApplicantStatusFailedNotification($applicant));
+                // $applicant->notify(new ApplicantStatusFailedNotification($applicant));
             }
 
             $history = new HistoryApplicant;

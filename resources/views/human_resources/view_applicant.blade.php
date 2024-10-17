@@ -9,7 +9,7 @@
 
                 <h4 class="mb-2 mt-2">{{$applicant->lastname.' '.$applicant->firstname.' '.$applicant->middlename}}</h4>
 
-                @foreach ($applicant->interviewers->where('status', 'Pending')->where('user_id', auth()->user()->id) as $i)
+                @foreach ($applicant->interviewers->where('status', 'Pending')->where('user_id', auth()->user()->id)->where('applicant_id', $applicant->id) as $i)
             
                 <button type="button" class="btn btn-danger btn-sm mb-2" data-bs-toggle="modal" data-bs-target="#failedApplicant">Fail</button>
                 
@@ -219,7 +219,7 @@
 </div>
 @include('human_resources.schedule_interview')vv
 
-@foreach ($applicant->mrf->interviewer->where('status', 'Pending')->where('user_id', auth()->user()->id) as $i)
+@foreach ($applicant->mrf->interviewer->where('status', 'Pending')->where('user_id', auth()->user()->id)->where('applicant_id', $applicant->id) as $i)
 @include('human_resources.failed_applicant')
 @endforeach
 

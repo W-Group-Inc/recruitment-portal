@@ -78,12 +78,12 @@ class ForApprovalController extends Controller
         $mrf = ManPowerRequisitionForm::findOrFail($id);
         $mrf->mrf_status = $request->action;
         $mrf->approver_remarks = $request->remarks;
-        $mrf->save();
 
         $message = "";
         if ($request->action == "Approved")
         {
             $message = "Successfully Saved";
+            $mrf->progress = 'Open';
         }
         elseif($request->action == "Returned")
         {
@@ -92,7 +92,10 @@ class ForApprovalController extends Controller
         elseif($request->action == "Rejected")
         {
             $message = "Successfully Rejected";
+            $mrf->progress = 'Rejected';
         }
+
+        $mrf->save();
 
         $dept_head = $mrf->department->head;
         $dept_head->notify(new MrfNotification($mrf, $request->action, $dept_head));

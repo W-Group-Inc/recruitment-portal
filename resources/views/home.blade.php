@@ -166,8 +166,7 @@
                     <table class="table tables table-bordered" width="100%">
                         <thead>
                             <tr>
-                                <th>Item</th>
-                                <th>Status</th>
+                                <th>Progress</th>
                                 <th>MRF Received</th>
                                 <th>Date Served</th>
                                 <th>Running Days</th>
@@ -184,6 +183,90 @@
                             </tr>
                         </thead>
                         <tbody>
+                            @foreach ($mrf as $m)
+                                <tr>
+                                    <td>
+                                        @if($m->progress == "Open")
+                                        <span class="badge bg-success">
+                                        @elseif($m->progress == "Serve")
+                                        <span class="badge bg-success">
+                                        @elseif($m->progress == "Hold")
+                                        <span class="badge bg-warning">
+                                        @elseif($m->progress == "Cancelled")
+                                        <span class="badge bg-danger">
+                                        @elseif($m->progress == "Reject")
+                                        <span class="badge bg-danger">
+                                        @endif  
+
+                                        {{$m->progress}}
+                                        </span>
+                                    </td>
+                                    <td>{{date('M. d, Y', strtotime($m->created_at))}}</td>
+                                    <td>
+                                        @if($m->progress == 'Serve')
+                                            {{date('M. d, Y', strtotime($m->updated_at))}}
+                                        @endif
+                                    </td>
+                                    <td>
+                                        @php
+                                            $date_today = new DateTime();
+                                            $date_created = new DateTime($m->created_at);
+                                            $running_days = $date_today->diff($date_created);
+                                            $s = $running_days->d > 1 ? 's' : '';
+                                        @endphp
+
+                                        @if($m->progress == 'Open')
+                                            @if($running_days->d > 0)
+                                                {{$running_days->d.' day'.$s}}
+                                            @endif 
+                                        @endif
+                                    </td>
+                                    <td>
+                                        @if($m->job_level == 'Rank and File')
+                                            30 days
+                                        @elseif($m->job_level == 'Supervisory' || $m->job_level == 'Managerial')
+                                            60 days
+                                        @endif
+                                    </td>
+                                    <td>
+                                        @if($m->job_level == 'Rank and File')
+                                            <span class="badge bg-success">Easy</span>
+                                        @elseif($m->job_level == 'Supervisory' || $m->job_level == 'Managerial')
+                                            <span class="badge bg-danger">Critical</span>
+                                        @endif
+                                    </td>
+                                    <td>
+                                        {{$m->company->name}}
+                                    </td>
+                                    <td>
+                                        
+                                    </td>
+                                    <td>
+                                        {{$m->department->head->name}}
+                                    </td>
+                                    <td>
+                                        {{$m->department->name}}
+                                    </td>
+                                    <td>
+                                        {{$m->position_title}}
+                                    </td>
+                                    <td>
+                                        {!! nl2br($m->justification) !!}
+                                    </td>
+                                    <td>
+                                        @if(count($m->interviewer->where('status', 'Pending')) > 0)
+                                        <span class="badge bg-warning">For Interview</span>
+                                        @elseif($m->progress == 'Serve')
+                                        <span class="badge bg-success">Serve</span>
+                                        @else
+                                        <span class="badge bg-success">Sourcing</span>
+                                        @endif
+                                    </td>
+                                    <td>
+                                        {{$m->salary_range}}
+                                    </td>
+                                </tr>
+                            @endforeach
                         </tbody>
                     </table>
                 </div>
