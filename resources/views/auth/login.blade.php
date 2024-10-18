@@ -104,7 +104,7 @@
                         @endif
                         <div class="mb-4">
                             <h3>Welcome to Wee-Recruit</h3>
-                            <p class="mb-4">Grow With Us, Connect. Elevate. Disappear.</p>
+                            <p class="mb-4">Grow With Us.</p>
                         </div>
                         <form action="{{url('login')}}" method="post" onsubmit="show()">
                             @csrf
