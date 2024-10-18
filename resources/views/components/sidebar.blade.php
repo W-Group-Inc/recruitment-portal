@@ -129,6 +129,12 @@
                     <span>Document</span>
                 </a>
             </li>
+            <li class="side-nav-item">
+                <a href="{{url('job_description')}}" class="side-nav-link" onclick="show()">
+                    <i class="uil-briefcase-alt"></i>
+                    <span>Job Description</span>
+                </a>
+            </li>
             @endif
 
             @endif

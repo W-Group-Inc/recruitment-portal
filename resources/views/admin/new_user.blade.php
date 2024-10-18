@@ -44,6 +44,7 @@
                                 <option value="Chairman">Chairman</option>
                                 <option value="Human Resources">Human Resources</option>
                                 <option value="Department Head">Department Head</option>
+                                <option value="Head Business Unit">Head Business Unit</option>
                             </select>
                         </div>
                     </div>

@@ -44,6 +44,7 @@
                                 <option value="Chairman" @if($user->role == "Chairman") selected @endif>Chairman</option>
                                 <option value="Human Resources" @if($user->role == "Human Resources") selected @endif>Human Resources</option>
                                 <option value="Department Head" @if($user->role == "Department Head") selected @endif>Department Head</option>
+                                <option value="Head Business Unit" @if($user->role == "Head Business Unit") selected @endif>Head Business Unit</option>
                             </select>
                         </div>
                     </div>
