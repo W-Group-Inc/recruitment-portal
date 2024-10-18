@@ -130,9 +130,9 @@
                 </a>
             </li>
             <li class="side-nav-item">
-                <a href="{{url('job_description')}}" class="side-nav-link" onclick="show()">
+                <a href="{{url('job-position')}}" class="side-nav-link" onclick="show()">
                     <i class="uil-briefcase-alt"></i>
-                    <span>Job Description</span>
+                    <span>Job Position</span>
                 </a>
             </li>
             @endif
