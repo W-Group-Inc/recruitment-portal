@@ -44,7 +44,7 @@
                     <div class="row justify-content-center">
                         <div class="col-md-8">
                             <div class="mb-4">
-                                <h4>Welcome to <strong>{{env('APP_NAME', 'Laravel')}}</strong></h4>
+                                <h4>Welcome to <strong>{{env('APP_NAME', 'Wee Recruit')}}</strong></h4>
                                 {{-- <p class="mb-4">Lorem ipsum dolor sit amet elit. Sapiente sit aut eos consectetur
                                     adipisicing.</p> --}}
                             </div>
