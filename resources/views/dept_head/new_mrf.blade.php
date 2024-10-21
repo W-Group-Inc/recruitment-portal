@@ -16,7 +16,13 @@
                         </div> --}}
                         <div class="col-md-6 mb-1">
                             Position Title :
-                            <input type="text" name="position_title" class="form-control form-control-sm" required>
+                            {{-- <input type="text" name="position_title" class="form-control form-control-sm" required> --}}
+                            <select name="job_position" class="form-control cat" required>
+                                <option value="">Select Job Position</option>
+                                @foreach ($job_positions as $job_position)
+                                    <option value="{{$job_position->id}}">{{$job_position->position}}</option>
+                                @endforeach
+                            </select>
                         </div>
                         <div class="col-md-6 mb-1">
                             Department :
@@ -37,7 +43,7 @@
                         </div>
                         <div class="col-md-6 mb-1">
                             Target Date of On-boarding:
-                            <input type="date" name="target_date" class="form-control form-control-sm" required>
+                            <input type="date" name="target_date" class="form-control form-control-sm" min="{{date('Y-m-d')}}" max="{{date('Y-m-d', strtotime("+1 month"))}}" required>
                         </div>
                         <div class="col-md-6 mb-1">
                             Position Status :

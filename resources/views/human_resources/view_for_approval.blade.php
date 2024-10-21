@@ -33,7 +33,7 @@
                                         Position Title :
                                     </dt>
                                     <dd class="col-md-9">
-                                        {{$m->position_title}}
+                                        {{$m->jobPosition->position}}
                                     </dd>
                                 </dl>
                                 <dl class="row mb-0">
@@ -172,6 +172,7 @@
                                     </dd>
                                 </dl>
                             </div>
+                            @if($m->mrf_status == 'Pending')
                             <hr>
                             <div class="row">
                                 <div class="col-md-6">
@@ -188,12 +189,15 @@
                                     <textarea name="remarks" class="form-control form-control-sm" cols="30" rows="10"></textarea>
                                 </div>
                             </div>
+                            @endif
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-bs-dismiss="modal">Close</button>
+                    @if($m->mrf_status == 'Pending')
                     <button class="btn btn-success" type="submit">Save</button>
+                    @endif
                 </div>
             </form>
         </div><!-- /.modal-content -->

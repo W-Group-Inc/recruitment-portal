@@ -18,4 +18,8 @@ class ManPowerRequisitionForm extends Model
     {
         return $this->hasMany(Interviewer::class);
     }
+    public function jobPosition()
+    {
+        return $this->belongsTo(JobPosition::class);
+    }
 }

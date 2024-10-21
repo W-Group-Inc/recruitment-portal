@@ -7,7 +7,7 @@
 @section('content')
 
 <div class="row">
-    <h5 class="header-title">Man Power Requisition Form</h5>
+    <h5 class="header-title">Manpower Requisition Form</h5>
     <div class="col-12">
         <div class="card">
             <div class="card-body">
@@ -57,7 +57,7 @@
                                     </td>
                                     <td>{{date('M d, Y', strtotime($m->created_at))}}</td>
                                     <td>MRF-{{str_pad($m->mrf_no, 4, '0', STR_PAD_LEFT)}}</td>
-                                    <td>{{$m->position_title}}</td>
+                                    <td>{{$m->jobPosition->position}}</td>
                                     <td>{{$m->company->name}}</td>
                                     <td>{{$m->department->name}}</td>
                                     <td>
@@ -87,10 +87,14 @@
                                         <button type="button" class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#editProgress{{$m->id}}">
                                             <i class="dripicons-pencil"></i>
                                         </button>
+
+                                        <button type="button" class="btn btn-sm btn-info" data-bs-toggle="modal" data-bs-target="#view{{$m->id}}">
+                                            <i class="uil-eye"></i>
+                                        </button>
                                     </td>
                                     <td>{{date('M d, Y', strtotime($m->created_at))}}</td>
                                     <td>MRF-{{str_pad($m->mrf_no, 4, '0', STR_PAD_LEFT)}}</td>
-                                    <td>{{$m->position_title}}</td>
+                                    <td>{{$m->jobPosition->position}}</td>
                                     <td>{{$m->company->name}}</td>
                                     <td>{{$m->department->name}}</td>
                                     <td>
@@ -126,6 +130,7 @@
                                 </tr>
 
                                 @include('human_resources.edit_progress')
+                                @include('human_resources.view_for_approval')
                             @endforeach
                             @endif
                         </tbody>

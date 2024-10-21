@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Company;
 use App\Department;
 use App\Interviewer;
+use App\JobPosition;
 use App\ManPowerRequisitionForm;
 use App\User;
 use Barryvdh\DomPDF\PDF;
@@ -28,8 +29,9 @@ class ManPowerRequisitionFormController extends Controller
         $employment_status = $this->employmentStatus();
         $job_level = $this->jobLevel();
         $user = User::where('status', 'Active')->get();
+        $job_positions = JobPosition::where('department_id', auth()->user()->department_id)->get();
         
-        return view('dept_head.mrf', compact('mrf', 'departments', 'companies', 'employment_status', 'job_level', 'user'));
+        return view('dept_head.mrf', compact('mrf', 'departments', 'companies', 'employment_status', 'job_level', 'user', 'job_positions'));
     }
 
     // public function new()
@@ -74,7 +76,8 @@ class ManPowerRequisitionFormController extends Controller
         
         $mrf = new ManPowerRequisitionForm;
         $mrf->mrf_no = $mrfNo;
-        $mrf->position_title = $request->position_title;
+        // $mrf->position_title = $request->position_title;
+        $mrf->job_position_id = $request->job_position;
         $mrf->department_id = $request->department;
         $mrf->company_id = $request->company;
         $mrf->target_date = $request->target_date;
@@ -148,7 +151,8 @@ class ManPowerRequisitionFormController extends Controller
     {
         $mrf = ManPowerRequisitionForm::findOrFail($id);
         // $mrf->mrf_no = $mrfNo;
-        $mrf->position_title = $request->position_title;
+        // $mrf->position_title = $request->position_title;
+        $mrf->job_position_id = $request->job_position;
         $mrf->department_id = $request->department;
         $mrf->company_id = $request->company;
         $mrf->target_date = $request->target_date;

@@ -286,9 +286,9 @@
                 <td>
                     <table border='0' style='width:100%;font-size:9; margin-top:8;' cellspacing="0" cellpadding="0">
                         <tr>
-                            <td><input type="checkbox"> Plantilla</td>
-                            <td><input type="checkbox"> Job Description</td>
-                            <td><input type="checkbox"> Resigned</td>
+                            <td><input type="checkbox" @if($mrf->is_plantilla == 1) checked @endif> Plantilla</td>
+                            <td><input type="checkbox" @if($mrf->is_job_description == 1) checked @endif> Job Description</td>
+                            <td><input type="checkbox" @if($mrf->is_resignation_letter == 1) checked @endif> Resigned</td>
                         </tr>
                     </table>
                 </td>
@@ -309,25 +309,25 @@
             <tr>
                 <td width="150" class="mb-3">Work Experience (years)</td>
                 <td width="auto">
-                    <div style="border-bottom: .5px solid black; width:100%;">:</div>
+                    <div style="border-bottom: .5px solid black; width:100%;">:  {{$mrf->work_experience}}</div>
                 </td>
             </tr>
             <tr>
                 <td width="150" class="mb-3">Specific Field</td>
                 <td width="auto">
-                    <div style="border-bottom: .5px solid black; width:100%;">:</div>
+                    <div style="border-bottom: .5px solid black; width:100%;">: {{$mrf->specific_field}}</div>
                 </td>
             </tr>
             <tr>
                 <td width="150" class="mb-3">Special Skills</td>
                 <td width="auto">
-                    <div style="border-bottom: .5px solid black; width:100%;">:</div>
+                    <div style="border-bottom: .5px solid black; width:100%;">: {{$mrf->special_skills}}</div>
                 </td>
             </tr>
             <tr>
                 <td width="150" class="mb-3">Others</td>
                 <td width="auto">
-                    <div style="border-bottom: .5px solid black; width:100%;">:</div>
+                    <div style="border-bottom: .5px solid black; width:100%;">: {{$mrf->others}}</div>
                 </td>
             </tr>
         </table>
@@ -343,10 +343,10 @@
                     <table class="p-1" border='0' style='width:100%;font-size:9; margin-top:8;' cellspacing="0" cellpadding="0">
                         <tr>
                             <td>
-                                <input type="checkbox"> Probationary
+                                <input type="checkbox" @if($mrf->employment_status == 'Probationary') checked @endif> Probationary
                             </td>
                             <td>
-                                <input type="checkbox"> Contractual
+                                <input type="checkbox" @if($mrf->employment_status == 'Contractual') checked @endif> Contractual
                             </td>
                             <td>
                                 Employment Duration: _______________
@@ -366,13 +366,13 @@
             <tr>
                 <td width="150" class="mb-3"><p>Salary Rate / Range:</p></td>
                 <td width="auto">
-                    <div style="border-bottom: .5px solid black; width:100%;">:</div>
+                    <div style="border-bottom: .5px solid black; width:100%;">: {{$mrf->salary_range}}</div>
                 </td>
             </tr>
             <tr>
                 <td width="150" class="mb-3"><p>Other Remarks:</p></td>
                 <td width="auto">
-                    <div style="border-bottom: .5px solid black; width:100%;">:</div>
+                    <div style="border-bottom: .5px solid black; width:100%;">: {{$mrf->other_remarks}}</div>
                 </td>
             </tr>
         </table>

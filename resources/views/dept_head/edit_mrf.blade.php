@@ -12,7 +12,13 @@
                         <h2>Position</h2>
                         <div class="col-md-6">
                             Position Title :
-                            <input type="text" name="position_title" class="form-control form-control-sm" value="{{$m->position_title}}" required>
+                            {{-- <input type="text" name="position_title" class="form-control form-control-sm" value="{{$m->position_title}}" required> --}}
+                            <select name="job_position" class="form-control cat" required>
+                                <option value="">Select Job Position</option>
+                                @foreach ($job_positions as $job_position)
+                                    <option value="{{$job_position->id}}">{{$job_position->position}}</option>
+                                @endforeach
+                            </select>
                         </div>
                         <div class="col-md-6">
                             Department :
