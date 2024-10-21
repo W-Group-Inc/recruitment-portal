@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\ManPowerRequisitionForm;
+use App\MrfApprover;
 use App\Notifications\MrfNotification;
 use GuzzleHttp\Client;
 // use GuzzleHttp\Psr7\Request;
@@ -18,9 +19,10 @@ class ForApprovalController extends Controller
      */
     public function index()
     {
-        $mrf = ManPowerRequisitionForm::get();
+        // $mrf = ManPowerRequisitionForm::with('mrfApprovers')->get();
+        $mrf_approvers = MrfApprover::where('user_id', auth()->user()->id)->where('status', 'Pending')->get();
 
-        return view('human_resources.for_approval', compact('mrf'));
+        return view('human_resources.for_approval', compact('mrf_approvers'));
     }
 
     /**
@@ -75,15 +77,42 @@ class ForApprovalController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $mrf = ManPowerRequisitionForm::findOrFail($id);
-        $mrf->mrf_status = $request->action;
-        $mrf->approver_remarks = $request->remarks;
+        $mrf_approver = MrfApprover::findOrFail($id);
+        $mrf_approver->status = $request->action;
+        $mrf_approver->remarks = $request->remarks;
+        $mrf_approver->save();
 
+        $mrf = ManPowerRequisitionForm::findOrFail($mrf_approver->mrf->id);
+
+        $next_approver = MrfApprover::where('mrf_id', $mrf->id)->where('status', 'Waiting')->orderBy('level', 'asc')->get();
+        
         $message = "";
         if ($request->action == "Approved")
         {
+            if ($next_approver != null)
+            {
+                foreach($next_approver as $key=>$nextApprover)
+                {
+                    if ($key == 0)
+                    {
+                        $nextApprover->status = 'Pending';
+                    }
+                    else
+                    {
+                        $nextApprover->status = 'Waiting';
+                    }
+    
+                    $nextApprover->save();
+                }
+            }
+            else
+            {
+                $mrf->status = 'Approved';
+                $mrf->progress = 'Open';
+                $mrf->save();
+            }
+
             $message = "Successfully Saved";
-            $mrf->progress = 'Open';
         }
         elseif($request->action == "Returned")
         {
@@ -97,8 +126,8 @@ class ForApprovalController extends Controller
 
         $mrf->save();
 
-        $dept_head = $mrf->department->head;
-        $dept_head->notify(new MrfNotification($mrf, $request->action, $dept_head));
+        // $dept_head = $mrf->department->head;
+        // $dept_head->notify(new MrfNotification($mrf, $request->action, $dept_head));
 
         Alert::success($message)->persistent('Dismiss');
         return back();

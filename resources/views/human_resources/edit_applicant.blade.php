@@ -35,7 +35,8 @@
                             <select name="position" class="form-control cat">
                                 <option value="">Select Position</option>
                                 @foreach ($mrf as $m)
-                                    <option value="{{$m->id}}" @if($m->id == $applicant->man_power_requisition_form_id) selected @endif>{{$m->position_title}}</option>
+                                    {{-- <option value="{{$m->id}}" @if($m->id == $applicant->man_power_requisition_form_id) selected @endif>{{$m->position_title}}</option> --}}
+                                    <option value="{{$m->id}}" @if($m->id == $applicant->man_power_requisition_form_id) selected @endif>{{$m->jobPosition->position}}</option>
                                 @endforeach
                             </select>
                         </div>

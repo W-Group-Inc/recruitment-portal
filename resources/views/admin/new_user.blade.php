@@ -20,7 +20,7 @@
                         <div class="col-md-12">
                             Company :
                             {{-- <input type="text" name="name" class="form-control form-control-sm" required> --}}
-                            <select class="form-control select2" name="company" data-toggle="select2" required>
+                            <select class="form-control cat" name="company" required>
                                 <option value="">-Company-</option>
                                 @foreach ($company as $c)
                                     <option value="{{$c->id}}">{{$c->code .' - '.$c->name}}</option>
@@ -29,7 +29,7 @@
                         </div>
                         <div class="col-md-12">
                             Department :
-                            <select class="form-control select2" name="department" data-toggle="select2" required>
+                            <select class="form-control cat" name="department" required>
                                 <option value="">-Department-</option>
                                 @foreach ($department as $d)
                                     <option value="{{$d->id}}">{{$d->code .' - '.$d->name}}</option>
@@ -38,13 +38,14 @@
                         </div>
                         <div class="col-md-12">
                             Role :
-                            <select class="form-control select2" name="role" data-toggle="select2" required>
+                            <select class="form-control cat" name="role" required>
                                 <option value="">-Role-</option>
                                 <option value="Administrator">Administrator</option>
                                 <option value="Chairman">Chairman</option>
                                 <option value="Human Resources">Human Resources</option>
                                 <option value="Department Head">Department Head</option>
                                 <option value="Head Business Unit">Head Business Unit</option>
+                                <option value="Human Resources Manager">Human Resources Manager</option>
                             </select>
                         </div>
                     </div>

@@ -71,8 +71,8 @@ class ApplicantController extends Controller
         $applicant->firstname = $request->firstname;
         $applicant->middlename = $request->middlename;
         $applicant->email = $request->email;
-        $applicant->mobile_number = $request->mobile_number;
-        $applicant->man_power_requisition_form_id = $request->position;
+        // $applicant->mobile_number = $request->mobile_number;
+        // $applicant->man_power_requisition_form_id = $request->position;
         $applicant->applicant_status = 'Pending';
         
         $attachment = $request->file('resume');

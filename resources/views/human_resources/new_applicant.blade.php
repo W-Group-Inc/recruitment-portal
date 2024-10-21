@@ -35,7 +35,7 @@
                             <select name="position" class="form-control cat">
                                 <option value="">Select Position</option>
                                 @foreach ($mrf as $m)
-                                    <option value="{{$m->id}}">{{$m->position_title}}</option>
+                                    <option value="{{$m->id}}">{{$m->jobPosition->position}}</option>
                                 @endforeach
                             </select>
                         </div>

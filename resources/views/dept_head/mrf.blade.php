@@ -32,6 +32,7 @@
                                 <th>Position</th>
                                 <th>Company</th>
                                 <th>Department</th>
+                                <th>Approver Status</th>
                                 <th>Status</th>
                                 @if(auth()->user()->role == 'Human Resources')
                                 <th>Progress</th>
@@ -61,6 +62,22 @@
                                     <td>{{$m->company->name}}</td>
                                     <td>{{$m->department->name}}</td>
                                     <td>
+                                        @foreach ($m->mrfApprovers as $ma)
+                                            <small>{{$ma->user->name}} - 
+                                                @if($ma->status == 'Pending')
+                                                <span class="badge bg-warning"> 
+                                                @elseif($ma->status == 'Approved')
+                                                <span class="badge bg-success">
+                                                @else
+                                                <span class="badge bg-info">
+                                                @endif
+                                                    {{$ma->status}} 
+                                                </span> 
+                                                </small>
+                                                <br>
+                                        @endforeach
+                                    </td>
+                                    <td>
                                         @if($m->mrf_status == "Approved")
                                         <span class="badge bg-success">
                                         @elseif($m->mrf_status == "Pending")
@@ -80,7 +97,7 @@
                             @endforeach
                             @endif
 
-                            @if(auth()->user()->role == "Human Resources")
+                            @if(auth()->user()->role == "Human Resources" || auth()->user()->role == "Human Resources Manager")
                             @foreach ($mrf as $key=>$m)
                                 <tr>
                                     <td>
@@ -112,6 +129,22 @@
                                         </span>
                                     </td>
                                     <td>
+                                        @foreach ($m->mrfApprovers as $ma)
+                                            <small>{{$ma->user->name}} - 
+                                                @if($ma->status == 'Pending')
+                                                <span class="badge bg-warning"> 
+                                                @elseif($ma->status == 'Approved')
+                                                <span class="badge bg-success">
+                                                @else
+                                                <span class="badge bg-info">
+                                                @endif
+                                                    {{$ma->status}} 
+                                                </span> 
+                                            </small>
+                                            <br>
+                                        @endforeach
+                                    </td>
+                                    <td>
                                         @if($m->progress == "Open")
                                         <span class="badge bg-success">
                                         @elseif($m->progress == "Serve")
@@ -130,7 +163,7 @@
                                 </tr>
 
                                 @include('human_resources.edit_progress')
-                                @include('human_resources.view_for_approval')
+                                {{-- @include('human_resources.view_for_approval') --}}
                             @endforeach
                             @endif
                         </tbody>

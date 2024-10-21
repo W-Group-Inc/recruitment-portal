@@ -80,10 +80,10 @@
             </li>
             @endif
 
-            @if(auth()->user()->role == "Department Head" || auth()->user()->role == "Human Resources")
+            @if(auth()->user()->role == "Department Head" || auth()->user()->role == "Human Resources" || auth()->user()->role == "Human Resources Manager")
             <li class="side-nav-title side-nav-item">MRF</li>
 
-            @if(auth()->user()->role == "Human Resources")
+            @if(auth()->user()->role == "Human Resources" || auth()->user()->role == "Human Resources Manager")
             <li class="side-nav-item">
                 <a href="{{url('for-approval')}}" class="side-nav-link" onclick="show()">
                     <i class=" uil-clipboard-alt"></i>
@@ -97,7 +97,7 @@
                     @if(auth()->user()->role == "Department Head")
                     <i class="uil-file"></i>
                     <span> MRF</span>
-                    @elseif(auth()->user()->role == "Human Resources")
+                    @elseif(auth()->user()->role == "Human Resources" || auth()->user()->role == "Human Resources Manager")
                     <i class="uil-clock"></i>
                     <span> History MRF</span>
                     @endif
@@ -105,7 +105,7 @@
             </li>
             @endif
 
-            @if(auth()->user()->role == "Human Resources" || auth()->user()->role == "Department Head")
+            @if(auth()->user()->role == "Human Resources" || auth()->user()->role == "Department Head" || auth()->user()->role == "Human Resources Manager")
             <li class="side-nav-title side-nav-item">Applicant</li>
 
             <li class="side-nav-item">
@@ -122,7 +122,7 @@
                 </a>
             </li>
 
-            @if(auth()->user()->role == 'Human Resources')
+            @if(auth()->user()->role == 'Human Resources' || auth()->user()->role == "Human Resources Manager")
             <li class="side-nav-item">
                 <a href="{{url('document')}}" class="side-nav-link" onclick="show()">
                     <i class=" uil-file"></i>

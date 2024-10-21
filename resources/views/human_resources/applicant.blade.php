@@ -10,12 +10,12 @@
                 <div class="card-body">
                     @include('components.error')
                     
-                    @if(auth()->user()->role == "Human Resources")
+                    {{-- @if(auth()->user()->role == "Human Resources")
                     <button class="mb-3 btn btn-success btn-sm" type="button" data-bs-toggle="modal" data-bs-target="#add">
                         <i class="uil-plus"></i>
                         Add Applicant
                     </button>
-                    @endif
+                    @endif --}}
 
                     <div class="table-responsive">
                         <table id="alternative-page-datatable" class="table table-bordered table-hover">
@@ -129,7 +129,7 @@
         </div>
     </div>
 
-@include('human_resources.new_applicant')
+{{-- @include('human_resources.new_applicant') --}}
 @foreach ($applicants as $key=>$applicant)
 @include('dept_head.interviewer')
 @endforeach

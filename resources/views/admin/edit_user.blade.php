@@ -20,7 +20,7 @@
                         <div class="col-md-12">
                             Company :
                             {{-- <input type="text" name="name" class="form-control form-control-sm" required> --}}
-                            <select class="form-control select2" name="company" data-toggle="select2" required>
+                            <select class="form-control cat" name="company" required>
                                 <option value="">-Company-</option>
                                 @foreach ($company as $c)
                                     <option value="{{$c->id}}" @if($c->id == $user->company_id) selected @endif>{{$c->code .' - '.$c->name}}</option>
@@ -29,7 +29,7 @@
                         </div>
                         <div class="col-md-12">
                             Department :
-                            <select class="form-control select2" name="department" data-toggle="select2" required>
+                            <select class="form-control cat" name="department" required>
                                 <option value="">-Department-</option>
                                 @foreach ($department as $d)
                                     <option value="{{$d->id}}" @if($d->id == $user->department_id) selected @endif>{{$d->code .' - '.$d->name}}</option>
@@ -38,13 +38,14 @@
                         </div>
                         <div class="col-md-12">
                             Role :
-                            <select class="form-control select2" name="role" data-toggle="select2" required>
+                            <select class="form-control cat" name="role" required>
                                 <option value="">-Role-</option>
                                 <option value="Administrator" @if($user->role == "Administrator") selected @endif>Administrator</option>
                                 <option value="Chairman" @if($user->role == "Chairman") selected @endif>Chairman</option>
                                 <option value="Human Resources" @if($user->role == "Human Resources") selected @endif>Human Resources</option>
                                 <option value="Department Head" @if($user->role == "Department Head") selected @endif>Department Head</option>
                                 <option value="Head Business Unit" @if($user->role == "Head Business Unit") selected @endif>Head Business Unit</option>
+                                <option value="Human Resources Manager" @if($user->role == "Human Resources Manager") selected @endif>Human Resources Manager</option>
                             </select>
                         </div>
                     </div>

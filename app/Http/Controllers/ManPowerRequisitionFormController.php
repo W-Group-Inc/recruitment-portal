@@ -7,6 +7,7 @@ use App\Department;
 use App\Interviewer;
 use App\JobPosition;
 use App\ManPowerRequisitionForm;
+use App\MrfApprover;
 use App\User;
 use Barryvdh\DomPDF\PDF;
 use Illuminate\Database\Capsule\Manager;
@@ -29,7 +30,7 @@ class ManPowerRequisitionFormController extends Controller
         $employment_status = $this->employmentStatus();
         $job_level = $this->jobLevel();
         $user = User::where('status', 'Active')->get();
-        $job_positions = JobPosition::where('department_id', auth()->user()->department_id)->get();
+        $job_positions = JobPosition::where('department_id', auth()->user()->department_id)->where('status', null)->get();
         
         return view('dept_head.mrf', compact('mrf', 'departments', 'companies', 'employment_status', 'job_level', 'user', 'job_positions'));
     }
@@ -113,6 +114,28 @@ class ManPowerRequisitionFormController extends Controller
 
         $mrf->mrf_attachment = $file_name;
         $mrf->save();
+
+        $recruiter = collect($request->recruiter);
+        $approver = [23, 21];
+        $approvers = $recruiter->concat($approver);
+        
+        $mrf_approvers = MrfApprover::where('mrf_id', $mrf->id)->delete();
+        foreach($approvers as $key=>$value)
+        {
+            $mrf_approvers = new MrfApprover;
+            $mrf_approvers->user_id = $value;
+            $mrf_approvers->mrf_id = $mrf->id;
+            $mrf_approvers->level = $key+1;
+            if ($key == 0)
+            {
+                $mrf_approvers->status = "Pending";
+            }
+            else
+            {
+                $mrf_approvers->status = "Waiting";
+            }
+            $mrf_approvers->save();
+        }
 
         Alert::success('Successfully Saved')->persistent('Dismiss');
         return back();

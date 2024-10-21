@@ -48,7 +48,7 @@ class UserController extends Controller
         $user->company_id = $request->company;
         $user->department_id = $request->department;
         $user->role = $request->role;
-        $user->password = "wgroup123";
+        $user->password = bcrypt("wgroup123");
         $user->status = "Active";
         $user->save();
 

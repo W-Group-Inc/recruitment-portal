@@ -1,6 +1,7 @@
 @extends('layouts.app')
 @section('css')
-
+{{-- <link rel="stylesheet" href="{{asset('css/chosen.min.css')}}"> --}}
+<link rel="stylesheet" href="{{asset('css/component-chosen.css')}}">
 @endsection
 
 @section('content')
@@ -94,8 +95,11 @@
 
 @include('admin.new_user')
 @section('js')
+<script src="{{asset('js/chosen.jquery.min.js')}}"></script>
 <script>
 $(document).ready(function() {
+    $('.cat').chosen({width:"100%"})
+
     $('.deactivate').on('click', function() {
         Swal.fire({
             title: "Are you sure?",

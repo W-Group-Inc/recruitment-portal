@@ -17,8 +17,10 @@ Route::get('/', function () {
 
 Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');
 
-Auth::routes();
+Route::get('jobs', 'JobController@index');
+Route::get('view-jobs/{id}', 'JobController@show');
 
+Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home')->middleware('active_applicant_at');
 
 # User

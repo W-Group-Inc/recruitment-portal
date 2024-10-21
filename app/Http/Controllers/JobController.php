@@ -6,6 +6,7 @@ use App\Company;
 use App\Department;
 use Illuminate\Http\Request;
 use App\Job;
+use App\ManPowerRequisitionForm;
 
 class JobController extends Controller
 {
@@ -16,7 +17,9 @@ class JobController extends Controller
      */
     public function index()
     {
-        
+        $mrf = ManPowerRequisitionForm::with('jobPosition')->where('mrf_status', 'Approved')->where('progress', 'Open')->get();
+
+        return view('human_resources.job', compact('mrf'));
     }
 
     /**
@@ -49,7 +52,10 @@ class JobController extends Controller
      */
     public function show($id)
     {
-        //
+        $id = decrypt($id);
+        $mrf = ManPowerRequisitionForm::with('jobPosition')->findOrFail($id);
+        
+        return view('human_resources.view_job', compact('mrf'));
     }
 
     /**

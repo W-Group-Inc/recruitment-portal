@@ -22,4 +22,8 @@ class ManPowerRequisitionForm extends Model
     {
         return $this->belongsTo(JobPosition::class);
     }
+    public function mrfApprovers()
+    {
+        return $this->hasMany(MrfApprover::class,'mrf_id');
+    }
 }

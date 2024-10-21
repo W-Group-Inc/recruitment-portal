@@ -8,7 +8,7 @@
             <form method="POST" action="{{url('new-mrf')}}" onsubmit="show()" enctype="multipart/form-data">
                 @csrf 
                 <div class="modal-body">
-                    <h2>Position</h2>
+                    <h3>Position</h3>
                     <div class="row mb-3">
                         {{-- <div class="col-md-12">
                             <h5 class="header-title">I. Position</h5>
@@ -97,7 +97,7 @@
                     </div>
                     <hr>
                     <div class="row mb-3">
-                        <h2>Qualification</h2>
+                        <h3>Qualification</h3>
                         <div class="col-md-6 mb-1">
                             Educational Attainment (Degree) :
                             <input type="text" name="educational_attainment" class="form-control form-control-sm" required>
@@ -121,7 +121,7 @@
                     </div>
                     <hr>
                     <div class="row mb-3">
-                        <h2>Employment Details</h2>
+                        <h3>Employment Details</h3>
                         <div class="col-md-6 mb-1">
                             Employment Status :
                             <select class="form-control cat" name="employment_status" required>
@@ -147,6 +147,18 @@
                         <div class="col-md-6 mb-1">
                             Other Remarks :
                             <textarea name="other_remarks" class="form-control form-control-sm" cols="30" rows="10" required></textarea>
+                        </div>
+                        <hr>
+                        <h3>Assign Recruiter</h3>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <select name="recruiter" class="form-control form-control-sm cat" required>
+                                    <option value="">Select Recruiter</option>
+                                    @foreach ($user->where('role', 'Human Resources') as $recruiter)
+                                        <option value="{{$recruiter->id}}">{{$recruiter->name}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
                         </div>
                     </div>
                 </div>

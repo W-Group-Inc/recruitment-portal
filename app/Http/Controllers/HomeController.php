@@ -45,7 +45,7 @@ class HomeController extends Controller
             return view('home', compact('mrf'));
         }
 
-        if(auth()->user()->role == "Human Resources")
+        if(auth()->user()->role == "Human Resources" || auth()->user()->role == "Human Resources Manager")
         {
             $mrf = ManPowerRequisitionForm::get();
             $applicant = Applicant::get();

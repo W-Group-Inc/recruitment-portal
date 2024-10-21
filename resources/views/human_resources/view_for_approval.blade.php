@@ -5,7 +5,7 @@
                 <h5 class="modal-title" id="myLargeModalLabel">View MRF - ({{$m->mrf_status}})</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <form method="POST" action="{{url('mrf-action/'.$m->id)}}" onsubmit="show()">
+            <form method="POST" action="{{url('mrf-action/'.$approver->id)}}" onsubmit="show()">
                 @csrf 
                 <div class="modal-body">
                     {{-- <div class="row">
