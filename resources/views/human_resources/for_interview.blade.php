@@ -29,7 +29,7 @@
                                         {{$applicant->lastname.', '.$applicant->firstname.' '.$applicant->middlename}}
                                     </td>
                                     <td>
-                                        {{$applicant->mrf->position_title}}
+                                        {{$applicant->mrf->jobPosition->position}}
                                     </td>
                                     <td>
                                         @if($applicant->applicant_status == 'Passed')

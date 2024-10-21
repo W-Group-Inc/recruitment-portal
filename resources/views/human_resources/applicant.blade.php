@@ -26,7 +26,6 @@
                                     <th>Firstname</th>
                                     <th>Middlename</th>
                                     <th>Email</th>
-                                    <th>Mobile Number</th>
                                     <th>Position</th>
                                     <th>Interviewer</th>
                                     <th>Status</th>
@@ -43,11 +42,11 @@
                                             </a>    
                                             @endif
                                             
-                                            @if($applicant->applicant_status == "Pending")
+                                            {{-- @if($applicant->applicant_status == "Pending")
                                             <button type="button" class="btn btn-warning btn-sm" title="Edit" data-bs-toggle="modal" data-bs-target="#edit{{$applicant->id}}">
                                                 <i class="dripicons-pencil"></i>
                                             </button>
-                                            @endif
+                                            @endif --}}
                                             
                                             @if($applicant->applicant_status == "Pending")
                                             <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#interviewer{{$applicant->id}}">
@@ -59,8 +58,7 @@
                                         <td>{{$applicant->firstname}}</td>
                                         <td>{{$applicant->middlename}}</td>
                                         <td>{{$applicant->email}}</td>
-                                        <td>{{$applicant->mobile_number}}</td>
-                                        <td>{{$applicant->mrf->position_title}}</td>    
+                                        <td>{{$applicant->mrf->jobPosition->position}}</td>    
                                         <td>
                                             @foreach ($applicant->interviewers as $interviewer)
                                                 <small>{{$interviewer->level}} . {{$interviewer->user->name}} - {{$interviewer->status}}</small> <br>
@@ -97,8 +95,7 @@
                                         <td>{{$applicant->firstname}}</td>
                                         <td>{{$applicant->middlename}}</td>
                                         <td>{{$applicant->email}}</td>
-                                        <td>{{$applicant->mobile_number}}</td>
-                                        <td>{{$applicant->mrf->position_title}}</td>
+                                        <td>{{$applicant->mrf->jobPosition->position}}</td>    
                                         <td>
                                             @foreach ($applicant->interviewers as $interviewer)
                                                 <small>{{$interviewer->level}} . {{$interviewer->user->name}} - {{$interviewer->status}}</small> <br>

@@ -36,7 +36,7 @@ class ApplicantController extends Controller
     {
         $applicants = Applicant::get();
         $interviewers = User::where('status', 'Active')->get();
-        $mrf = ManPowerRequisitionForm::where('is_close', null)->where('mrf_status', 'Approved')->where('progress', 'Open')->get();
+        $mrf = ManPowerRequisitionForm::where('mrf_status', 'Approved')->where('progress', 'Open')->get();
         if (auth()->user()->role == "Department Head")
         {
             $applicants = Applicant::whereHas('mrf', function($q) {
@@ -72,7 +72,7 @@ class ApplicantController extends Controller
         $applicant->middlename = $request->middlename;
         $applicant->email = $request->email;
         // $applicant->mobile_number = $request->mobile_number;
-        // $applicant->man_power_requisition_form_id = $request->position;
+        $applicant->man_power_requisition_form_id = $request->mrf_id;
         $applicant->applicant_status = 'Pending';
         
         $attachment = $request->file('resume');
@@ -81,9 +81,8 @@ class ApplicantController extends Controller
 
         $applicant->resume = '/resume/'.$name;
         $applicant->save();
-
-        Alert::success('Successfully Saved')->persistent('Dismiss');
-        return back();
+        
+        return back()->with('success', 'Thank you for your submission. Please wait to hear from our talent acquisition team regarding your status.');
     }
 
     /**
