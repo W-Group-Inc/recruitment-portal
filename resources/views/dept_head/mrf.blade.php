@@ -165,7 +165,7 @@
                                 </tr>
 
                                 @include('human_resources.edit_progress')
-                                {{-- @include('human_resources.view_for_approval') --}}
+                                @include('human_resources.view_mrf')
                             @endforeach
                             @endif
                         </tbody>
