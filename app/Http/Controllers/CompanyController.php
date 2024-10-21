@@ -46,6 +46,7 @@ class CompanyController extends Controller
         $company->code = $request->code;
         $company->name = $request->name;
         $company->status = "Active";
+        $company->address = $request->address;
         $company->save();
 
         Alert::success('Successfully Saved')->persistent('Dismiss');
@@ -90,6 +91,7 @@ class CompanyController extends Controller
         $company = Company::findOrFail($id);
         $company->code = $request->code;
         $company->name = $request->name;
+        $company->address = $request->address;
         $company->save();
 
         Alert::success('Successfully Updated')->persistent('Dismiss');
