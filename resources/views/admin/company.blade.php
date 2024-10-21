@@ -26,6 +26,7 @@
                                 <th>Actions</th>
                                 <th>Code</th>
                                 <th>Name</th>
+                                <th>Address</th>
                                 <th>Status</th>
                             </tr>
                         </thead>
@@ -57,6 +58,9 @@
                                     </td>
                                     <td>{{$company->code}}</td>
                                     <td>{{$company->name}}</td>
+                                    <td>
+                                        <small>{{$company->address}}</small>
+                                    </td>
                                     <td>
                                         @if($company->status == "Active")
                                         <span class="badge bg-success">

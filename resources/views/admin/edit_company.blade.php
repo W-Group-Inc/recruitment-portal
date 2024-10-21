@@ -17,6 +17,10 @@
                             Name :
                             <input type="text" name="name" class="form-control form-control-sm" value="{{$company->name}}" required>
                         </div>
+                        <div class="col-md-12">
+                            Address :
+                            <textarea name="address" class="form-control" cols="30" rows="10" required>{{$company->address}}</textarea>
+                        </div>
                     </div>
                 </div>
                 <div class="modal-footer">
