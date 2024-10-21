@@ -180,7 +180,7 @@
                                     <select name="action" class="form-control form-control-sm cat">
                                         <option value="">-Select </option>
                                         <option value="Approved">Approve</option>
-                                        <option value="Returned">Return</option>
+                                        {{-- <option value="Returned">Return</option> --}}
                                         <option value="Rejected">Reject</option>
                                     </select>
                                 </div>

@@ -105,6 +105,7 @@ class ManPowerRequisitionFormController extends Controller
         $mrf->job_level = $request->job_level;
         $mrf->salary_range = $request->salary_rate;
         $mrf->other_remarks = $request->other_remarks;
+        $mrf->recruiter_id = $request->recruiter;
         $mrf->mrf_status = "Pending";
         
         $attachment = $request->file('mrf_attachment');

@@ -135,6 +135,8 @@
                                                 <span class="badge bg-warning"> 
                                                 @elseif($ma->status == 'Approved')
                                                 <span class="badge bg-success">
+                                                @elseif($ma->status == 'Rejected')
+                                                <span class="badge bg-danger">
                                                 @else
                                                 <span class="badge bg-info">
                                                 @endif

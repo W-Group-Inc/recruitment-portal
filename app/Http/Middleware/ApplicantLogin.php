@@ -25,7 +25,11 @@ class ApplicantLogin
             }
 
             return redirect('/applicants');
-        } 
+        }
+        elseif(auth()->check() && auth()->user()->role == 'Head Business Unit') 
+        {
+            return redirect('/for-approval');
+        }
         
         return $next($request);
     }

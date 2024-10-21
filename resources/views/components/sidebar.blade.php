@@ -25,7 +25,7 @@
         <!--- Sidemenu -->
         <ul class="side-nav">
 
-            @if(auth()->user()->role != 'Applicant')
+            @if(auth()->user()->role != 'Applicant' && auth()->user()->role != 'Head Business Unit')
             <li class="side-nav-title side-nav-item">Home</li>
 
             <li class="side-nav-item">
@@ -80,10 +80,10 @@
             </li>
             @endif
 
-            @if(auth()->user()->role == "Department Head" || auth()->user()->role == "Human Resources" || auth()->user()->role == "Human Resources Manager")
+            @if(auth()->user()->role == "Department Head" || auth()->user()->role == "Human Resources" || auth()->user()->role == "Human Resources Manager" || auth()->user()->role == "Head Business Unit")
             <li class="side-nav-title side-nav-item">MRF</li>
-
-            @if(auth()->user()->role == "Human Resources" || auth()->user()->role == "Human Resources Manager")
+            
+            @if(auth()->user()->role == "Human Resources" || auth()->user()->role == "Human Resources Manager" || auth()->user()->role == "Head Business Unit") 
             <li class="side-nav-item">
                 <a href="{{url('for-approval')}}" class="side-nav-link" onclick="show()">
                     <i class=" uil-clipboard-alt"></i>

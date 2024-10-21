@@ -89,7 +89,7 @@ class ForApprovalController extends Controller
         $message = "";
         if ($request->action == "Approved")
         {
-            if ($next_approver != null)
+            if ($next_approver->isNotEmpty())
             {
                 foreach($next_approver as $key=>$nextApprover)
                 {
@@ -107,24 +107,33 @@ class ForApprovalController extends Controller
             }
             else
             {
-                $mrf->status = 'Approved';
+                $mrf->mrf_status = 'Approved';
                 $mrf->progress = 'Open';
                 $mrf->save();
             }
 
             $message = "Successfully Saved";
         }
-        elseif($request->action == "Returned")
-        {
-            $message = "Successfully Returned";
-        }
+        // elseif($request->action == "Returned")
+        // {
+        //     $message = "Successfully Returned";
+        // }
         elseif($request->action == "Rejected")
         {
-            $message = "Successfully Rejected";
+            foreach($next_approver as $key=>$nextApprover)
+            {
+                $nextApprover->status = "Rejected";
+                $nextApprover->save();
+            }
+
+            $mrf->status = 'Rejected';
             $mrf->progress = 'Rejected';
+            $mrf->save();
+
+            $message = "Successfully Rejected";
+            // $mrf->progress = 'Rejected';
         }
 
-        $mrf->save();
 
         // $dept_head = $mrf->department->head;
         // $dept_head->notify(new MrfNotification($mrf, $request->action, $dept_head));
