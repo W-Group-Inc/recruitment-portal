@@ -88,3 +88,6 @@ Route::post('update-document/{id}', 'DocumentController@update');
 # Job Description
 Route::get('job-position', 'JobPositionController@index');
 Route::post('new-job-position', 'JobPositionController@store');
+Route::post('update-job-position/{id}', 'JobPositionController@update');
+Route::post('deactivate-job-position/{id}', 'JobPositionController@deactivate');
+Route::post('activate-job-position/{id}', 'JobPositionController@activate');

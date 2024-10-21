@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Company;
 use App\Department;
+use App\Job;
 use App\JobPosition;
 use Illuminate\Http\Request;
 use RealRashid\SweetAlert\Facades\Alert;
@@ -87,7 +88,18 @@ class JobPositionController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $job_position = JobPosition::findOrFail($id);
+        $job_position->company_id = $request->company;
+        $job_position->department_id = $request->department;
+        $job_position->position = $request->position;
+        $job_position->position_summary = $request->position_summary;
+        $job_position->duties_and_responsibility = $request->duties_and_responsibility;
+        $job_position->approval_authority = $request->approval_authority;
+        $job_position->minimum_requirements = $request->minimum_requirements;
+        $job_position->save();
+
+        Alert::success('Successfully Updated')->persistent('Dismiss');
+        return back();
     }
 
     /**
@@ -99,5 +111,25 @@ class JobPositionController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function deactivate($id)
+    {
+        $job_position = JobPosition::findOrFail($id);
+        $job_position->status = 'Inactive';
+        $job_position->save();
+
+        Alert::success('Successfully Deactivated')->persistent('Dismiss');
+        return back();
+    }
+
+    public function activate($id)
+    {
+        $job_position = JobPosition::findOrFail($id);
+        $job_position->status = null;
+        $job_position->save();
+
+        Alert::success('Successfully Activate')->persistent('Dismiss');
+        return back();
     }
 }
