@@ -1,9 +1,21 @@
 @extends('layouts.app')
+@section('css')
+{{-- <link rel="stylesheet" href="{{asset('css/chosen.min.css')}}"> --}}
+<link rel="stylesheet" href="{{asset('css/component-chosen.css')}}">
+@endsection
 
 @section('content')
     <div class="col-lg-12">
         <div class="card">
             <div class="card-body">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <a class="btn btn-sm btn-danger mb-2" href="{{url('view-applicant/'.$applicant->id)}}">
+                            <i class="dripicons-arrow-thin-left"></i>
+                            Back
+                        </a>
+                    </div>
+                </div>
                 <dl class="row mb-0">
                     <dt class="col-md-1">
                         <p class="mb-0">MRF No.</p>
@@ -17,7 +29,7 @@
                         <p class="mb-0">Applicant Name</p>
                     </dt>
                     <dd class="col-md-9">
-                        <p class="mb-0">{{$applicant->name}}</p>
+                        <p class="mb-0">{{$applicant->lastname.' '.$applicant->firstname.' '.$applicant->middlename}}</p>
                     </dd>
                 </dl>
                 <hr class="mt-0 mb-2">
@@ -47,48 +59,74 @@
                         </div>
                     </div> --}}
 
-                    @if(auth()->user()->role == 'Human Resources')
+                    @if(auth()->user()->role == 'Human Resources' || auth()->user()->role == 'Human Resources Manager')
                     <h4 class="header-title">HBU ASSESSMENT</h4>
                     <div class="row">
                         <div class="col-lg-6 mb-2">
                             Interviewer's Assessment
-                            <textarea name="interview_assessment" class="form-control" cols="30" rows="10">{!! nl2br(optional($applicant->interviewAssessment)->interview_assessment) !!}</textarea>
+                            <textarea name="interview_assessment" class="form-control" cols="30" rows="10" required>{{optional($applicant->interviewAssessment)->interview_assessment}}</textarea>
                         </div>
                     </div>
     
                     <h4 class="header-title">FOR COMPENSATION PURPOSES ONLY</h4>
                     <div class="row">
                         <div class="col-lg-6 mb-2">
-                            Salary Scale :
-                            <input type="text" name="salary_scale" class="form-control" value="{{optional($applicant->interviewAssessment)->salary_scale}}">
+                            <p class="mt-2 mb-0">Salary Scale</p>
+                            {{-- <input type="text" name="salary_scale" class="form-control" value="{{optional($applicant->interviewAssessment)->salary_scale}}" required> --}}
+                            <select name="salary_scale" class="form-control cat" required>
+                                <option value="">Select salary scale</option>
+                                <option value="2" @if(optional($applicant->interviewAssessment)->salary_scale == 2) selected @endif>2</option>
+                                <option value="3" @if(optional($applicant->interviewAssessment)->salary_scale == 3) selected @endif>3</option>
+                                <option value="4" @if(optional($applicant->interviewAssessment)->salary_scale == 4) selected @endif>4</option>
+                                <option value="5" @if(optional($applicant->interviewAssessment)->salary_scale == 5) selected @endif>5</option>
+                                <option value="6" @if(optional($applicant->interviewAssessment)->salary_scale == 6) selected @endif>6</option>
+                                <option value="7" @if(optional($applicant->interviewAssessment)->salary_scale == 7) selected @endif>7</option>
+                                <option value="8" @if(optional($applicant->interviewAssessment)->salary_scale == 8) selected @endif>8</option>
+                                <option value="9" @if(optional($applicant->interviewAssessment)->salary_scale == 9) selected @endif>9</option>
+                                <option value="10"@if(optional($applicant->interviewAssessment)->salary_scale == 10) selected @endif>10</option>
+                            </select>
                         </div>
                         <div class="col-lg-6 mb-2">
-                            Salary Peers :
-                            <input type="text" name="salary_peers" class="form-control" value="{{optional($applicant->interviewAssessment)->salary_peers}}">
+                            Salary Peers 
+                            <button type="button" class="btn btn-sm btn-success" id="addSalaryPeers"><i class="uil-plus"></i></button> 
+                            <button type="button" class="btn btn-sm btn-danger" id="removeSalaryPeers"><i class="uil-minus"></i></button>
+                            <div class="row" id="salaryPeersContainer">
+                                @if(count($applicant->interviewAssessment->salaryPeers) > 0)
+                                    @foreach ($applicant->interviewAssessment->salaryPeers as $salary_peers)
+                                        <div class="col-lg-12 mb-2">
+                                            <input type="text" name="salary_peers[]" class="form-control" value="{{$salary_peers->salary_peers}}" required>
+                                        </div>
+                                    @endforeach
+                                @else
+                                <div class="col-lg-12 mb-2">
+                                    <input type="text" name="salary_peers[]" class="form-control" required>
+                                </div>
+                                @endif
+                            </div>
                         </div>
                         <div class="col-lg-6 mb-2">
-                            Current Salary :
-                            <input type="text" name="current_salary" class="form-control" value="{{optional($applicant->interviewAssessment)->current_salary}}">
+                            Current Salary
+                            <input type="text" name="current_salary" class="form-control" value="{{optional($applicant->interviewAssessment)->current_salary}}" required>
                         </div>
                         <div class="col-lg-6 mb-2">
-                            Expected Salary :
-                            <input type="text" name="expected_salary" class="form-control" value="{{optional($applicant->interviewAssessment)->expected_salary}}">
+                            Expected Salary
+                            <input type="text" name="expected_salary" class="form-control" value="{{optional($applicant->interviewAssessment)->expected_salary}}" required>
                         </div>
                         <div class="col-lg-6 mb-2">
-                            Recommendation by Human Resources :
-                            <input type="text" name="recommendation_by_human_resources" class="form-control" value="{{optional($applicant->interviewAssessment)->recommendation_by_human_resources}}">
+                            Recommendation by Human Resources
+                            <input type="text" name="recommendation_by_human_resources" class="form-control" value="{{optional($applicant->interviewAssessment)->recommendation_by_human_resources}}" required>
                         </div>
                         <div class="col-lg-6 mb-2">
-                            Recommendation by Vice President / CEO / President :
-                            <input type="text" name="recommendation_hbu" class="form-control" value="{{optional($applicant->interviewAssessment)->recommendation_hbu}}">
+                            Recommendation by Vice President / CEO / President
+                            <input type="text" name="recommendation_hbu" class="form-control" value="{{optional($applicant->interviewAssessment)->recommendation_hbu}}" required>
                         </div>
                         <div class="col-lg-6 mb-2">
-                            Negotiated Amount :
-                            <input type="text" name="negotiated_amount" class="form-control" value="{{optional($applicant->interviewAssessment)->negotiated_amount}}">
+                            Negotiated Amount
+                            <input type="text" name="negotiated_amount" class="form-control" value="{{optional($applicant->interviewAssessment)->negotiated_amount}}" required>
                         </div>
                         <div class="col-lg-6 mb-2">
-                            Remarks :
-                            <input type="text" name="remarks" class="form-control" value="{{optional($applicant->interviewAssessment)->remarks}}">
+                            Remarks
+                            <input type="text" name="remarks" class="form-control" value="{{optional($applicant->interviewAssessment)->remarks}}" required>
                         </div>
                     </div>
 
@@ -311,11 +349,34 @@
                         
                         <div class="col-lg-6 mb-2">
                             Strengths
-                            <textarea name="hr_strengths" class="form-control" cols="30" rows="10">{!! nl2br(optional($applicant->interviewAssessment)->hr_strengths) !!}</textarea>
+                            <textarea name="hr_strengths" class="form-control" cols="30" rows="10">{{optional($applicant->interviewAssessment)->hr_strengths}}</textarea>
                         </div>
                         <div class="col-lg-6 mb-2">
                             Areas of Improvements
-                            <textarea name="hr_areas_of_improvements" class="form-control" cols="30" rows="10">{!! nl2br(optional($applicant->interviewAssessment)->hr_areas_of_improvements) !!}</textarea>
+                            <textarea name="hr_areas_of_improvements" class="form-control" cols="30" rows="10">{{optional($applicant->interviewAssessment)->hr_areas_of_improvements}}</textarea>
+                        </div>
+                        <div class="col-lg-12 mb-2">
+                            <b>Recommendation</b>
+                            <div class="row">
+                                <div class="col-lg-2">
+                                    <div class="form-check">
+                                        <input type="radio" class="form-check-input" name="hr_recommendation" value="1" @if(optional($applicant->interviewAssessment)->hr_recommendation == 1) checked @endif>
+                                        <label class="ms-1">For further interview</label>
+                                    </div>
+                                </div>
+                                <div class="col-lg-2">
+                                    <div class="form-check">
+                                        <input type="radio" name="hr_recommendation" class="form-check-input" value="2" @if(optional($applicant->interviewAssessment)->hr_recommendation == 2) checked @endif>
+                                        <label class="ms-1">Not qualified</label>
+                                    </div>
+                                </div>
+                                <div class="col-lg-2">
+                                    <div class="form-check">
+                                        <input type="radio" name="hr_recommendation" class="form-check-input" value="3" @if(optional($applicant->interviewAssessment)->hr_recommendation == 3) checked @endif>
+                                        <label class="ms-1">For waiting list</label>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
 
                         {{-- <h5>IMMEDIATE SUPERIOR ASSESSMENT</h5>
@@ -477,4 +538,30 @@
             </div>
         </div>
     </div>
+@endsection
+
+@section('js')
+<script src="{{asset('js/chosen.jquery.min.js')}}"></script>
+<script>
+    $(document).ready(function() {
+        $('.cat').chosen({width:"100%"})
+
+        $('#addSalaryPeers').on('click', function() {
+            var newRow = `
+                <div class="col-lg-12 mb-2">
+                    <input type="text" name="salary_peers[]" class="form-control" required>
+                </div>
+            `
+
+            $('#salaryPeersContainer').append(newRow)
+        })
+
+        $("#removeSalaryPeers").on('click', function() {
+            if($("#salaryPeersContainer").children().length > 1)
+            {
+                $("#salaryPeersContainer").children().last().remove()
+            }
+        })
+    })
+</script>
 @endsection

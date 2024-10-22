@@ -35,7 +35,7 @@
                 <div class="text-start mt-3">
                     <p class="text-muted mb-2 font-13"><strong>Position Applied :</strong> <span class="ms-2">{{$applicant->mrf->position_title}}</span></p>
                     <p class="text-muted mb-2 font-13"><strong>Email:</strong> <span class="ms-2">{{$applicant->email}}</span></p>
-                    <p class="text-muted mb-2 font-13"><strong>Mobile :</strong><span class="ms-2">{{$applicant->mobile_number}}</span></p>
+                    {{-- <p class="text-muted mb-2 font-13"><strong>Mobile :</strong><span class="ms-2">{{$applicant->mobile_number}}</span></p> --}}
                     <p class="text-muted mb-2 font-13"><strong>Status :</strong>
                         @if($applicant->applicant_status == "Pending")
                         <span class="ms-2 badge bg-warning">{{$applicant->applicant_status}}</span>
@@ -46,7 +46,7 @@
                         @endif
                     </span></p>
                     <p class="text-muted mb-2 font-13"><strong>Date Applied :</strong><span class="ms-2">{{date('M d, Y', strtotime($applicant->created_at))}}</span></p>
-                    <p class="text-muted mb-2 font-13"><strong>Resume</strong><span class="ms-2"><a href="{{url($applicant->resume)}}"><i class="uil-file"></i></a></span></p>
+                    <p class="text-muted mb-2 font-13"><strong>Resume</strong><span class="ms-2"><a href="{{url($applicant->resume)}}"  target="_blank"><i class="uil-file"></i></a></span></p>
                 </div>
             </div> <!-- end card-body -->
         </div> <!-- end card -->

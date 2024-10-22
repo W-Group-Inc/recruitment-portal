@@ -182,10 +182,6 @@ class ApplicantController extends Controller
         // dd($request->all(), $id);
         $applicant = Applicant::with('mrf.department.head', 'mrf.interviewer')->findOrFail($id);
 
-        $mrf = ManPowerRequisitionForm::findOrFail($applicant->mrf->id);
-        $mrf->progress = 'Serve';
-        $mrf->save();
-
         if ($request->action == "passed")
         {
             $interviewer = Interviewer::findOrFail($request->interviewer_id);
@@ -238,25 +234,21 @@ class ApplicantController extends Controller
                     }
                 }
 
-                $password = Str::random(8);
-                $name = $applicant->firstname.' '.$applicant->middlename.' '.$applicant->lastname;
+                // $password = Str::random(8);
+                // $name = $applicant->firstname.' '.$applicant->middlename.' '.$applicant->lastname;
 
-                $user = new User;
-                $user->name = $name;
-                $user->email = $applicant->email;
-                $user->password = bcrypt($password);
-                $user->status = 'Active';
-                $user->role = 'Applicant';
-                $user->department_id = $applicant->mrf->department_id;
-                $user->company_id = $applicant->mrf->company_id;
-                $user->applicant_id = $applicant->id;
-                $user->save();
+                // $user = new User;
+                // $user->name = $name;
+                // $user->email = $applicant->email;
+                // $user->password = bcrypt($password);
+                // $user->status = 'Active';
+                // $user->role = 'Applicant';
+                // $user->department_id = $applicant->mrf->department_id;
+                // $user->company_id = $applicant->mrf->company_id;
+                // $user->applicant_id = $applicant->id;
+                // $user->save();
 
-                $applicant->notify(new ApplicantCredentialsNotification($user, $applicant, $password));
-
-                $mrf = ManPowerRequisitionForm::where('id', $applicant->man_power_requisition_form_id)->first();
-                $mrf->is_close = 1;
-                $mrf->save();
+                // $applicant->notify(new ApplicantCredentialsNotification($user, $applicant, $password));
             }
 
             if (auth()->user()->role == 'Human Resources')
@@ -270,7 +262,7 @@ class ApplicantController extends Controller
             $history = new HistoryApplicant;
             $history->applicant_id = $applicant->id;
             $history->status = $interviewer->status;
-            $history->position = $applicant->mrf->position_title;
+            $history->position = $applicant->mrf->jobPosition->position;
             $history->date_applied = date('Y-m-d', strtotime($applicant->created_at));
             $history->user_id = $interviewer->user_id;
             $history->save();

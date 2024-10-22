@@ -100,13 +100,16 @@
     
     <div class="page-break">
 
-        <table cellpadding='0' cellspacing='0' style="width:100%; padding:0; margin-top:105;" border="1">
+        <table cellpadding='0' cellspacing='0' style="width:100%; padding:0; margin-top:105; table-layout:fixed;" border="1">
             <tr>
                 <td width="90">
                     <p class="mb-0 ml-1">Name:</p>
                 </td>
                 <td width="190">
-                    <p class="mb-0 ml-1">{{$interview_assessment->applicant->name}}</p>
+                    @php
+                        $applicant = $interview_assessment->applicant;
+                    @endphp
+                    <p class="mb-0 ml-1">{{$applicant->lastname.' '.$applicant->firstname.' '.$applicant->middlename}}</p>
                 </td>
                 <td>
                     <p class="mb-0 ml-1">Date Interviewed:</p>
@@ -120,7 +123,7 @@
                     <p class="mb-0 ml-1">Position Applied For:</p>
                 </td>
                 <td>
-                    <p class="mb-0 ml-1">{{$interview_assessment->applicant->mrf->position_title}}</p>
+                    <p class="mb-0 ml-1">{{$interview_assessment->applicant->mrf->jobPosition->position}}</p>
                 </td>
                 <td>
                     <p class="mb-0 ml-1">Department:</p>
@@ -211,7 +214,11 @@
             </tr>
             <tr>
                 <td colspan="2">
-                    <p class="mb-0 ml-1"><strong>Salary Peers:</strong> {{$interview_assessment->salary_peers}}</p>
+                    @php
+                        $salary_peers_list = $interview_assessment->salaryPeers->pluck('salary_peers')->toArray();
+                        $salary_peers = implode(" ", $salary_peers_list);
+                    @endphp
+                    <p class="mb-0 ml-1"><strong>Salary Peers:</strong> {{$salary_peers}}</p>
                 </td>
             </tr>
             <tr>
@@ -509,17 +516,17 @@
             </tr>
             <tr>
                 <td>
-                    <div class="shade-box ml-1 d-inline-block" style="background-color:black;"></div>
+                    <div class="shade-box ml-1 d-inline-block" @if($interview_assessment->hr_recommendation == 1) style="background-color:black;" @endif></div>
                     <p class="mb-0 d-inline" style="vertical-align: middle;">For further interview</p>
                 </td>
                 <td>
-                    <div class="shade-box ml-1 d-inline-block"></div>
+                    <div class="shade-box ml-1 d-inline-block" @if($interview_assessment->hr_recommendation == 3) style="background-color:black;" @endif></div>
                     <p class="mb-0 d-inline" style="vertical-align: middle;">For waiting list</p>
                 </td>
             </tr>
             <tr>
                 <td colspan="2">
-                    <div class="shade-box ml-1 d-inline-block"></div>
+                    <div class="shade-box ml-1 d-inline-block" @if($interview_assessment->hr_recommendation == 2) style="background-color:black;" @endif></div>
                     <p class="mb-0 d-inline" style="vertical-align: middle;">Not qualified, (please specify reason)</p>
                 </td>
             </tr>
@@ -640,17 +647,17 @@
             </tr>
             <tr>
                 <td>
-                    <div class="shade-box ml-1 d-inline-block" style="background-color:black;"></div>
+                    <div class="shade-box ml-1 d-inline-block" @if($interview_assessment->sup_recommendation == 1) style="background-color:black;" @endif></div>
                     <p class="mb-0 d-inline" style="vertical-align: middle;">For further interview</p>
                 </td>
                 <td>
-                    <div class="shade-box ml-1 d-inline-block"></div>
+                    <div class="shade-box ml-1 d-inline-block" @if($interview_assessment->sup_recommendation == 3) style="background-color:black;" @endif></div>
                     <p class="mb-0 d-inline" style="vertical-align: middle;">For waiting list</p>
                 </td>
             </tr>
             <tr>
                 <td colspan="2">
-                    <div class="shade-box ml-1 d-inline-block"></div>
+                    <div class="shade-box ml-1 d-inline-block" @if($interview_assessment->sup_recommendation == 2) style="background-color:black;" @endif></div>
                     <p class="mb-0 d-inline" style="vertical-align: middle;">Not qualified, (please specify reason)</p>
                 </td>
             </tr>
@@ -771,17 +778,17 @@
             </tr>
             <tr>
                 <td>
-                    <div class="shade-box ml-1 d-inline-block" style="background-color:black;"></div>
+                    <div class="shade-box ml-1 d-inline-block" @if($interview_assessment->head_recommendation == 1) style="background-color:black;" @endif></div>
                     <p class="mb-0 d-inline" style="vertical-align: middle;">For further interview</p>
                 </td>
                 <td>
-                    <div class="shade-box ml-1 d-inline-block"></div>
+                    <div class="shade-box ml-1 d-inline-block" @if($interview_assessment->head_recommendation == 3) style="background-color:black;" @endif></div>
                     <p class="mb-0 d-inline" style="vertical-align: middle;">For waiting list</p>
                 </td>
             </tr>
             <tr>
                 <td colspan="2">
-                    <div class="shade-box ml-1 d-inline-block"></div>
+                    <div class="shade-box ml-1 d-inline-block" @if($interview_assessment->head_recommendation == 2) style="background-color:black;" @endif></div>
                     <p class="mb-0 d-inline" style="vertical-align: middle;">Not qualified, (please specify reason)</p>
                 </td>
             </tr>

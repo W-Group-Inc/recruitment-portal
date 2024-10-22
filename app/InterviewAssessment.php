@@ -10,4 +10,8 @@ class InterviewAssessment extends Model
     {
         return $this->belongsTo(Applicant::class);
     }
+    public function salaryPeers()
+    {
+        return $this->hasMany(SalaryPeers::class);
+    }
 }

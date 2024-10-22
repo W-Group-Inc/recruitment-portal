@@ -7,7 +7,7 @@
 @section('content')
 
 <div class="row">
-    <h5 class="header-title">Man Power Requisition Form</h5>
+    <h5 class="header-title">Manpower Requisition Form</h5>
     <div class="col-12">
         <div class="card">
             <div class="card-body">
