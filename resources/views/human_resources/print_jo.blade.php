@@ -211,7 +211,10 @@
                 </td>
                 <td>:</td>
                 <td>
-                    <p style="font-size: 9"><strong>{{strtoupper($applicant->name)}}</strong></p>
+                    @php
+                        $full_name = $applicant->firstname.' '.$applicant->middlename.' '.$applicant->lastname;
+                    @endphp
+                    <p style="font-size: 9"><strong>{{strtoupper($full_name)}}</strong></p>
                     <p style="font-size: 9">Quezon City</p>
                 </td>
             </tr>
@@ -227,7 +230,7 @@
         </table>
         <hr class="mb-2">
         <p style="font-size: 9;" class="mb-2">Dear <strong>Mr. / Ms.</strong>
-            <span style="border-bottom: .5px solid black; width: 50%; padding-top: 2px; font-size:9">{{$applicant->name}}</span> ,
+            <span style="border-bottom: .5px solid black; width: 50%; padding-top: 2px; font-size:9">{{$applicant->lastname}}</span> ,
         </p>
         <p style="font-size:9; text-indent: 20;">
             We are pleased to offer you employment with our company. We trust that your knowledge, skills and experience will help
@@ -241,7 +244,7 @@
                     <p style="font-size: 9;">I. Designation </p>
                 </td>
                 <td>
-                    <p style="font-size: 9">{{$applicant->mrf->position_title}}</p>
+                    <p style="font-size: 9">{{$applicant->mrf->jobPosition->position}}</p>
                 </td>
             </tr>
             <tr>
@@ -257,7 +260,7 @@
                     <p style="font-size: 9;">III. Place of Work </p>
                 </td>
                 <td>
-                    <p style="font-size: 9">Sample Place of Work</p>
+                    <p style="font-size: 9">{{$applicant->mrf->department->company->address}}</p>
                 </td>
             </tr>
             <tr>
@@ -273,7 +276,7 @@
                     <p style="font-size: 9;">V. Immediate Head </p>
                 </td>
                 <td>
-                    <p style="font-size: 9">{{$applicant->mrf->department->head->name}}</p>
+                    <p style="font-size: 9">{{$applicant->jobOffer->immediate_head}}</p>
                 </td>
             </tr>
             <tr>
@@ -281,7 +284,12 @@
                     <p style="font-size: 9;">VI. Work Schedule </p>
                 </td>
                 <td>
-                    <p style="font-size: 9">Sample Work Schedule</p>
+                    @php
+                        $work_schedule = explode(" ",$applicant->jobOffer->work_schedule);
+                        $time_in = date('g:i A', strtotime($work_schedule[0]));
+                        $time_out = date('g:i A', strtotime($work_schedule[2]));
+                    @endphp
+                    <p style="font-size: 9">{{$time_in.' - '.$time_out}}</p>
                 </td>
             </tr>
             <tr>
@@ -289,7 +297,7 @@
                     <p style="font-size: 9;">VII. Compensation </p>
                 </td>
                 <td>
-                    <p style="font-size: 9">Sample Compensation</p>
+                    <p style="font-size: 9">{{$applicant->jobOffer->compensation}}</p>
                 </td>
             </tr>
             <tr>
@@ -302,7 +310,7 @@
                     </p>
                 </td>
                 <td>
-                    <p style="font-size: 9">Sample Sample</p>
+                    <p style="font-size: 9"><small>{{$applicant->jobOffer->upon_regularization}}</small></p>
                 </td>
             </tr>
             <tr>
@@ -310,9 +318,19 @@
                     <p style="font-size: 9;">IX. Start Date </p>
                 </td>
                 <td>
-                    <p style="font-size: 9">Sample Start Date</p>
+                    <p style="font-size: 9">{{date('F d, Y', strtotime($applicant->jobOffer->start_date))}}</p>
                 </td>
             </tr>
+            @if($applicant->jobOffer->others != null)
+            <tr>
+                <td>
+                    <p style="font-size: 9;">Others </p>
+                </td>
+                <td>
+                    <p style="font-size: 9">{{$applicant->jobOffer->others}}</p>
+                </td>
+            </tr>
+            @endif
         </table>
         <p style="font-size: 9" class="mt-2">
             Also, please note that this formal job offer is contingent / conditional based on your result on the following:
@@ -386,7 +404,7 @@
                 </td>
                 <td width="33.33%" class="text-center p-1">
                     <div class="mt-4">
-                        <p style="font-size: 9" class="text-center">{{strtoupper($applicant->name)}}</p>
+                        <p style="font-size: 9" class="text-center">{{strtoupper($applicant->firstname.' '.$applicant->middlename.' '.$applicant->lastname)}}</p>
                         <p style="text-align: center; border-top: 1px solid black; margin: 0 auto; width: 80%; padding-top: 2px;">
                             <b>Employee</b> <br>
                             <span>(Signature over Printed Name/Date)</span>

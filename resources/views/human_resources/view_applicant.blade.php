@@ -1,4 +1,8 @@
 @extends('layouts.app')
+@section('css')
+{{-- <link rel="stylesheet" href="{{asset('css/chosen.min.css')}}"> --}}
+<link rel="stylesheet" href="{{asset('css/component-chosen.css')}}">
+@endsection
 
 @section('content')
 <div class="row">
@@ -24,7 +28,8 @@
                 @endforeach
                 
                 @if(auth()->user()->role == 'Human Resources')
-                <a href="{{url('print-jo/'.$applicant->id)}}" type="button" class="btn btn-primary btn-sm mb-2" target="_blank">Job Offer</a>
+                {{-- <a href="{{url('print-jo/'.$applicant->id)}}" type="button" class="btn btn-primary btn-sm mb-2" target="_blank">Job Offer</a> --}}
+                <button type="button" class="btn btn-sm btn-primary mb-2" data-bs-toggle="modal" data-bs-target="#jobOffer{{$applicant->id}}">Job Offer</button>
 
                 <button type="button" class="btn btn-secondary btn-sm mb-2" data-bs-toggle="modal" data-bs-target="#schedule">Schedule Interview</button>
                 @endif
@@ -217,20 +222,23 @@
         </div> <!-- end card -->
     </div> <!-- end col -->
 </div>
-@include('human_resources.schedule_interview')vv
-
+@include('human_resources.schedule_interview')
+@include('human_resources.job_offer')
 @foreach ($applicant->mrf->interviewer->where('status', 'Pending')->where('user_id', auth()->user()->id)->where('applicant_id', $applicant->id) as $i)
 @include('human_resources.failed_applicant')
 @endforeach
 
 @section('js')
+    <script src="{{asset('js/chosen.jquery.min.js')}}"></script>
     <script>
-        $('.tables').DataTable({
-            ordering: false,
-            paginate: false
-        })
-
         $(document).ready(function() {
+            $('.cat').chosen({width:"100%"})
+            
+            $('.tables').DataTable({
+                ordering: false,
+                paginate: false
+            })
+
             $('.passedBtn').on('click', function() {
                 Swal.fire({
                     title: "Are you sure?",

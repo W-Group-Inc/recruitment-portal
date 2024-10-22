@@ -93,3 +93,6 @@ Route::post('new-job-position', 'JobPositionController@store');
 Route::post('update-job-position/{id}', 'JobPositionController@update');
 Route::post('deactivate-job-position/{id}', 'JobPositionController@deactivate');
 Route::post('activate-job-position/{id}', 'JobPositionController@activate');
+
+# Job Offer
+Route::post('add-job-offer', 'JobOfferController@store');

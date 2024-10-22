@@ -173,7 +173,7 @@ class ApplicantController extends Controller
         $data['applicant'] = $applicant;
 
         $pdf = App::make('dompdf.wrapper');
-        $pdf->loadView('human_resources.print_jo', $data)->setPaper('a4', 'portrait');
+        $pdf->loadView('human_resources.print_jo', $data)->setPaper('legal', 'portrait');
         return $pdf->stream();
     }
 
