@@ -156,13 +156,16 @@ class InterviewAssessmentController extends Controller
         $interview_assessment->head_recommendation = $request->head_recommendation;
         $interview_assessment->save();
 
-        $salary_peers = SalaryPeers::where('interview_assessment_id', $interview_assessment->id)->delete();
-        foreach($request->salary_peers as $value)
+        if ($request->has('salary_peers'))
         {
-            $salary_peers = new SalaryPeers;
-            $salary_peers->interview_assessment_id = $interview_assessment->id;
-            $salary_peers->salary_peers = $value;
-            $salary_peers->save();
+            $salary_peers = SalaryPeers::where('interview_assessment_id', $interview_assessment->id)->delete();
+            foreach($request->salary_peers as $value)
+            {
+                $salary_peers = new SalaryPeers;
+                $salary_peers->interview_assessment_id = $interview_assessment->id;
+                $salary_peers->salary_peers = $value;
+                $salary_peers->save();
+            }
         }
 
         Alert::success('Successfully Updated')->persistent('Dismiss');

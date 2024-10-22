@@ -524,6 +524,29 @@
                                     Areas for Improvement
                                     <textarea name="head_areas_for_improvement" class="form-control" cols="30" rows="10" required>{!! nl2br(optional($applicant->interviewAssessment)->head_areas_for_improvement) !!}</textarea>
                                 </div>
+                                <div class="col-lg-12 mb-2">
+                                    <b>Recommendation</b>
+                                    <div class="row">
+                                        <div class="col-lg-2">
+                                            <div class="form-check">
+                                                <input type="radio" class="form-check-input" name="head_recommendation" value="1" @if(optional($applicant->interviewAssessment)->head_recommendation == 1) checked @endif>
+                                                <label class="ms-1">For further interview</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-2">
+                                            <div class="form-check">
+                                                <input type="radio" name="head_recommendation" class="form-check-input" value="2" @if(optional($applicant->interviewAssessment)->head_recommendation == 2) checked @endif>
+                                                <label class="ms-1">Not qualified</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-2">
+                                            <div class="form-check">
+                                                <input type="radio" name="head_recommendation" class="form-check-input" value="3" @if(optional($applicant->interviewAssessment)->head_recommendation == 3) checked @endif>
+                                                <label class="ms-1">For waiting list</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div> 
