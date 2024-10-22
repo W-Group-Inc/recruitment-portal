@@ -87,9 +87,9 @@
                                 @foreach ($applicants as $applicant)
                                     <tr>
                                         <td>
-                                            {{-- <a href="{{url('view-applicant/'.$applicant->id)}}" class="btn btn-sm btn-info" target="_blank">
+                                            <a href="{{url('view-applicant/'.$applicant->id)}}" class="btn btn-sm btn-info" target="_blank">
                                                 <i class="uil-eye"></i>
-                                            </a> --}}
+                                            </a>
                                         </td>
                                         <td>{{$applicant->lastname}}</td>
                                         <td>{{$applicant->firstname}}</td>
