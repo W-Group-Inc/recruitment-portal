@@ -6,7 +6,7 @@
             <img src="{{asset('img/wgroup1.png')}}" alt="" height="100">
         </span>
         <span class="logo-sm">
-            <img src="{{asset('img/wgroup1.png')}}" alt="" height="16">
+            <img src="{{asset('img/wgroup1.png')}}" alt="" height="45">
         </span>
     </a>
     <hr class="bg-white mt-3">
