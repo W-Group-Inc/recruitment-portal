@@ -18,4 +18,8 @@ class JobApplication extends Model
     {
         return $this->belongsTo(Company::class);
     }
+    public function workExperience()
+    {
+        return $this->hasMany(WorkExperience::class);
+    }
 }

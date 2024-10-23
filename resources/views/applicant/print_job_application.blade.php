@@ -230,7 +230,7 @@
                 </td>
                 <td style="border: 2px solid black; vertical-align:top;">
                     <p style="font-size:8;"><small>MINIMUM EXPECTED SALARY</small></p>
-                    <p class="mb-0 text-center" style="font-size:9;">{{number_format($job_application->minimum_expected_salary)}} PHP</p>
+                    <p class="mb-0 text-center" style="font-size:9;">{{$job_application->minimum_expected_salary}} PHP</p>
                 </td>
                 <td style="border: 2px solid black; vertical-align:top;">
                     <p style="font-size:8;"><small>DATE AVAILABLE FOR EMPLOYMENT</small></p>

@@ -25,42 +25,42 @@
 
                         <ul class="nav nav-pills nav-justified form-wizard-header mb-3">
                             <li class="nav-item">
-                                <a href="#source"  data-toggle="tab"
+                                <a href="#source" data-bs-toggle="tab" data-toggle="tab"
                                     class="nav-link rounded-0 pt-2 pb-2">
                                     {{-- <i class="mdi mdi-account-circle me-1"></i> --}}
                                     <span class="d-none d-sm-inline">Source & Position Applied</span>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="#personal_data"  data-toggle="tab"
+                                <a href="#personal_data" data-bs-toggle="tab" data-toggle="tab"
                                     class="nav-link rounded-0 pt-2 pb-2">
                                     {{-- <i class="mdi mdi-face-profile me-1"></i> --}}
                                     <span class="d-none d-sm-inline">Personal Data</span>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="#familyBackground"  data-toggle="tab"
+                                <a href="#familyBackground" data-bs-toggle="tab" data-toggle="tab"
                                     class="nav-link rounded-0 pt-2 pb-2">
                                     {{-- <i class="mdi mdi-checkbox-marked-circle-outline me-1"></i> --}}
                                     <span class="d-none d-sm-inline">Family Background</span>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="#educationalBackground"  data-toggle="tab"
+                                <a href="#educationalBackground" data-bs-toggle="tab" data-toggle="tab"
                                     class="nav-link rounded-0 pt-2 pb-2">
                                     {{-- <i class="mdi mdi-checkbox-marked-circle-outline me-1"></i> --}}
                                     <span class="d-none d-sm-inline">Educational Background</span>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="#examination"  data-toggle="tab"
+                                <a href="#examination" data-bs-toggle="tab" data-toggle="tab"
                                     class="nav-link rounded-0 pt-2 pb-2">
                                     {{-- <i class="mdi mdi-checkbox-marked-circle-outline me-1"></i> --}}
                                     <span class="d-none d-sm-inline">Examination Undertaken</span>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="#workExperience"  data-toggle="tab"
+                                <a href="#workExperience" data-bs-toggle="tab" data-toggle="tab"
                                     class="nav-link rounded-0 pt-2 pb-2">
                                     {{-- <i class="mdi mdi-checkbox-marked-circle-outline me-1"></i> --}}
                                     <span class="d-none d-sm-inline">Work Experiences</span>
@@ -98,7 +98,7 @@
                                     @if(optional($applicant->jobApplication)->source == 5)
                                     <div class="col-lg-3 col-md-12 mb-2">
                                         Application
-                                        <input type="text" name="application" class="form-control form-control-sm required" placeholder="Example: Jobstreet, Indeed, Social Media etc.">
+                                        <input type="text" name="application" class="form-control form-control-sm required" value="{{optional($applicant->jobApplication)->application}}" placeholder="Example: Jobstreet, Indeed, Social Media etc.">
                                     </div>
                                     @elseif(optional($applicant->jobApplication)->source == 6)
                                     <div class="col-lg-3 col-md-12 mb-2">
@@ -108,11 +108,11 @@
                                     @endif
                                     <div class="col-lg-3 col-md-12">
                                         Position
-                                        <input type="text" name="position" class="form-control form-control-sm" value="{{auth()->user()->applicant->mrf->position_title}}" readonly>
+                                        <input type="text" name="position" class="form-control form-control-sm" value="{{auth()->user()->applicant->mrf->jobPosition->position}}" readonly>
                                     </div> 
                                     <div class="col-lg-3 col-md-12 mb-2">
                                         Minimum Expected Salary
-                                        <input type="number" name="minimum_expected_salary" class="form-control form-control-sm required" value="{{optional($applicant->jobApplication)->minimum_expected_salary}}">
+                                        <input type="text" name="minimum_expected_salary" class="form-control form-control-sm required" value="{{optional($applicant->jobApplication)->minimum_expected_salary}}">
                                     </div> 
                                     <div class="col-lg-3 col-md-12 mb-2">
                                         Date Available for Employment
@@ -144,7 +144,14 @@
                                     </div>
                                     <div class="col-lg-3 col-md-12 mb-2">
                                         Civil Status
-                                        <input type="text" name="civil_status" class="form-control form-control-sm required" value="{{optional($applicant->jobApplication)->civil_status}}">
+                                        {{-- <input type="text" name="civil_status" class="form-control form-control-sm required" value="{{optional($applicant->jobApplication)->civil_status}}"> --}}
+                                        <select name="civil_status" class="form-control form-control-sm required" >
+                                            <option value="">Select civil status</option>
+                                            <option value="Single" @if(optional($applicant->jobApplication)->civil_status == "Single") selected @endif>Single</option>
+                                            <option value="Married" @if(optional($applicant->jobApplication)->civil_status == "Married") selected @endif>Married</option>
+                                            <option value="Widow" @if(optional($applicant->jobApplication)->civil_status == "Widow") selected @endif>Widow</option>
+                                            <option value="Divorced" @if(optional($applicant->jobApplication)->civil_status == "Divorced") selected @endif>Divorced</option>
+                                        </select>
                                     </div>
                                     <div class="col-lg-3 col-md-12 mb-2">
                                         Age
@@ -215,7 +222,7 @@
                                 </div> 
                             </div>
 
-                            <div class="tab-pane wizard-pane" id="familyBackground">
+                            <div class="tab-pane wizard-pane" id="familyBackground" data-simplebar>
                                 <div class="row">
                                     <div class="col-lg-12 col-md-12 mb-2">
                                         <h5 class="header-title">Father Information</h5>
@@ -287,6 +294,25 @@
                                                         </div>
                                                     </div>
                                                     @endforeach
+                                                @else
+                                                    <div class="row mb-2" id="sibling_1">
+                                                        <div class="col-lg-3">
+                                                            Name
+                                                            <input type="text" name="sibling_name[]" class="form-control form-control-sm">
+                                                        </div>
+                                                        <div class="col-lg-3">
+                                                            Occupation
+                                                            <input type="text" name="sibling_occupation[]" class="form-control form-control-sm">
+                                                        </div>
+                                                        <div class="col-lg-3">
+                                                            Company Location
+                                                            <input type="text" name="sibling_company_location[]" class="form-control form-control-sm">
+                                                        </div>
+                                                        <div class="col-lg-3">
+                                                            Contact No
+                                                            <input type="text" name="sibling_contact_no[]" class="form-control form-control-sm">
+                                                        </div>
+                                                    </div>
                                                 @endif
                                             @else
                                                 <div class="row mb-2" id="sibling_1">
@@ -364,6 +390,25 @@
                                                         </div> 
                                                     </div>
                                                     @endforeach
+                                                @else
+                                                <div class="row mb-2" id="children_1">
+                                                    <div class="col-lg-3 col-md-12 mb-2">
+                                                        Name
+                                                        <input type="text" name="children_name[]" class="form-control form-control-sm">
+                                                    </div> 
+                                                    <div class="col-lg-3 col-md-12 mb-2">
+                                                        Occupation
+                                                        <input type="text" name="children_occupation[]" class="form-control form-control-sm">
+                                                    </div> 
+                                                    <div class="col-lg-3 col-md-12 mb-2">
+                                                        Company Location
+                                                        <input type="text" name="children_company_location[]" class="form-control form-control-sm">
+                                                    </div> 
+                                                    <div class="col-lg-3 col-md-12 mb-2">
+                                                        Contact No
+                                                        <input type="text" name="children_contact_no[]" class="form-control form-control-sm">
+                                                    </div> 
+                                                </div>
                                                 @endif
                                             @else 
                                             <div class="row mb-2" id="children_1">
@@ -413,7 +458,7 @@
                                     </div> 
                                     <div class="col-lg-3 col-md-12 mb-2">
                                         Degree/Honors/Award/ Recognitions Received
-                                        <textarea type="text" name="college_awards" class="form-control form-control-sm required">{!! nl2br(optional($applicant->jobApplication)->college_awards) !!}</textarea>
+                                        <textarea type="text" name="college_awards" class="form-control form-control-sm required">{{optional($applicant->jobApplication)->college_awards}}</textarea>
                                     </div> 
                                     <div class="col-lg-12 col-md-12 mb-2">
                                         <h5 class="header-title">High School</h5>
@@ -436,7 +481,7 @@
                                     </div> 
                                     <div class="col-lg-3 col-md-12 mb-2">
                                         Degree/Honors/Awrd/ Recognitions Received
-                                        <textarea type="text" name="hs_awards" class="form-control form-control-sm required">{!! nl2br(optional($applicant->jobApplication)->hs_awards) !!}</textarea>
+                                        <textarea type="text" name="hs_awards" class="form-control form-control-sm required">{{optional($applicant->jobApplication)->hs_awards}}</textarea>
                                     </div> 
                                     <div class="col-lg-12 col-md-12 mb-2">
                                         <h5 class="header-title">Others</h5> 
@@ -447,19 +492,19 @@
                                     </div>  --}}
                                     <div class="col-lg-3 col-md-12 mb-2">
                                         School Name
-                                        <input type="text" name="others_school_name" class="form-control form-control-sm required" value="{{optional($applicant->jobApplication)->others_school_name}}">
+                                        <input type="text" name="others_school_name" class="form-control form-control-sm" value="{{optional($applicant->jobApplication)->others_school_name}}">
                                     </div> 
                                     <div class="col-lg-3 col-md-12 mb-2">
                                         School Address
-                                        <input type="text" name="others_school_address" class="form-control form-control-sm required" value="{{optional($applicant->jobApplication)->others_school_address}}">
+                                        <input type="text" name="others_school_address" class="form-control form-control-sm" value="{{optional($applicant->jobApplication)->others_school_address}}">
                                     </div> 
                                     <div class="col-lg-3 col-md-12 mb-2">
                                         Year attended <i>(From - To)</i>
-                                        <input type="text" name="others_year_attended" class="form-control form-control-sm required" value="{{optional($applicant->jobApplication)->others_year_attended}}">
+                                        <input type="text" name="others_year_attended" class="form-control form-control-sm" value="{{optional($applicant->jobApplication)->others_year_attended}}">
                                     </div> 
                                     <div class="col-lg-3 col-md-12 mb-2">
-                                        Degree/Honors/Awrd/ Recognitions Received
-                                        <textarea type="text" name="others_awards" class="form-control form-control-sm required">{!!nl2br(optional($applicant->jobApplication)->others_awards)!!}</textarea>
+                                        Degree/Honors/Award/ Recognitions Received
+                                        <textarea type="text" name="others_awards" class="form-control form-control-sm">{{optional($applicant->jobApplication)->others_awards}}</textarea>
                                     </div> 
                                 </div> 
                             </div>
@@ -485,39 +530,118 @@
                                 </div> 
                             </div>
 
-                            <div class="tab-pane" id="workExperience">
+                            <div class="tab-pane wizard-pane" id="workExperience" data-simplebar>
                                 <div class="row">
                                     <div class="col-lg-12 col-md-12 mb-2">
-                                        <h5 class="header-title">Work Experiences</h5>
-                                    </div> 
-                                    <div class="col-lg-3 col-md-12 mb-2">
-                                        Name of Company
-                                        <input type="text" name="company_name" class="form-control form-control-sm required" value="{{optional($applicant->jobApplication)->name_of_company}}">
-                                    </div> 
-                                    <div class="col-lg-3 col-md-12 mb-2">
-                                        Address of Company
-                                        <input type="text" name="company_address" class="form-control form-control-sm required" value="{{optional($applicant->jobApplication)->address_of_company}}">
-                                    </div> 
-                                    <div class="col-lg-3 col-md-12 mb-2">
-                                        Position
-                                        <input type="text" name="last_position" class="form-control form-control-sm required" value="{{optional($applicant->jobApplication)->last_position}}">
-                                    </div> 
-                                    <div class="col-lg-3 col-md-12 mb-2">
-                                        Employment Period
-                                        <input type="text" name="employment_period" class="form-control form-control-sm required" value="{{optional($applicant->jobApplication)->employment_period}}">
-                                    </div> 
-                                    <div class="col-lg-3 col-md-12 mb-2">
-                                        Company Industry
-                                        <input type="text" name="company_industry" class="form-control form-control-sm required" value="{{optional($applicant->jobApplication)->company_industry}}">
-                                    </div> 
-                                    <div class="col-lg-3 col-md-12 mb-2">
-                                        Reason for leaving
-                                        <textarea name="reason_for_leaving" class="form-control form-control-sm required" cols="30" rows="10">{!! nl2br(optional($applicant->jobApplication)->reason_for_leaving) !!}</textarea>
-                                    </div> 
-                                    <div class="col-lg-3 col-md-12 mb-2">
-                                        Last Salary
-                                        <input type="text" name="last_salary" class="form-control form-control-sm required" value="{{optional($applicant->jobApplication)->last_salary}}" >
-                                    </div> 
+                                        <h5 class="header-title">Work Experiences
+                                            <button type="button" class="btn btn-sm btn-success" id="addWorkExp">
+                                                <i class="uil-plus"></i>
+                                            </button>
+                                            <button type="button" class="btn btn-sm btn-danger" id="removeWorkExp">
+                                                <i class="uil-minus"></i>
+                                            </button>
+                                        </h5>
+                                    </div>
+                                    <div id="workExpContainer">
+                                        @if($applicant->jobApplication != null)
+                                            @if(count($applicant->jobApplication->workExperience) > 0)
+                                                @foreach ($applicant->jobApplication->workExperience as $work_exp)
+                                                <div class="row">
+                                                    <div class="col-lg-3 col-md-12 mb-2">
+                                                        Name of Company
+                                                        <input type="text" name="company_name[]" class="form-control form-control-sm required" value="{{$work_exp->name_of_company}}">
+                                                    </div> 
+                                                    <div class="col-lg-3 col-md-12 mb-2">
+                                                        Address of Company
+                                                        <input type="text" name="company_address[]" class="form-control form-control-sm required" value="{{$work_exp->address_of_company}}">
+                                                    </div> 
+                                                    <div class="col-lg-3 col-md-12 mb-2">
+                                                        Position
+                                                        <input type="text" name="last_position[]" class="form-control form-control-sm required" value="{{$work_exp->position}}">
+                                                    </div> 
+                                                    <div class="col-lg-3 col-md-12 mb-2">
+                                                        Employment Period
+                                                        <input type="text" name="employment_period[]" class="form-control form-control-sm required" value="{{$work_exp->employment_period}}">
+                                                    </div> 
+                                                    <div class="col-lg-3 col-md-12 mb-2">
+                                                        Company Industry
+                                                        <input type="text" name="company_industry[]" class="form-control form-control-sm required"value="{{$work_exp->company_industry}}">
+                                                    </div> 
+                                                    <div class="col-lg-3 col-md-12 mb-2">
+                                                        Reason for leaving
+                                                        <textarea name="reason_for_leaving[]" class="form-control form-control-sm required" cols="30" rows="10">{{$work_exp->reason_for_leaving}}</textarea>
+                                                    </div> 
+                                                    <div class="col-lg-3 col-md-12 mb-2">
+                                                        Last Salary
+                                                        <input type="text" name="last_salary[]" class="form-control form-control-sm required" value="{{$work_exp->last_salary}}">
+                                                    </div> 
+                                                </div>
+                                                @endforeach
+                                            @else
+                                                <div class="row">
+                                                    <div class="col-lg-3 col-md-12 mb-2">
+                                                        Name of Company
+                                                        <input type="text" name="company_name[]" class="form-control form-control-sm required" >
+                                                    </div> 
+                                                    <div class="col-lg-3 col-md-12 mb-2">
+                                                        Address of Company
+                                                        <input type="text" name="company_address[]" class="form-control form-control-sm required" >
+                                                    </div> 
+                                                    <div class="col-lg-3 col-md-12 mb-2">
+                                                        Position
+                                                        <input type="text" name="last_position[]" class="form-control form-control-sm required" >
+                                                    </div> 
+                                                    <div class="col-lg-3 col-md-12 mb-2">
+                                                        Employment Period
+                                                        <input type="text" name="employment_period[]" class="form-control form-control-sm required" >
+                                                    </div> 
+                                                    <div class="col-lg-3 col-md-12 mb-2">
+                                                        Company Industry
+                                                        <input type="text" name="company_industry[]" class="form-control form-control-sm required">
+                                                    </div> 
+                                                    <div class="col-lg-3 col-md-12 mb-2">
+                                                        Reason for leaving
+                                                        <textarea name="reason_for_leaving[]" class="form-control form-control-sm required" cols="30" rows="10"></textarea>
+                                                    </div> 
+                                                    <div class="col-lg-3 col-md-12 mb-2">
+                                                        Last Salary
+                                                        <input type="text" name="last_salary[]" class="form-control form-control-sm required" >
+                                                    </div> 
+                                                </div>
+                                            @endif
+                                        @else
+                                            <div class="row">
+                                                <div class="col-lg-3 col-md-12 mb-2">
+                                                    Name of Company
+                                                    <input type="text" name="company_name[]" class="form-control form-control-sm required" >
+                                                </div> 
+                                                <div class="col-lg-3 col-md-12 mb-2">
+                                                    Address of Company
+                                                    <input type="text" name="company_address[]" class="form-control form-control-sm required" >
+                                                </div> 
+                                                <div class="col-lg-3 col-md-12 mb-2">
+                                                    Position
+                                                    <input type="text" name="last_position[]" class="form-control form-control-sm required" >
+                                                </div> 
+                                                <div class="col-lg-3 col-md-12 mb-2">
+                                                    Employment Period
+                                                    <input type="text" name="employment_period[]" class="form-control form-control-sm required" >
+                                                </div> 
+                                                <div class="col-lg-3 col-md-12 mb-2">
+                                                    Company Industry
+                                                    <input type="text" name="company_industry[]" class="form-control form-control-sm required">
+                                                </div> 
+                                                <div class="col-lg-3 col-md-12 mb-2">
+                                                    Reason for leaving
+                                                    <textarea name="reason_for_leaving[]" class="form-control form-control-sm required" cols="30" rows="10"></textarea>
+                                                </div> 
+                                                <div class="col-lg-3 col-md-12 mb-2">
+                                                    Last Salary
+                                                    <input type="text" name="last_salary[]" class="form-control form-control-sm required" >
+                                                </div> 
+                                            </div>
+                                        @endif
+                                    </div>
                                 </div> 
                             </div>
 
@@ -709,6 +833,50 @@
             
             if ($('.children-container').children().length > 1) {
                 $('.children-container').children().last().remove()
+            }
+        })
+
+        $("#addWorkExp").on('click', function() {
+            var newRow = `
+                <div class="row">
+                    <div class="col-lg-3 col-md-12 mb-2">
+                        Name of Company
+                        <input type="text" name="company_name[]" class="form-control form-control-sm required" >
+                    </div> 
+                    <div class="col-lg-3 col-md-12 mb-2">
+                        Address of Company
+                        <input type="text" name="company_address[]" class="form-control form-control-sm required" >
+                    </div> 
+                    <div class="col-lg-3 col-md-12 mb-2">
+                        Position
+                        <input type="text" name="last_position[]" class="form-control form-control-sm required" >
+                    </div> 
+                    <div class="col-lg-3 col-md-12 mb-2">
+                        Employment Period
+                        <input type="text" name="employment_period[]" class="form-control form-control-sm required" >
+                    </div> 
+                    <div class="col-lg-3 col-md-12 mb-2">
+                        Company Industry
+                        <input type="text" name="company_industry[]" class="form-control form-control-sm required">
+                    </div> 
+                    <div class="col-lg-3 col-md-12 mb-2">
+                        Reason for leaving
+                        <textarea name="reason_for_leaving[]" class="form-control form-control-sm required" cols="30" rows="10"></textarea>
+                    </div> 
+                    <div class="col-lg-3 col-md-12 mb-2">
+                        Last Salary
+                        <input type="text" name="last_salary[]" class="form-control form-control-sm required" >
+                    </div> 
+                </div>
+            `
+
+            $("#workExpContainer").append(newRow)
+        })
+
+        $("#removeWorkExp").on('click', function() {
+            if ($("#workExpContainer").children().length > 1)
+            {
+                $('#workExpContainer').children().last().remove()
             }
         })
     })

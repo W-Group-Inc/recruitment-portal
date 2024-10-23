@@ -2,14 +2,14 @@
 
     <!-- LOGO -->
     <a href="{{url('home')}}" class="logo text-center logo-light">
-        {{-- <span class="logo-lg">
-            <img src="{{asset('img/wgroup.png')}}" alt="" height="100">
-        </span> --}}
-        {{-- <span class="logo-sm">
-            <img src="assets/images/logo_sm.png" alt="" height="16">
-        </span> --}}
+        <span class="logo-lg">
+            <img src="{{asset('img/wgroup1.png')}}" alt="" height="100">
+        </span>
+        <span class="logo-sm">
+            <img src="{{asset('img/wgroup1.png')}}" alt="" height="16">
+        </span>
     </a>
-
+    <hr class="bg-white mt-3">
     <!-- LOGO -->
     {{-- <a href="index.html" class="logo text-center logo-dark">
         <span class="logo-lg">
@@ -143,9 +143,9 @@
             <li class="side-nav-title side-nav-item">Applicant</li>
 
             <li class="side-nav-item">
-                <a href="{{url('applicants')}}" class="side-nav-link" onclick="show()">
+                <a href="{{url('job-application')}}" class="side-nav-link" onclick="show()">
                     <i class=" uil-user"></i>
-                    <span>Applicant</span>
+                    <span>Job Application</span>
                 </a>
             </li>
 

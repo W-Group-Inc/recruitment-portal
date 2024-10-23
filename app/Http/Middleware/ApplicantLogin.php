@@ -24,7 +24,7 @@ class ApplicantLogin
                 return redirect('/view-password');
             }
 
-            return redirect('/applicants');
+            return redirect('/job-application');
         }
         elseif(auth()->check() && auth()->user()->role == 'Head Business Unit') 
         {
