@@ -107,56 +107,18 @@
             </div>
         </div>
     </div>
-    <div class="col-lg-3">
-        <div class="card">
-            <div class="card-body text-center">
-                <i class="uil-user text-muted" style="font-size: 24px;"></i>
-                <h3><span>{{count($applicant)}}</span></h3>
-                <p class="text-muted font-15 mb-0">Total Applicants</p>
-            </div>
-        </div>
-    </div>
-    <div class="col-lg-3">
-        <div class="card">
-            <div class="card-body text-center">
-                <i class="uil-user text-muted" style="font-size: 24px;"></i>
-                <h3><span>{{count($applicant->where('applicant_status','Pending'))}}</span></h3>
-                <p class="text-muted font-15 mb-0">Total Pending Applicant</p>
-            </div>
-        </div>
-    </div>
-    <div class="col-lg-3">
-        <div class="card">
-            <div class="card-body text-center">
-                <i class="uil-user text-muted" style="font-size: 24px;"></i>
-                <h3><span>{{count($applicant->where('applicant_status','Passed'))}}</span></h3>
-                <p class="text-muted font-15 mb-0">Total Passed Applicant</p>
-            </div>
-        </div>
-    </div>
-    <div class="col-lg-3">
-        <div class="card">
-            <div class="card-body text-center">
-                <i class="uil-user text-muted" style="font-size: 24px;"></i>
-                <h3><span>{{count($applicant->where('applicant_status','Rejected'))}}</span></h3>
-                <p class="text-muted font-15 mb-0">Total Failed Applicant</p>
-            </div>
-        </div>
-    </div>
-    {{-- <div class="col-lg-4">
+    <div class="col-lg-12">
         <div class="card">
             <div class="card-body">
-                <h5 class="header-title mb-4">Applicants</h5>
-
+                {{-- <h4 class="header-title">MRF Status in year {{date('Y')}}</h4> --}}
                 <div dir="ltr">
-                    <div class="mt-3 chartjs-chart" style="height: 320px;">
-                        <canvas id="applicant" data-colors="#ffbc00,#0acf97,#fa5c7c" style="height: 320px;"></canvas>
-                    </div>
+                    <div id="basic-column" class="apex-charts"></div>
                 </div>
-
-            </div> <!-- end card body-->
-        </div> <!-- end card -->
-    </div><!-- end col--> --}}
+            </div>
+            <!-- end card body-->
+        </div>
+        <!-- end card -->
+    </div>
     <div class="col-lg-12">
         <div class="card">
             <div class="card-body">
@@ -239,7 +201,7 @@
                                         {{$m->company->name}}
                                     </td>
                                     <td>
-                                        
+                                        <small>{{$m->company->address}}</small>
                                     </td>
                                     <td>
                                         {{$m->department->head->name}}
@@ -248,7 +210,7 @@
                                         {{$m->department->name}}
                                     </td>
                                     <td>
-                                        {{$m->position_title}}
+                                        {{$m->jobPosition->position}}
                                     </td>
                                     <td>
                                         {!! nl2br($m->justification) !!}
@@ -333,40 +295,49 @@
         pageLength: 10
     })
 
-    var ctx = document.getElementById('applicant');
-    var chartColors = ctx.getAttribute('data-colors').split(',');
+    colors = ["#39afd1", "#ffbc00", "#0acf97"];
+    dataColors = $("#full-stacked-column").data("colors");
+    if (dataColors) {
+        colors = dataColors.split(",");
+    }
 
-    var pending_applicant = {!! json_encode(count($applicant->where('applicant_status','Pending'))) !!}
-    var passed_applicant = {!! json_encode(count($applicant->where('applicant_status','Passed'))) !!}
-    var failed_applicant = {!! json_encode(count($applicant->where('applicant_status','Failed'))) !!}
-
-    var donutChart = new Chart(ctx, {
-        type: 'doughnut',
-        data: {
-            labels: ['Total Pending Applicants', 'Total Approved Applicants', 'Total Failed Applicants'],
-            datasets: [{
-                data: [
-                    pending_applicant,
-                    passed_applicant,
-                    failed_applicant
-                ],
-                backgroundColor: chartColors, 
-                borderColor: '#fff',
-                borderWidth: 1
-            }]
+    var months = {!! json_encode(collect($month)->pluck('m')->toArray()) !!}
+    var total_mrf = {!! json_encode(collect($month)->pluck('total_mrf')->toArray()) !!}
+    var open_mrf = {!! json_encode(collect($month)->pluck('open')->toArray()) !!}
+    var serve_mrf = {!! json_encode(collect($month)->pluck('serve')->toArray()) !!}
+    
+    var options = {
+        chart: {
+            type: 'bar',
+            height: 400
         },
-        options: {
-            responsive: true,
-            // cutout: '80%',  // Adjust the size of the cutout for the donut effect
-            maintainAspectRatio: false,
-            plugins: {
-                legend: {
-                    display: true,
-                    position: 'bottom'
-                }
+        series: [
+            { 
+                name: "Total MRF", 
+                data: total_mrf
+            },
+            { 
+                name: "Open", 
+                data: open_mrf
+            },
+            { 
+                name: "Serve", 
+                data: serve_mrf
             }
-        }
-    });
+        ],
+        xaxis: {
+            categories: months
+        },
+        title: {
+            text: 'MRF Status in year {{date("Y")}}',
+            align: 'center'
+        },
+        colors: colors
+    };
+
+    // Render the chart
+    var chart = new ApexCharts(document.querySelector("#basic-column"), options);
+    chart.render();
 </script>
 @endif
 

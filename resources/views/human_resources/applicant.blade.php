@@ -5,6 +5,42 @@
 @section('content')
     <div class="row">
         <h4 class="header-title">Applicants</h4>
+        <div class="col-lg-3">
+            <div class="card">
+                <div class="card-body text-center">
+                    <i class="uil-user text-muted" style="font-size: 24px;"></i>
+                    <h3><span>{{count($applicants)}}</span></h3>
+                    <p class="text-muted font-15 mb-0">Total Applicants</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3">
+            <div class="card">
+                <div class="card-body text-center">
+                    <i class="uil-user text-muted" style="font-size: 24px;"></i>
+                    <h3><span>{{count($applicants->where('applicant_status','Pending'))}}</span></h3>
+                    <p class="text-muted font-15 mb-0">Total Pending Applicant</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3">
+            <div class="card">
+                <div class="card-body text-center">
+                    <i class="uil-user text-muted" style="font-size: 24px;"></i>
+                    <h3><span>{{count($applicants->where('applicant_status','Passed'))}}</span></h3>
+                    <p class="text-muted font-15 mb-0">Total Passed Applicant</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3">
+            <div class="card">
+                <div class="card-body text-center">
+                    <i class="uil-user text-muted" style="font-size: 24px;"></i>
+                    <h3><span>{{count($applicants->where('applicant_status','Rejected'))}}</span></h3>
+                    <p class="text-muted font-15 mb-0">Total Failed Applicant</p>
+                </div>
+            </div>
+        </div>
         <div class="col-12">
             <div class="card">
                 <div class="card-body">
