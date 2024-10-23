@@ -8,6 +8,7 @@ use App\Interviewer;
 use App\JobPosition;
 use App\ManPowerRequisitionForm;
 use App\MrfApprover;
+use App\Notifications\PendingMrfNotification;
 use App\User;
 use Barryvdh\DomPDF\PDF;
 use Illuminate\Database\Capsule\Manager;
@@ -130,6 +131,9 @@ class ManPowerRequisitionFormController extends Controller
             if ($key == 0)
             {
                 $mrf_approvers->status = "Pending";
+
+                $user = User::where('id', $mrf_approvers->user_id[0])->first();
+                $user->notify(new PendingMrfNotification($user));
             }
             else
             {

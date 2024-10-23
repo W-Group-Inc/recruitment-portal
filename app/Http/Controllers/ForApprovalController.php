@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\ManPowerRequisitionForm;
 use App\MrfApprover;
 use App\Notifications\MrfNotification;
+use App\Notifications\PendingMrfNotification;
+use App\User;
 use GuzzleHttp\Client;
 // use GuzzleHttp\Psr7\Request;
 use Illuminate\Http\Request;
@@ -96,6 +98,9 @@ class ForApprovalController extends Controller
                     if ($key == 0)
                     {
                         $nextApprover->status = 'Pending';
+                        
+                        $user = User::where('id', $nextApprover->user_id)->first();
+                        $user->notify(new PendingMrfNotification($user));
                     }
                     else
                     {
