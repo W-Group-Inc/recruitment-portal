@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Applicant;
 use App\ChildrenInformation;
+use App\Document;
 use App\HistoryApplicant;
 use App\Interviewer;
 use App\JobApplication;
@@ -93,11 +94,11 @@ class ApplicantController extends Controller
      */
     public function show($id)
     {
-        $applicant = Applicant::with('schedule', 'mrf', 'historyApplicant', 'interviewers')->findOrFail($id);
-
+        $applicant = Applicant::with('schedule', 'mrf', 'historyApplicant', 'interviewers', 'applicantDocument')->findOrFail($id);
+        $documents = Document::where('document_status', 'Active')->get();
         // $interviewer = Interviewer::where('status', 'Pending')->first();
 
-        return view('human_resources.view_applicant', compact('applicant'));
+        return view('human_resources.view_applicant', compact('applicant', 'documents'));
     }
 
     /**

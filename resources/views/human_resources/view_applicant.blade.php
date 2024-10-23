@@ -31,10 +31,14 @@
                 {{-- <a href="{{url('print-jo/'.$applicant->id)}}" type="button" class="btn btn-primary btn-sm mb-2" target="_blank">Job Offer</a> --}}
                 <button type="button" class="btn btn-sm btn-primary mb-2" data-bs-toggle="modal" data-bs-target="#jobOffer{{$applicant->id}}">Job Offer</button>
 
-                <button type="button" class="btn btn-secondary btn-sm mb-2" data-bs-toggle="modal" data-bs-target="#schedule">Schedule Interview</button>
+                    @if($applicant->applicant_status == 'Pending')
+                    <button type="button" class="btn btn-secondary btn-sm mb-2" data-bs-toggle="modal" data-bs-target="#schedule">Schedule Interview</button>
+                    @endif
                 @endif
-                
+
+                @if($applicant->applicant_status == 'Pending')
                 <a href="{{url('interview-assessment/'.$applicant->id)}}" class="btn btn-warning btn-sm mb-2">Interview Assessment Form</a>
+                @endif
 
                 <hr>
                 <div class="text-start mt-3">
@@ -178,8 +182,14 @@
                 <ul class="nav nav-tabs mb-3">
                     <li class="nav-item">
                         <a href="#home" data-bs-toggle="tab" aria-expanded="false" class="nav-link active">
-                            <i class="mdi mdi-home-variant d-md-none d-block"></i>
+                            {{-- <i class="mdi mdi-home-variant d-md-none d-block"></i> --}}
                             <span class="d-none d-md-block">History</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#applicantDocuments" data-bs-toggle="tab" aria-expanded="false" class="nav-link">
+                            {{-- <i class="mdi mdi-home-variant d-md-none d-block"></i> --}}
+                            <span class="d-none d-md-block">Applicant Documents</span>
                         </a>
                     </li>
                 </ul>
@@ -187,7 +197,7 @@
                 <div class="tab-content">
                     <div class="tab-pane show active" id="home">
                         <div class="table-responsive">
-                            <table id="alternative-page-datatable" class="table table-bordered table-hover">
+                            <table class="table table-bordered table-hover tables">
                                 <thead>
                                     <tr>
                                         <th>Position</th>
@@ -209,6 +219,43 @@
                                                 <span class="badge bg-success">{{$history->status}}</span>
                                                 @else
                                                 <span class="badge bg-danger">{{$history->status}}</span>
+                                                @endif
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="tab-pane" id="applicantDocuments">
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-hover tables">
+                                <thead>
+                                    <tr>
+                                        <th>Document</th>
+                                        <th>Document Files</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($documents as $docs)
+                                        @php
+                                            $applicant_docs = $docs->applicantDocument->where('applicant_id', $applicant->id)->first();
+                                        @endphp
+                                        <tr>
+                                            <td>{{$docs->document_name}}</td>
+                                            <td>
+                                                @if(!empty($applicant_docs))
+                                                <a href="{{url($applicant_docs->document_file)}}" target="_blank">
+                                                    <i class="uil-file"></i>
+                                                </a>
+                                                @endif
+                                            </td>
+                                            <td>
+                                                @if(!empty($applicant_docs))
+                                                <span class="badge bg-success">Submitted</span>
+                                                @else 
+                                                <span class="badge bg-danger">Not Submitted</span>
                                                 @endif
                                             </td>
                                         </tr>

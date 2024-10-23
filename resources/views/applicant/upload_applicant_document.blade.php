@@ -9,7 +9,7 @@
                 @csrf
 
                 <input type="hidden" name="document_id" value="{{$document->id}}">
-                <input type="hidden" name="applicant_id" value="{{auth()->user()->id}}">
+                <input type="hidden" name="applicant_id" value="{{auth()->user()->applicant_id}}">
 
                 <div class="modal-body">
                     <div class="row">

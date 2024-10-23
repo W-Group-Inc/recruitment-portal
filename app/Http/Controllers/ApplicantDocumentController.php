@@ -17,8 +17,10 @@ class ApplicantDocumentController extends Controller
      */
     public function index()
     {
-        $documents = Document::where('document_status', 'Active')->get();
-
+        $documents = Document::with('applicantDocument')
+            ->where('document_status', 'Active')
+            ->get();
+        
         return view('applicant.applicant_document', compact('documents'));
     }
 

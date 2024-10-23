@@ -37,4 +37,8 @@ class Applicant extends Model
     {
         return $this->hasOne(JobOffer::class);
     }
+    public function applicantDocument()
+    {
+        return $this->hasMany(ApplicantDocument::class);
+    }
 }

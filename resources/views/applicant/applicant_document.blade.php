@@ -18,7 +18,7 @@
                             <tr>
                                 @foreach ($documents as $document)
                                     @php
-                                        $uploaded_docs = $document->applicantDocument->where('applicant_id', auth()->user()->id)->first();
+                                        $uploaded_docs = $document->applicantDocument->where('applicant_id', auth()->user()->applicant_id)->first();
                                     @endphp
                                     
                                     <tr>
@@ -35,9 +35,11 @@
                                         </td>
                                         <td>
                                             @if($uploaded_docs != null)
-                                            <i class="uil-check"></i>
+                                            {{-- <i class="uil-check"></i> --}}
+                                            <span class="badge bg-success">Submitted</span>
                                             @else
-                                            <i class="uil-times"></i>
+                                            {{-- <i class="uil-times"></i> --}}
+                                            <span class="badge bg-warning">Pending</span>
                                             @endif
                                         </td>
                                         <td>
