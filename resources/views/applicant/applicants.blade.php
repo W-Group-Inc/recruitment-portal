@@ -2,6 +2,7 @@
 
 @section('css')
 <link rel="stylesheet" href="{{asset('css/component-chosen.css')}}">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/intl-tel-input@24.6.0/build/css/intlTelInput.css">
 @endsection
 
 @section('content')
@@ -140,7 +141,9 @@
                                     </div>
                                     <div class="col-lg-3 col-md-12 mb-2">
                                         Contact Number
-                                        <input type="number" name="contact_number" class="form-control form-control-sm required" value="{{optional($applicant->jobApplication)->contact_number}}">
+                                        <div class="form-group">
+                                            <input type="tel" name="contact_number" class="form-control form-control-sm required" value="{{optional($applicant->jobApplication)->contact_number}}">
+                                        </div>
                                     </div>
                                     <div class="col-lg-3 col-md-12 mb-2">
                                         Civil Status
@@ -241,7 +244,10 @@
                                     </div> 
                                     <div class="col-lg-3 col-md-12 mb-2">
                                         Contact No
-                                        <input type="text" name="father_contact_no" class="form-control form-control-sm required" value="{{optional($applicant->jobApplication)->father_contact_no}}">
+                                        {{-- <input type="text" name="father_contact_no" class="form-control form-control-sm required" value="{{optional($applicant->jobApplication)->father_contact_no}}"> --}}
+                                        <div class="form-group">
+                                            <input type="tel" name="father_contact_no" class="form-control form-control-sm required" value="{{optional($applicant->jobApplication)->father_contact_no}}">
+                                        </div>
                                     </div> 
                                     <div class="col-lg-12 col-md-12 mb-2">
                                         <h5 class="header-title">Mother Information</h5>
@@ -260,7 +266,10 @@
                                     </div> 
                                     <div class="col-lg-3 col-md-12 mb-2">
                                         Contact No
-                                        <input type="text" name="mother_contact_no" class="form-control form-control-sm required" value="{{optional($applicant->jobApplication)->mother_contact_no}}">
+                                        {{-- <input type="text" name="mother_contact_no" class="form-control form-control-sm required" value="{{optional($applicant->jobApplication)->mother_contact_no}}"> --}}
+                                        <div class="form-group">
+                                            <input type="tel" name="mother_contact_no" class="form-control form-control-sm required" value="{{optional($applicant->jobApplication)->mother_contact_no}}">
+                                        </div>
                                     </div> 
                                     <div class="col-lg-12 col-md-12 mb-2">
                                         <h5 class="header-title">Sibling Information
@@ -290,7 +299,10 @@
                                                         </div>
                                                         <div class="col-lg-3">
                                                             Contact No
-                                                            <input type="text" name="sibling_contact_no[]" class="form-control form-control-sm" value="{{$sibling->sibling_contact_no}}">
+                                                            {{-- <input type="text" name="sibling_contact_no[]" class="form-control form-control-sm" value="{{$sibling->sibling_contact_no}}"> --}}
+                                                            <div class="form-group">
+                                                                <input type="tel" name="sibling_contact_no[]" class="form-control form-control-sm" value="{{$sibling->sibling_contact_no}}">
+                                                            </div>
                                                         </div>
                                                     </div>
                                                     @endforeach
@@ -310,7 +322,10 @@
                                                         </div>
                                                         <div class="col-lg-3">
                                                             Contact No
-                                                            <input type="text" name="sibling_contact_no[]" class="form-control form-control-sm">
+                                                            {{-- <input type="text" name="sibling_contact_no[]" class="form-control form-control-sm"> --}}
+                                                            <div class="form-group">
+                                                                <input type="tel" name="sibling_contact_no[]" class="form-control form-control-sm">
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 @endif
@@ -330,7 +345,10 @@
                                                     </div>
                                                     <div class="col-lg-3">
                                                         Contact No
-                                                        <input type="text" name="sibling_contact_no[]" class="form-control form-control-sm">
+                                                        {{-- <input type="text" name="sibling_contact_no[]" class="form-control form-control-sm"> --}}
+                                                        <div class="form-group">
+                                                            <input type="tel" name="sibling_contact_no[]" class="form-control form-control-sm">
+                                                        </div>
                                                     </div>
                                                 </div>
                                             @endif
@@ -353,7 +371,10 @@
                                     </div> 
                                     <div class="col-lg-3 col-md-12 mb-2">
                                         Contact No
-                                        <input type="text" name="spouse_contact_no" class="form-control form-control-sm" value="{{optional($applicant->jobApplication)->spouse_contact_no}}">
+                                        {{-- <input type="text" name="spouse_contact_no" class="form-control form-control-sm" value="{{optional($applicant->jobApplication)->spouse_contact_no}}"> --}}
+                                        <div class="form-group">
+                                            <input type="tel" name="spouse_contact_no" class="form-control form-control-sm" value="{{optional($applicant->jobApplication)->spouse_contact_no}}">
+                                        </div>
                                     </div> 
                                     <div class="col-lg-12 col-md-12 mb-2">
                                         <h5 class="header-title">Children Information
@@ -386,7 +407,10 @@
                                                         </div> 
                                                         <div class="col-lg-3 col-md-12 mb-2">
                                                             Contact No
-                                                            <input type="text" name="children_contact_no[]" class="form-control form-control-sm" value="{{$children->children_contact_no}}">
+                                                            {{-- <input type="text" name="children_contact_no[]" class="form-control form-control-sm" value="{{$children->children_contact_no}}"> --}}
+                                                            <div class="form-group">
+                                                                <input type="tel" name="children_contact_no[]" class="form-control form-control-sm" value="{{$children->children_contact_no}}">
+                                                            </div>
                                                         </div> 
                                                     </div>
                                                     @endforeach
@@ -406,7 +430,10 @@
                                                     </div> 
                                                     <div class="col-lg-3 col-md-12 mb-2">
                                                         Contact No
-                                                        <input type="text" name="children_contact_no[]" class="form-control form-control-sm">
+                                                        {{-- <input type="text" name="children_contact_no[]" class="form-control form-control-sm"> --}}
+                                                        <div class="form-group">
+                                                            <input type="tel" name="children_contact_no[]" class="form-control form-control-sm">
+                                                        </div>
                                                     </div> 
                                                 </div>
                                                 @endif
@@ -426,7 +453,10 @@
                                                 </div> 
                                                 <div class="col-lg-3 col-md-12 mb-2">
                                                     Contact No
-                                                    <input type="text" name="children_contact_no[]" class="form-control form-control-sm">
+                                                    {{-- <input type="text" name="children_contact_no[]" class="form-control form-control-sm"> --}}
+                                                    <div class="form-group">
+                                                        <input type="tel" name="children_contact_no[]" class="form-control form-control-sm">
+                                                    </div>
                                                 </div> 
                                             </div>
                                             @endif
@@ -454,7 +484,7 @@
                                     </div> 
                                     <div class="col-lg-3 col-md-12 mb-2">
                                         Year attended <i>(From - To)</i>
-                                        <input type="text" name="college_year_attended" class="form-control form-control-sm required" value="{{optional($applicant->jobApplication)->college_year_attended}}">
+                                        <input type="text" name="college_year_attended" class="form-control form-control-sm required" value="{{optional($applicant->jobApplication)->college_year_attended}}" data-mask="0000-0000" placeholder="Ex: 2023-2024">
                                     </div> 
                                     <div class="col-lg-3 col-md-12 mb-2">
                                         Degree/Honors/Award/ Recognitions Received
@@ -477,7 +507,7 @@
                                     </div> 
                                     <div class="col-lg-3 col-md-12 mb-2">
                                         Year attended <i>(From - To)</i>
-                                        <input type="text" name="hs_year_attended" class="form-control form-control-sm required" value="{{optional($applicant->jobApplication)->hs_year_attended}}">
+                                        <input type="text" name="hs_year_attended" class="form-control form-control-sm required" value="{{optional($applicant->jobApplication)->hs_year_attended}}" data-mask="0000-0000" placeholder="Ex: 2023-2024">
                                     </div> 
                                     <div class="col-lg-3 col-md-12 mb-2">
                                         Degree/Honors/Awrd/ Recognitions Received
@@ -500,7 +530,7 @@
                                     </div> 
                                     <div class="col-lg-3 col-md-12 mb-2">
                                         Year attended <i>(From - To)</i>
-                                        <input type="text" name="others_year_attended" class="form-control form-control-sm" value="{{optional($applicant->jobApplication)->others_year_attended}}">
+                                        <input type="text" name="others_year_attended" class="form-control form-control-sm" value="{{optional($applicant->jobApplication)->others_year_attended}}" data-mask="0000-0000" placeholder="Ex: 2023-2024">
                                     </div> 
                                     <div class="col-lg-3 col-md-12 mb-2">
                                         Degree/Honors/Award/ Recognitions Received
@@ -666,10 +696,28 @@
 
 @section('js')
 <script src="{{asset('js/chosen.jquery.min.js')}}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/3.2.6/jquery.inputmask.bundle.min.js"></script>
 {{-- <script src="{{asset('js/demo.form-wizard.js')}}"></script> --}}
-
+<script src="https://cdn.jsdelivr.net/npm/intl-tel-input@24.6.0/build/js/intlTelInput.min.js"></script>
 <script>
     $(document).ready(function() {
+        const input = document.querySelectorAll('input[type="tel"]');
+
+        function initializeIntlTelInput (input)
+        {
+            window.intlTelInput(input, {
+                loadUtilsOnInit: "https://cdn.jsdelivr.net/npm/intl-tel-input@24.6.0/build/js/utils.js",
+                initialCountry: "ph",
+                strictMode: true,
+                separateDialCode: true,
+                utilsScript: "/intl-tel-input/js/utils.js?1727952657388" // just for formatting/placeholders etc
+            });
+        }
+
+        input.forEach(input => {
+            initializeIntlTelInput(input)
+        })
+        
         $('.cat').chosen({width:"100%"})
 
         $("#progressbarwizard").bootstrapWizard({
@@ -765,12 +813,16 @@
                     </div>
                     <div class="col-lg-3">
                         Contact No
-                        <input type="text" name="sibling_contact_no[]" class="form-control form-control-sm">
+                        <div class="form-group">
+                            <input type="tel" name="sibling_contact_no[]" class="form-control form-control-sm">
+                        </div>
                     </div>
                 </div>
             `
 
             $('.sibling-container').append(newRow)
+            var input = $(`#sibling_${siblingId}`).find('input[type="tel"]')[0];
+            initializeIntlTelInput(input)
         })
 
         $('#removeSibling').on('click', function() {
@@ -821,12 +873,16 @@
                     </div>
                     <div class="col-lg-3">
                         Contact No
-                        <input type="text" name="children_contact[]" class="form-control form-control-sm">
+                        <div class="form-group">
+                            <input type="tel" name="children_contact[]" class="form-control form-control-sm">
+                        </div>
                     </div>
                 </div>
             `
 
             $('.children-container').append(newRow)
+            var input = $(`#children_${childrenId}`).find('input[type="tel"]')[0];
+            initializeIntlTelInput(input)
         })
 
         $('#removeChildren').on('click', function() {
@@ -871,6 +927,7 @@
             `
 
             $("#workExpContainer").append(newRow)
+            inputMaskMoney('last_salary[]')
         })
 
         $("#removeWorkExp").on('click', function() {
@@ -879,6 +936,42 @@
                 $('#workExpContainer').children().last().remove()
             }
         })
+
+        $("[name='minimum_expected_salary']").inputmask({
+            prefix: "₱ ",
+            groupSeparator: ".",
+            alias: "numeric",
+            placeholder: "0",
+            autoGroup: true,
+            digits: 2,
+            digitsOptional: false,
+            clearMaskOnLostFocus: false
+        })
+
+        $("[name='last_salary[]']").inputmask({
+            prefix: "₱ ",
+            groupSeparator: ".",
+            alias: "numeric",
+            placeholder: "0",
+            autoGroup: true,
+            digits: 2,
+            digitsOptional: false,
+            clearMaskOnLostFocus: false
+        })
+
+        function inputMaskMoney(input)
+        {
+            $(`[name='${input}']`).inputmask({
+                prefix: "₱ ",
+                groupSeparator: ".",
+                alias: "numeric",
+                placeholder: "0",
+                autoGroup: true,
+                digits: 2,
+                digitsOptional: false,
+                clearMaskOnLostFocus: false
+            })
+        }
     })
 </script>
 @endsection
