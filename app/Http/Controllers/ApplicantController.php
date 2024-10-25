@@ -254,10 +254,10 @@ class ApplicantController extends Controller
 
             if (auth()->user()->role == 'Human Resources')
             {
-                // $dept_head = $applicant->mrf->department->head;
-                // $dept_head->notify(new NotifyDepartmentHead($applicant->mrf, $dept_head));
+                $dept_head = $applicant->mrf->department->head;
+                $dept_head->notify(new NotifyDepartmentHead($applicant->mrf, $dept_head));
 
-                // $applicant->notify(new ApplicantStatusNotification($applicant));
+                $applicant->notify(new ApplicantStatusNotification($applicant));
             }
 
             $history = new HistoryApplicant;
@@ -299,10 +299,10 @@ class ApplicantController extends Controller
 
             if (auth()->user()->role == 'Human Resources')
             {
-                // $dept_head = $applicant->mrf->department->head;
-                // $dept_head->notify(new FailedApplicantNotification($applicant->mrf, $dept_head));
+                $dept_head = $applicant->mrf->department->head;
+                $dept_head->notify(new FailedApplicantNotification($applicant->mrf, $dept_head));
 
-                // $applicant->notify(new ApplicantStatusFailedNotification($applicant));
+                $applicant->notify(new ApplicantStatusFailedNotification($applicant));
             }
 
             $history = new HistoryApplicant;

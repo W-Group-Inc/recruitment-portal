@@ -140,8 +140,8 @@ class ForApprovalController extends Controller
         }
 
 
-        // $dept_head = $mrf->department->head;
-        // $dept_head->notify(new MrfNotification($mrf, $request->action, $dept_head));
+        $dept_head = $mrf->department->head;
+        $dept_head->notify(new MrfNotification($mrf, $request->action, $dept_head));
 
         Alert::success($message)->persistent('Dismiss');
         return back();
