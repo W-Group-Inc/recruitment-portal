@@ -28,7 +28,7 @@
                                 <div class="col-md-11 mb-3">
                                     <select name="interviewer[]" class="form-control cat">
                                         <option value="">- Interviewer -</option>
-                                        @foreach ($interviewers->whereIn('role', ['Department Head', 'Human Resources']) as $interviewer)
+                                        @foreach ($interviewers->whereIn('role', ['Department Head', 'Human Resources', 'Head Business Unit', 'Human Resources Manager']) as $interviewer)
                                         <option value="{{$interviewer->id}}" @if($interviewer->id == $i->user_id) selected @endif>{{$interviewer->name}}</option>
                                         @endforeach
                                     </select>
