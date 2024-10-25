@@ -72,11 +72,11 @@
                                 @foreach ($applicants as $applicant)
                                     <tr>
                                         <td>
-                                            @if($applicant->applicant_status != 'Pending')
                                             <a href="{{url('view-applicant/'.$applicant->id)}}" class="btn btn-sm btn-info" target="_blank" title="View Applicant">
                                                 <i class="uil-eye"></i>
                                             </a>    
-                                            @endif
+                                            {{-- @if($applicant->applicant_status != 'Pending')
+                                            @endif --}}
                                             
                                             {{-- @if($applicant->applicant_status == "Pending")
                                             <button type="button" class="btn btn-warning btn-sm" title="Edit" data-bs-toggle="modal" data-bs-target="#edit{{$applicant->id}}">
