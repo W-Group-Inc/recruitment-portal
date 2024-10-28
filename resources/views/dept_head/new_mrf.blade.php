@@ -43,7 +43,7 @@
                         </div>
                         <div class="col-md-6 mb-1">
                             Target Date of On-boarding:
-                            <input type="date" name="target_date" class="form-control form-control-sm" min="{{date('Y-m-d')}}" max="{{date('Y-m-d', strtotime("+1 month"))}}" required>
+                            <input type="date" name="target_date" class="form-control form-control-sm" min="{{date('Y-m-d', strtotime("+1 month"))}}" required>
                         </div>
                         <div class="col-md-6 mb-1">
                             Position Status :
@@ -116,7 +116,7 @@
                         </div>
                         <div class="col-md-6 mb-1">
                             Others :
-                            <input type="text" name="others" class="form-control form-control-sm" required>
+                            <input type="text" name="others" class="form-control form-control-sm" >
                         </div>
                     </div>
                     <hr>
@@ -146,9 +146,9 @@
                         </div>
                         <div class="col-md-6 mb-1">
                             Other Remarks :
-                            <textarea name="other_remarks" class="form-control form-control-sm" cols="30" rows="10" required></textarea>
+                            <textarea name="other_remarks" class="form-control form-control-sm" cols="30" rows="10" ></textarea>
                         </div>
-                        <hr>
+                        {{-- <hr>
                         <h3>Assign Recruiter</h3>
                         <div class="row">
                             <div class="col-md-12">
@@ -159,7 +159,7 @@
                                     @endforeach
                                 </select>
                             </div>
-                        </div>
+                        </div> --}}
                     </div>
                 </div>
                 <div class="modal-footer">

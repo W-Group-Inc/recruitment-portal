@@ -79,7 +79,7 @@
     </div>
     @endif
 
-    @if(auth()->user()->role == "Human Resources")
+    @if(auth()->user()->role == "Human Resources" || auth()->user()->role == 'Human Resources Manager')
     <div class="col-lg-4">
         <div class="card">
             <div class="card-body text-center">
@@ -286,7 +286,7 @@
 </script>
 @endif
 
-@if(auth()->user()->role == "Human Resources")
+@if(auth()->user()->role == "Human Resources" || auth()->user()->role == 'Human Resources Manager')
 <script>
     $('.tables').DataTable({
         ordering:false,

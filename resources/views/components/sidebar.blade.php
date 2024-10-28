@@ -86,8 +86,8 @@
             @if(auth()->user()->role == "Human Resources" || auth()->user()->role == "Human Resources Manager" || auth()->user()->role == "Head Business Unit") 
             <li class="side-nav-item">
                 <a href="{{url('for-approval')}}" class="side-nav-link" onclick="show()">
-                    <i class=" uil-clipboard-alt"></i>
-                    <span>For Approval</span>
+                    <i class=" uil-check"></i>
+                    <span>MRF For Approval</span>
                 </a>
             </li>
             @endif
@@ -98,8 +98,8 @@
                     <i class="uil-file"></i>
                     <span> MRF</span>
                     @elseif(auth()->user()->role == "Human Resources" || auth()->user()->role == "Human Resources Manager")
-                    <i class="uil-clock"></i>
-                    <span> History MRF</span>
+                    <i class="uil-file"></i>
+                    <span>MRF</span>
                     @endif
                 </a>
             </li>

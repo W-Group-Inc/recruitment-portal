@@ -34,7 +34,7 @@
                                 <th>Department</th>
                                 <th>Approver Status</th>
                                 <th>Status</th>
-                                @if(auth()->user()->role == 'Human Resources')
+                                @if(auth()->user()->role == 'Human Resources' || auth()->user()->role == 'Human Resources Manager')
                                 <th>Progress</th>
                                 @endif
                             </tr>
@@ -44,14 +44,14 @@
                             @foreach ($mrf->where('department_id', auth()->user()->department_id) as $m)
                                 <tr>
                                     <td>
-                                        <button type="button" class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#edit{{$m->id}}" @if($m->mrf_status == "Approved") disabled @endif>
+                                        <button type="button" class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#edit{{$m->id}}" @if($m->mrf_status == "Approved" || count($m->mrfApprovers) > 0) disabled @endif>
                                             <i class="dripicons-document-edit"></i>
                                         </button>
 
-                                        <form action="{{url('delete-mrf/'.$m->id)}}" method="post" class="d-inline-block">
+                                        <form action="{{url('delete-mrf/'.$m->id)}}" method="post" class="d-inline-block" onsubmit="show()">
                                             @csrf
 
-                                            <button type="button" class="btn btn-sm btn-danger delete-btn" @if($m->mrf_status == "Approved") disabled @endif>
+                                            <button type="button" class="btn btn-sm btn-danger delete-btn" @if($m->mrf_status == "Approved" || count($m->mrfApprovers) > 0) disabled @endif>
                                                 <i class="uil-trash"></i>
                                             </button>
                                         </form>
@@ -108,6 +108,12 @@
                                         <button type="button" class="btn btn-sm btn-info" data-bs-toggle="modal" data-bs-target="#view{{$m->id}}">
                                             <i class="uil-eye"></i>
                                         </button>
+
+                                        @if(auth()->user()->role == 'Human Resources Manager' && $m->mrf_status == 'Pending')
+                                        <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#assign{{$m->id}}">
+                                            <i class="uil-user"></i>
+                                        </button>
+                                        @endif
                                     </td>
                                     <td>{{date('M d, Y', strtotime($m->created_at))}}</td>
                                     <td>MRF-{{str_pad($m->mrf_no, 4, '0', STR_PAD_LEFT)}}</td>
@@ -166,6 +172,7 @@
 
                                 @include('human_resources.edit_progress')
                                 @include('human_resources.view_mrf')
+                                @include('human_resources.assign_recruiter')
                             @endforeach
                             @endif
                         </tbody>
@@ -208,22 +215,6 @@
                 confirmButtonColor: "#3085d6",
                 cancelButtonColor: "#d33",
                 confirmButtonText: "Yes, delete it!"
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    $(this).closest('form').submit();
-                }
-            });
-        })
-
-        $('.post-to-indeed').on('click', function() {
-            Swal.fire({
-                title: "Are you sure?",
-                text: "If you submit this it will automatically post to indeed.",
-                icon: "warning",
-                showCancelButton: true,
-                confirmButtonColor: "#3085d6",
-                cancelButtonColor: "#d33",
-                confirmButtonText: "Yes, approved it!"
             }).then((result) => {
                 if (result.isConfirmed) {
                     $(this).closest('form').submit();

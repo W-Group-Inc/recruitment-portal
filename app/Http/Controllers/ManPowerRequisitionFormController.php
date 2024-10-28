@@ -117,31 +117,6 @@ class ManPowerRequisitionFormController extends Controller
         $mrf->mrf_attachment = $file_name;
         $mrf->save();
 
-        $recruiter = collect($request->recruiter);
-        $approver = [23, 21];
-        $approvers = $recruiter->concat($approver);
-        
-        $mrf_approvers = MrfApprover::where('mrf_id', $mrf->id)->delete();
-        foreach($approvers as $key=>$value)
-        {
-            $mrf_approvers = new MrfApprover;
-            $mrf_approvers->user_id = $value;
-            $mrf_approvers->mrf_id = $mrf->id;
-            $mrf_approvers->level = $key+1;
-            if ($key == 0)
-            {
-                $mrf_approvers->status = "Pending";
-
-                $user = User::where('id', $mrf_approvers->user_id[0])->first();
-                $user->notify(new PendingMrfNotification($user));
-            }
-            else
-            {
-                $mrf_approvers->status = "Waiting";
-            }
-            $mrf_approvers->save();
-        }
-
         Alert::success('Successfully Saved')->persistent('Dismiss');
         return back();
     }
@@ -277,6 +252,67 @@ class ManPowerRequisitionFormController extends Controller
         $mrf = ManPowerRequisitionForm::findOrFail($id);
         $mrf->progress = $request->progress;
         $mrf->save();
+
+        Alert::success('Successfully Saved')->persistent('Dismiss');
+        return back();
+    }
+
+    public function assign(Request $request, $id)
+    {
+        // dd($request->all(), $id);
+        $mrf = ManPowerRequisitionForm::findOrFail($id);
+        
+        if ($request->recruiter == 23)
+        {
+            $approvers = [23, 21];
+            $mrf_approvers = MrfApprover::where('mrf_id', $mrf->id)->delete();
+            foreach($approvers as $key=>$value)
+            {
+                $mrf_approvers = new MrfApprover;
+                $mrf_approvers->user_id = $value;
+                $mrf_approvers->mrf_id = $mrf->id;
+                $mrf_approvers->level = $key+1;
+                if ($key == 0)
+                {
+                    $mrf_approvers->status = "Pending";
+    
+                    $user = User::where('id', $mrf_approvers->user_id)->first();
+                    $user->notify(new PendingMrfNotification($user));
+                }
+                else
+                {
+                    $mrf_approvers->status = "Waiting";
+                }
+                $mrf_approvers->save();
+            }
+        }
+        else
+        {
+            $recruiter = collect($request->recruiter);
+            $approver = [23, 21];
+            $approvers = $recruiter->concat($approver);
+            
+            $mrf_approvers = MrfApprover::where('mrf_id', $mrf->id)->delete();
+            foreach($approvers as $key=>$value)
+            {
+                $mrf_approvers = new MrfApprover;
+                $mrf_approvers->user_id = $value;
+                $mrf_approvers->mrf_id = $mrf->id;
+                $mrf_approvers->level = $key+1;
+                if ($key == 0)
+                {
+                    $mrf_approvers->status = "Pending";
+    
+                    $user = User::where('id', $mrf_approvers->user_id)->first();
+                    $user->notify(new PendingMrfNotification($user));
+                }
+                else
+                {
+                    $mrf_approvers->status = "Waiting";
+                }
+                $mrf_approvers->save();
+            }
+        }
 
         Alert::success('Successfully Saved')->persistent('Dismiss');
         return back();

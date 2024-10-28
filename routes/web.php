@@ -53,6 +53,7 @@ Route::post('update-mrf/{id}', 'ManPowerRequisitionFormController@update');
 Route::post('delete-mrf/{id}', 'ManPowerRequisitionFormController@destroy');
 Route::get('print-mrf/{id}', 'ManPowerRequisitionFormController@print');
 Route::post('update-progress/{id}', 'ManPowerRequisitionFormController@progress');
+Route::post('assign-recruiter/{id}', 'ManPowerRequisitionFormController@assign');
 
 # Human Resources
 Route::get('for-approval', 'ForApprovalController@index');

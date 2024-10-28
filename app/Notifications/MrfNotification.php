@@ -47,7 +47,7 @@ class MrfNotification extends Notification
     {
         return (new MailMessage)
                     ->greeting('Hello, '. $this->dept_head->name)
-                    ->line('Your MRF for the position of ' . $this->mrf->position_title.' is '. $this->action)
+                    ->line('Your MRF for the position of ' . $this->mrf->jobPosition->position.' is '. $this->action)
                     ->action('View MRF', url('/mrf'))
                     ->line('Thank you for using our application!');
     }

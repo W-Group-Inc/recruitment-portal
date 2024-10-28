@@ -160,7 +160,7 @@
                                 </dd>
                             </dl>
                         </div>
-                        @if($m->mrf_status == 'Pending')
+                        {{-- @if($m->mrf_status == 'Pending')
                         <hr>
                         <div class="row">
                             <div class="col-md-6">
@@ -168,7 +168,6 @@
                                 <select name="action" class="form-control form-control-sm cat">
                                     <option value="">-Select </option>
                                     <option value="Approved">Approve</option>
-                                    {{-- <option value="Returned">Return</option> --}}
                                     <option value="Rejected">Reject</option>
                                 </select>
                             </div>
@@ -178,15 +177,15 @@
                                     rows="10"></textarea>
                             </div>
                         </div>
-                        @endif
+                        @endif --}}
                     </div>
                 </div>
             </div>
             <div class="modal-footer">
                 <button class="btn btn-secondary" type="button" data-bs-dismiss="modal">Close</button>
-                @if($m->mrf_status == 'Pending')
+                {{-- @if($m->mrf_status == 'Pending')
                 <button class="btn btn-success" type="submit">Save</button>
-                @endif
+                @endif --}}
             </div>
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->

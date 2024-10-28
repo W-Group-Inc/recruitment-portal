@@ -217,7 +217,7 @@
             <tr>
                 <td width="100" class="mb-3">Position Title</td>
                 <td width="auto">
-                    <div style="border-bottom: .5px solid black; width:100%;">: {{$mrf->position_title}}</div>
+                    <div style="border-bottom: .5px solid black; width:100%;">: {{$mrf->jobPosition->position}}</div>
                 </td>
             </tr>
             <tr>

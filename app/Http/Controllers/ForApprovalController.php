@@ -100,7 +100,7 @@ class ForApprovalController extends Controller
                         $nextApprover->status = 'Pending';
                         
                         $user = User::where('id', $nextApprover->user_id)->first();
-                        $user->notify(new PendingMrfNotification($user));
+                        // $user->notify(new PendingMrfNotification($user));
                     }
                     else
                     {
@@ -115,6 +115,9 @@ class ForApprovalController extends Controller
                 $mrf->mrf_status = 'Approved';
                 $mrf->progress = 'Open';
                 $mrf->save();
+
+                $dept_head = $mrf->department->head;
+                // $dept_head->notify(new MrfNotification($mrf, $request->action, $dept_head));
             }
 
             $message = "Successfully Saved";
@@ -138,10 +141,6 @@ class ForApprovalController extends Controller
             $message = "Successfully Rejected";
             // $mrf->progress = 'Rejected';
         }
-
-
-        $dept_head = $mrf->department->head;
-        $dept_head->notify(new MrfNotification($mrf, $request->action, $dept_head));
 
         Alert::success($message)->persistent('Dismiss');
         return back();
