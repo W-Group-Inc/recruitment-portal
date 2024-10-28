@@ -110,7 +110,7 @@
                                         </button>
 
                                         @if(auth()->user()->role == 'Human Resources Manager' && $m->mrf_status == 'Pending')
-                                        <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#assign{{$m->id}}">
+                                        <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#assign{{$m->id}}" @if(count($m->mrfApprovers) > 0) disabled @endif>
                                             <i class="uil-user"></i>
                                         </button>
                                         @endif

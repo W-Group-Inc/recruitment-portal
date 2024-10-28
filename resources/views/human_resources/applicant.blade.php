@@ -68,11 +68,11 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @if(auth()->user()->role == "Human Resources")
+                                @if(auth()->user()->role == "Human Resources" || auth()->user()->role == 'Human Resources Manager')
                                 @foreach ($applicants as $applicant)
                                     <tr>
                                         <td>
-                                            <a href="{{url('view-applicant/'.$applicant->id)}}" class="btn btn-sm btn-info" target="_blank" title="View Applicant">
+                                            <a href="{{url('view-applicant/'.$applicant->id)}}" class="btn btn-sm btn-info" title="View Applicant">
                                                 <i class="uil-eye"></i>
                                             </a>    
                                             {{-- @if($applicant->applicant_status != 'Pending')
@@ -123,7 +123,7 @@
                                 @foreach ($applicants as $applicant)
                                     <tr>
                                         <td>
-                                            <a href="{{url('view-applicant/'.$applicant->id)}}" class="btn btn-sm btn-info" target="_blank">
+                                            <a href="{{url('view-applicant/'.$applicant->id)}}" class="btn btn-sm btn-info">
                                                 <i class="uil-eye"></i>
                                             </a>
                                         </td>
@@ -193,7 +193,7 @@
                 <div class="col-md-11 mb-3">
                     <select name="interviewer[]" class="form-control cat">
                         <option value="">- Interviewer -</option>
-                        @foreach ($interviewers->whereIn('role', ['Department Head', 'Human Resources']) as $interviewer)
+                        @foreach ($interviewers->whereIn('role', ['Department Head', 'Human Resources', 'Head Business Unit', 'Human Resources Manager']) as $interviewer)
                             <option value="{{$interviewer->id}}">{{$interviewer->name}}</option>
                         @endforeach
                     </select>

@@ -22,7 +22,7 @@
                                 @endphp
                                 <tr>
                                     <td>
-                                        <a href="{{url('view-applicant/'.$applicant->id)}}" class="btn btn-sm btn-info" target="_blank" title="View Applicant">
+                                        <a href="{{url('view-applicant/'.$applicant->id)}}" class="btn btn-sm btn-info" title="View Applicant">
                                             <i class="uil-eye"></i>
                                         </a> 
                                     </td>

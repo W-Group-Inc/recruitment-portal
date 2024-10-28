@@ -6,6 +6,14 @@
 
 @section('content')
 <div class="row">
+    <div class="row">
+        <div class="col-lg-6">
+            <a class="btn btn-sm btn-danger mb-2" href="{{url('applicant')}}">
+                <i class="dripicons-arrow-thin-left"></i>
+                Back to list
+            </a>
+        </div>
+    </div>
     <div class="col-xl-4 col-lg-3">
         <div class="card text-center">
             <div class="card-body">
@@ -27,7 +35,7 @@
                 </form>
                 @endforeach
                 
-                @if(auth()->user()->role == 'Human Resources')
+                @if(auth()->user()->role == 'Human Resources' || auth()->user()->role == 'Human Resources Manager')
                 {{-- <a href="{{url('print-jo/'.$applicant->id)}}" type="button" class="btn btn-primary btn-sm mb-2" target="_blank">Job Offer</a> --}}
                 <button type="button" class="btn btn-sm btn-primary mb-2" data-bs-toggle="modal" data-bs-target="#jobOffer{{$applicant->id}}">Job Offer</button>
 
