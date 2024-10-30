@@ -9,15 +9,15 @@
                 @csrf 
                 <div class="modal-body">
                     <div class="row">
-                        <div class="col-md-12">
+                        <div class="col-md-12 mb-2">
                             Name :
                             <input type="text" name="name" class="form-control form-control-sm" value="{{$user->name}}" readonly required>
                         </div>
-                        <div class="col-md-12">
+                        <div class="col-md-12 mb-2">
                             Email :
                             <input type="email" name="email" class="form-control form-control-sm" value="{{$user->email}}" required>
                         </div>
-                        <div class="col-md-12">
+                        <div class="col-md-12 mb-2">
                             Company :
                             {{-- <input type="text" name="name" class="form-control form-control-sm" required> --}}
                             <select class="form-control cat" name="company" required>
@@ -27,7 +27,7 @@
                                 @endforeach
                             </select>
                         </div>
-                        <div class="col-md-12">
+                        <div class="col-md-12 mb-2">
                             Department :
                             <select class="form-control cat" name="department" required>
                                 <option value="">-Department-</option>
@@ -36,7 +36,7 @@
                                 @endforeach
                             </select>
                         </div>
-                        <div class="col-md-12">
+                        <div class="col-md-12 mb-2">
                             Role :
                             <select class="form-control cat" name="role" required>
                                 <option value="">-Role-</option>

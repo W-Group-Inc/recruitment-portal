@@ -9,11 +9,11 @@
                 @csrf 
                 <div class="modal-body">
                     <div class="row">
-                        <div class="col-md-12">
+                        <div class="col-md-12 mb-2">
                             New Password :
                             <input type="password" name="password" class="form-control form-control-sm" required>
                         </div>
-                        <div class="col-md-12">
+                        <div class="col-md-12 mb-2">
                             Confirm Password :
                             <input type="password" name="password_confirmation" class="form-control form-control-sm" required>
                         </div>

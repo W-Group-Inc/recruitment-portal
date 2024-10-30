@@ -9,15 +9,15 @@
                 @csrf 
                 <div class="modal-body">
                     <div class="row">
-                        <div class="col-md-12">
+                        <div class="col-md-12 mb-2">
                             Code :
                             <input type="text" name="code" class="form-control form-control-sm" value="{{$company->code}}" required>
                         </div>
-                        <div class="col-md-12">
+                        <div class="col-md-12 mb-2">
                             Name :
                             <input type="text" name="name" class="form-control form-control-sm" value="{{$company->name}}" required>
                         </div>
-                        <div class="col-md-12">
+                        <div class="col-md-12 mb-2">
                             Address :
                             <textarea name="address" class="form-control" cols="30" rows="10" required>{{$company->address}}</textarea>
                         </div>

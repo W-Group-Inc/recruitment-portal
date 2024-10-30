@@ -9,7 +9,7 @@
                 @csrf 
                 <div class="modal-body">
                     <div class="row">
-                        <div class="col-md-12">
+                        <div class="col-md-12 mb-2">
                             Company :
                             <select class="form-control cat" name="company" required>
                                 <option value="">-Company-</option>
@@ -18,15 +18,15 @@
                                 @endforeach
                             </select>
                         </div>
-                        <div class="col-md-12">
+                        <div class="col-md-12 mb-2">
                             Code :
                             <input type="text" name="code" class="form-control form-control-sm" required>
                         </div>
-                        <div class="col-md-12">
+                        <div class="col-md-12 mb-2">
                             Name :
                             <input type="text" name="name" class="form-control form-control-sm" required>
                         </div>
-                        <div class="col-md-12">
+                        <div class="col-md-12 mb-2">
                             Department Head :
                             <select class="form-control cat" name="department_head" required>
                                 <option value="">-Select Department Head-</option>

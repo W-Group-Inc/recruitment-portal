@@ -33,8 +33,7 @@
 
                     <button type="button" class="btn btn-success btn-sm mb-2 passedBtn">Pass</button>
                 </form>
-                @endforeach
-                
+
                 @if(auth()->user()->role == 'Human Resources' || auth()->user()->role == 'Human Resources Manager')
                 {{-- <a href="{{url('print-jo/'.$applicant->id)}}" type="button" class="btn btn-primary btn-sm mb-2" target="_blank">Job Offer</a> --}}
                 <button type="button" class="btn btn-sm btn-primary mb-2" data-bs-toggle="modal" data-bs-target="#jobOffer{{$applicant->id}}">Job Offer</button>
@@ -47,6 +46,7 @@
                 @if($applicant->applicant_status == 'Pending')
                 <a href="{{url('interview-assessment/'.$applicant->id)}}" class="btn btn-warning btn-sm mb-2">Interview Assessment Form</a>
                 @endif
+                @endforeach
 
                 <hr>
                 <div class="text-start mt-3">
