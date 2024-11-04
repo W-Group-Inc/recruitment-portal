@@ -15,11 +15,21 @@ class JobController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $mrf = ManPowerRequisitionForm::with('jobPosition')->where('mrf_status', 'Approved')->where('progress', 'Open')->get();
+        $search = $request->search;
+        $sort = $request->sort;
 
-        return view('human_resources.job', compact('mrf'));
+        $mrf = ManPowerRequisitionForm::with('jobPosition')
+            ->whereHas('jobPosition', function($q)use($search,$sort) {
+                $q->where('position', 'LIKE', '%'.$search.'%');
+            })
+            ->where('mrf_status', 'Approved')
+            ->where('progress', 'Open')
+            ->orderBy('created_at', $sort)
+            ->get();
+
+        return view('human_resources.job', compact('mrf', 'search', 'sort'));
     }
 
     /**

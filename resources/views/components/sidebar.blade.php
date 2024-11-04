@@ -88,6 +88,15 @@
                 <a href="{{url('for-approval')}}" class="side-nav-link" onclick="show()">
                     <i class=" uil-check"></i>
                     <span>MRF For Approval</span>
+                    @php
+                        $total_count = countMrfForApproval(auth()->user()->id);
+                    @endphp
+                    @if($total_count > 0)
+                    <span class="ms-2 translate-middle badge rounded-pill bg-danger">
+                        {{$total_count}}
+                        <span class="visually-hidden">unread messages</span>
+                    </span>
+                    @endif
                 </a>
             </li>
             @endif
@@ -119,6 +128,15 @@
                 <a href="{{url('for-interview')}}" class="side-nav-link" onclick="show()">
                     <i class="uil-folder"></i>
                     <span>For Interview</span>
+                    @php
+                        $total_count = countForInterview(auth()->user()->id);
+                    @endphp
+                    @if($total_count > 0)
+                    <span class="ms-1 translate-middle badge rounded-pill bg-danger">
+                        {{$total_count}}
+                        <span class="visually-hidden">unread messages</span>
+                    </span>
+                    @endif
                 </a>
             </li>
 

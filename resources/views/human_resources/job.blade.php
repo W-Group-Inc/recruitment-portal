@@ -1,6 +1,37 @@
 @extends('layouts.public_app')
 
 @section('public_content')
+    <div class="col-lg-12">
+        <div class="card mt-3">
+            <div class="card-body">
+                <form method="GET" onsubmit="show()">
+                    <div class="row">
+                        <div class="col-lg-4">
+                            Search
+                            <input type="search" name="search" class="form-control" placeholder="Search jobs"  value="{{$search}}" spellcheck="true">
+                        </div>
+                        <div class="col-lg-4">
+                            Sort By
+                            <select name="sort" class="form-control">
+                                <option value="">Select sort by</option>
+                                <option value="desc" @if($sort == 'desc') selected @endif>Newest</option>
+                                <option value="asc" @if($sort == 'asc') selected @endif>Oldest</option>
+                            </select>
+                        </div>
+                        <div class="col-lg-4">
+                            &nbsp;
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-info">
+                                    <i class="uil-search"></i>
+                                    Search
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
     @if(count($mrf) > 0)
     @foreach ($mrf as $m)
         <div class="col-md-4">

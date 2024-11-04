@@ -49,11 +49,11 @@
 
         @if(auth()->user()->role != 'Applicant')
         <li class="dropdown notification-list">
-            <a class="nav-link dropdown-toggle arrow-none" href="{{url('for-interview')}}">
+            {{-- <a class="nav-link dropdown-toggle arrow-none" href="{{url('for-interview')}}">
                 <i class="dripicons-bell noti-icon"></i>
-                {{-- <span class="noti-icon-badge"></span> --}}
+                <span class="noti-icon-badge"></span>
                 <span class="badge bg-danger">0</span>
-            </a>
+            </a> --}}
             {{-- <div class="dropdown-menu dropdown-menu-end dropdown-menu-animated dropdown-lg">
 
                 <!-- item-->

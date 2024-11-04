@@ -10,7 +10,7 @@
 
 <ul class="list-unstyled topbar-menu float-end mb-0">
 
-    <li class="dropdown notification-list d-xl-none">
+    {{-- <li class="dropdown notification-list d-xl-none">
         <a class="nav-link dropdown-toggle arrow-none" data-bs-toggle="dropdown" href="#" role="button"
             aria-haspopup="false" aria-expanded="false">
             <i class="dripicons-search noti-icon"></i>
@@ -20,7 +20,7 @@
                 <input type="text" class="form-control" placeholder="Search ..." aria-label="Recipient's username">
             </form>
         </div>
-    </li>
+    </li> --}}
 
     {{-- <li class="dropdown notification-list topbar-dropdown d-none d-lg-block">
         <a class="nav-link dropdown-toggle arrow-none" data-bs-toggle="dropdown" id="topbar-languagedrop" href="#"
