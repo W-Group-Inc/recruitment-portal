@@ -11,6 +11,7 @@ use App\MrfApprover;
 use App\Notifications\PendingMrfNotification;
 use App\User;
 use Barryvdh\DomPDF\PDF;
+use GuzzleHttp\Client;
 use Illuminate\Database\Capsule\Manager;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
@@ -32,8 +33,10 @@ class ManPowerRequisitionFormController extends Controller
         $job_level = $this->jobLevel();
         $user = User::where('status', 'Active')->get();
         $job_positions = JobPosition::where('department_id', auth()->user()->department_id)->where('status', null)->get();
+        $get_resigned_employee = file_get_contents(env('WPRO_RESIGNED_EMPLOYEE', 'https://hris.wsystem.online'));
+        $resign_employee = json_decode($get_resigned_employee);
         
-        return view('dept_head.mrf', compact('mrf', 'departments', 'companies', 'employment_status', 'job_level', 'user', 'job_positions'));
+        return view('dept_head.mrf', compact('mrf', 'departments', 'companies', 'employment_status', 'job_level', 'user', 'job_positions', 'resign_employee'));
     }
 
     // public function new()

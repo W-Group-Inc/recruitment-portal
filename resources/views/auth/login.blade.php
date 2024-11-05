@@ -91,7 +91,7 @@
     </div> --}}
 
     <div class="d-lg-flex half">
-        <div class="bg order-1 order-md-2" style="background-image: url('img/keane.jpg');"></div>
+        <div class="bg order-1 order-md-2" style="background-image: url('img/wfa.jpg'); background-size:cover; background-position:right;"></div>
         <div class="contents order-2 order-md-1">
 
             <div class="container">

@@ -59,7 +59,9 @@
                             Replacement of :
                             <select class="form-control cat" name="replacement">
                                 <option value="">-Employee-</option>
-                                
+                                @foreach ($resign_employee as $resign_emp)
+                                    <option value="{{$resign_emp->id}}">{{$resign_emp->first_name .' '.$resign_emp->last_name}}</option>
+                                @endforeach
                             </select>
                         </div>
                         <div class="col-md-6 mb-1">
