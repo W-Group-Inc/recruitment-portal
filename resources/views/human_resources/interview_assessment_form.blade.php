@@ -91,7 +91,7 @@
                             <button type="button" class="btn btn-sm btn-success" id="addSalaryPeers"><i class="uil-plus"></i></button> 
                             <button type="button" class="btn btn-sm btn-danger" id="removeSalaryPeers"><i class="uil-minus"></i></button>
                             <div class="row" id="salaryPeersContainer">
-                                @if($applicant->interviewAssessment->isNotEmpty())
+                                @if($applicant->interviewAssessment != null)
                                     @if(count($applicant->interviewAssessment->salaryPeers) > 0)
                                         @foreach ($applicant->interviewAssessment->salaryPeers as $salary_peers)
                                             <div class="col-lg-12 mb-2">
