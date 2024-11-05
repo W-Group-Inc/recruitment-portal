@@ -91,12 +91,18 @@
                             <button type="button" class="btn btn-sm btn-success" id="addSalaryPeers"><i class="uil-plus"></i></button> 
                             <button type="button" class="btn btn-sm btn-danger" id="removeSalaryPeers"><i class="uil-minus"></i></button>
                             <div class="row" id="salaryPeersContainer">
-                                @if(count($applicant->interviewAssessment->salaryPeers) > 0)
-                                    @foreach ($applicant->interviewAssessment->salaryPeers as $salary_peers)
-                                        <div class="col-lg-12 mb-2">
-                                            <input type="text" name="salary_peers[]" class="form-control" value="{{$salary_peers->salary_peers}}" required>
-                                        </div>
-                                    @endforeach
+                                @if($applicant->interviewAssessment->isNotEmpty())
+                                    @if(count($applicant->interviewAssessment->salaryPeers) > 0)
+                                        @foreach ($applicant->interviewAssessment->salaryPeers as $salary_peers)
+                                            <div class="col-lg-12 mb-2">
+                                                <input type="text" name="salary_peers[]" class="form-control" value="{{$salary_peers->salary_peers}}" required>
+                                            </div>
+                                        @endforeach
+                                    @else
+                                    <div class="col-lg-12 mb-2">
+                                        <input type="text" name="salary_peers[]" class="form-control" required>
+                                    </div>
+                                    @endif
                                 @else
                                 <div class="col-lg-12 mb-2">
                                     <input type="text" name="salary_peers[]" class="form-control" required>
