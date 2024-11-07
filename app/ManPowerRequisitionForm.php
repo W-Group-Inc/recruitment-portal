@@ -26,4 +26,12 @@ class ManPowerRequisitionForm extends Model
     {
         return $this->hasMany(MrfApprover::class,'mrf_id');
     }
+    public function mrfAttachment()
+    {
+        return $this->hasMany(MrfAttachment::class,'mrf_id');
+    }
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

@@ -32,15 +32,14 @@
                                 <th>Position</th>
                                 <th>Company</th>
                                 <th>Department</th>
-                                <th>Approver Status</th>
                                 <th>Status</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($mrf_approvers as $approver)
-                                @php
+                            @foreach ($mrf_list as $m)
+                                {{-- @php
                                     $m = $approver->mrf;
-                                @endphp
+                                @endphp --}}
                                 <tr>
                                     <td>
                                         <button type="button" class="btn btn-sm btn-info" data-bs-toggle="modal" data-bs-target="#view{{$m->id}}">
@@ -64,22 +63,6 @@
                                     <td>{{$m->jobPosition->position}}</td>
                                     <td>{{$m->company->name}}</td>
                                     <td>{{$m->department->name}}</td>
-                                    <td>
-                                        @foreach ($m->mrfApprovers as $ma)
-                                            <small>{{$ma->user->name}} - 
-                                                @if($ma->status == 'Pending')
-                                                <span class="badge bg-warning"> 
-                                                @elseif($ma->status == 'Approved')
-                                                <span class="badge bg-success">
-                                                @else
-                                                <span class="badge bg-info">
-                                                @endif
-                                                    {{$ma->status}} 
-                                                </span> 
-                                                </small>
-                                                <br>
-                                        @endforeach
-                                    </td>
                                     <td>
                                         @if($m->mrf_status == "Approved")
                                         <span class="badge bg-success">

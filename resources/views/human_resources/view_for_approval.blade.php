@@ -5,7 +5,7 @@
                 <h5 class="modal-title" id="myLargeModalLabel">View MRF - ({{$m->mrf_status}})</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <form method="POST" action="{{url('mrf-action/'.$approver->id)}}" onsubmit="show()">
+            <form method="POST" action="{{url('mrf-action/'.$m->id)}}" onsubmit="show()">
                 @csrf 
                 <div class="modal-body">
                     {{-- <div class="row">
@@ -73,7 +73,7 @@
                                         Attachment
                                     </dt>
                                     <dd class="col-md-9">
-                                        @if($m->is_plantilla == 1)
+                                        {{-- @if($m->is_plantilla == 1)
                                         Plantilla
                                         <a href="{{url($m->mrf_attachment)}}" target="_blank">
                                             <i class="uil-file"></i>
@@ -92,7 +92,7 @@
                                         <a href="{{url($m->mrf_attachment)}}" target="_blank">
                                             <i class="uil-file"></i>
                                         </a>
-                                        @endif
+                                        @endif --}}
                                     </dd>
                                 </dl>
                             </div>

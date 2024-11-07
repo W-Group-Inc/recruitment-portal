@@ -58,7 +58,7 @@
             text-align: right;
         }
 
-        /* footer {
+        footer {
             position: fixed;
             bottom: -60px;
             left: 0px;
@@ -72,7 +72,7 @@
             left: 500px;
             right: 0px;
             height: 50px;
-        } */
+        }
 
         .fixed {
             position: fixed;
@@ -82,9 +82,9 @@
             height: 20px;
         }
 
-        /* .page-number:after {
+        .page-number:after {
             content: counter(page);
-        } */
+        }
 
         table {
             page-break-inside: auto;
@@ -146,6 +146,21 @@
 </head>
 
 <body>
+    <footer>
+        <table style='width:100%;' border="0" cellspacing="0" cellpadding="0">
+            <tr>
+                <td class='text-left"'>
+                    <p class="m-0" style="font-weight: bold;"><i>Original - HR; Duplicate - Requestor</i></p>
+                </td>
+                <td class='text-center'>
+                    <i ></i>
+                </td>
+                <td class='text-right'>
+                    <span class="page-number">Page <script type="text/php">{PAGE_NUM} of {PAGE_COUNT}</script></span>
+                </td>
+            </tr>
+        </table>
+    </footer>
     <header>
         <table style='width:100%;' border="1" cellspacing="0" cellpadding="0">
             <tr>
@@ -401,13 +416,13 @@
         <table class="p-1" border='0' style='width:100%;font-size:9; margin-top:8; border-bottom:.5 solid black;' cellspacing="0" cellpadding="0">
             <tr>
                 <td width="50%">
-                    <p style="text-align: center;">Requested by:</p>
-                    <p style="text-align: center;">&nbsp;</p>
+                    <p style="text-align: center;" class="mt-0">Requested by:</p>
+                    <p style="text-align: center;" class="mt-4">{{$mrf->department->head->name}}</p>
                     <p style="text-align: center; border-top: .5px solid black; width: 50%; margin: 0 auto; padding-top: 2px;">Department Head</p>
                 </td>
                 <td width="50%">
                     <p style="text-align: center;">Approved by:</p>
-                    <p style="text-align: center;">&nbsp;</p>
+                    <p style="text-align: center;" class="mt-4">{{$hr_manager}}</p>
                     <p style="text-align: center; border-top: .5px solid black; width: 50%; margin: 0 auto; padding-top: 2px;">HR Department Head</p>
                 </td>
             </tr>
@@ -416,12 +431,12 @@
             <tr>
                 <td width="50%">
                     <p style="text-align: center;">Approved by:</p>
-                    <p style="text-align: center;">&nbsp;</p>
+                    <p style="text-align: center;" class="mt-4">&nbsp;</p>
                     <p style="text-align: center; border-top: .5px solid black; width: 50%; margin: 0 auto; padding-top: 2px;">Head of Business Unit</p>
                 </td>
                 <td width="50%">
                     <p style="text-align: center;">Received by:</p>
-                    <p style="text-align: center;">&nbsp;</p>
+                    <p style="text-align: center;" class="mt-4">&nbsp;</p>
                     <p style="text-align: center; border-top: .5px solid black; width: 50%; margin: 0 auto; padding-top: 2px;">HR Analyst - Recruitment</p>
                 </td>
             </tr>

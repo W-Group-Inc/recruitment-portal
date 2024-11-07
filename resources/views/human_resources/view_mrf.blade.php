@@ -61,7 +61,7 @@
                                     Attachment
                                 </dt>
                                 <dd class="col-md-9">
-                                    @if($m->is_plantilla == 1)
+                                    {{-- @if($m->is_plantilla == 1)
                                     Plantilla
                                     <a href="{{url($m->mrf_attachment)}}" target="_blank">
                                         <i class="uil-file"></i>
@@ -80,7 +80,14 @@
                                     <a href="{{url($m->mrf_attachment)}}" target="_blank">
                                         <i class="uil-file"></i>
                                     </a>
-                                    @endif
+                                    @endif --}}
+                                    @foreach ($m->mrfAttachment as $key=>$attachment)
+                                        <small>{{$key+1}} .</small>
+                                        <a href="{{url($attachment->file_path)}}" target="_blank">
+                                            <i class="uil-file"></i>
+                                        </a>
+                                        <br>
+                                    @endforeach
                                 </dd>
                             </dl>
                         </div>

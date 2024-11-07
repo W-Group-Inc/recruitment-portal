@@ -8,6 +8,7 @@ use App\Interviewer;
 use App\JobPosition;
 use App\ManPowerRequisitionForm;
 use App\MrfApprover;
+use App\MrfAttachment;
 use App\Notifications\PendingMrfNotification;
 use App\User;
 use Barryvdh\DomPDF\PDF;
@@ -32,7 +33,7 @@ class ManPowerRequisitionFormController extends Controller
         $employment_status = $this->employmentStatus();
         $job_level = $this->jobLevel();
         $user = User::where('status', 'Active')->get();
-        $job_positions = JobPosition::where('department_id', auth()->user()->department_id)->where('status', null)->get();
+        $job_positions = JobPosition::where('status', null)->get();
         $get_resigned_employee = file_get_contents(env('WPRO_RESIGNED_EMPLOYEE', 'https://hris.wsystem.online'));
         $resign_employee = json_decode($get_resigned_employee);
         
@@ -78,6 +79,15 @@ class ManPowerRequisitionFormController extends Controller
         {
             $mrfNo = $defaultMrfNo;
         }
+
+        if ($request->job_level == 'Rank and File')
+        {
+            $target_date = date('Y-m-d', strtotime('+30 days'));
+        } 
+        elseif ($request->job_level == 'Supervisory' || $request->job_level == 'Managerial')
+        {
+            $target_date = date('Y-m-d', strtotime('+60 days'));
+        }
         
         $mrf = new ManPowerRequisitionForm;
         $mrf->mrf_no = $mrfNo;
@@ -85,7 +95,7 @@ class ManPowerRequisitionFormController extends Controller
         $mrf->job_position_id = $request->job_position;
         $mrf->department_id = $request->department;
         $mrf->company_id = $request->company;
-        $mrf->target_date = $request->target_date;
+        $mrf->target_date = $target_date;
         $mrf->position_status = $request->position_status;
         $mrf->justification = $request->justification;
         if ($request->has('is_plantilla'))
@@ -100,6 +110,8 @@ class ManPowerRequisitionFormController extends Controller
         {
             $mrf->is_resignation_letter = 1;
         }
+        $mrf->user_id = auth()->user()->id;
+        // dd('no');
         $mrf->educational_attainment = $request->educational_attainment;
         $mrf->work_experience = $request->work_experience;
         $mrf->specific_field = $request->specific_field;
@@ -109,16 +121,22 @@ class ManPowerRequisitionFormController extends Controller
         $mrf->job_level = $request->job_level;
         $mrf->salary_range = $request->salary_rate;
         $mrf->other_remarks = $request->other_remarks;
-        $mrf->recruiter_id = $request->recruiter;
+        // $mrf->recruiter_id = $request->recruiter;
         $mrf->mrf_status = "Pending";
-        
-        $attachment = $request->file('mrf_attachment');
-        $name = time().'-'.$attachment->getClientOriginalName();
-        $attachment->move(public_path('mrf_attachments'), $name);
-        $file_name = '/mrf_attachments/'.$name;
-
-        $mrf->mrf_attachment = $file_name;
         $mrf->save();
+        
+        $mrf_attachment = $request->file('mrf_attachment');
+        foreach($mrf_attachment as $mrf_file)
+        {
+            $name = time().'-'.$mrf_file->getClientOriginalName();
+            $mrf_file->move(public_path('mrf_attachments'), $name);
+            $file_name = '/mrf_attachments/'.$name;
+
+            $mrf_attachment = new MrfAttachment;
+            $mrf_attachment->mrf_id = $mrf->id;
+            $mrf_attachment->file_path = $file_name;
+            $mrf_attachment->save();
+        }
 
         Alert::success('Successfully Saved')->persistent('Dismiss');
         return back();
@@ -241,12 +259,14 @@ class ManPowerRequisitionFormController extends Controller
     public function print($id)
     {
         $mrf = ManPowerRequisitionForm::findOrFail($id);
-
+        $hr_manager = User::where('role', 'Human Resources Manager')->first();
+        
         $data = [];
         $data['mrf'] = $mrf;
+        $data['hr_manager'] = $hr_manager->name;
 
         $pdf = App::make('dompdf.wrapper');
-        $pdf->loadView('human_resources.print_mrf', $data)->setPaper('a4', 'portrait');
+        $pdf->loadView('human_resources.print_mrf', $data)->setPaper('legal', 'portrait');
         return $pdf->stream();
     }
 
@@ -316,6 +336,16 @@ class ManPowerRequisitionFormController extends Controller
                 $mrf_approvers->save();
             }
         }
+
+        Alert::success('Successfully Saved')->persistent('Dismiss');
+        return back();
+    }
+
+    public function cancelMrf($id)
+    {
+        $mrf = ManPowerRequisitionForm::findOrFail($id);
+        $mrf->mrf_status = 'Cancelled';
+        $mrf->save();
 
         Alert::success('Successfully Saved')->persistent('Dismiss');
         return back();

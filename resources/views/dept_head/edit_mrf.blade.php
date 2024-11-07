@@ -31,15 +31,16 @@
                         <div class="col-md-6">
                             Company :
                             <select class="form-control cat" name="company" required>
-                                @foreach ($companies->where('id', auth()->user()->department->company->id) as $c)
+                                <option value="">Select Company</option>
+                                @foreach ($companies as $c)
                                     <option value="{{$c->id}}" @if($c->id == $m->company_id) selected @endif>{{$c->code .' - '.$c->name}}</option>
                                 @endforeach
                             </select>
                         </div>
-                        <div class="col-md-6">
+                        {{-- <div class="col-md-6">
                             Target Date :
                             <input type="date" name="target_date" class="form-control form-control-sm" value="{{$m->target_date}}" required>
-                        </div>
+                        </div> --}}
                         <div class="col-md-6">
                             Position Status :
                             {{-- <input type="text" name="name" class="form-control form-control-sm" required> --}}
@@ -50,7 +51,7 @@
                                 <option value="Additional" @if($m->position_status == "Additional") selected @endif>Additional</option>
                             </select>
                         </div>
-                        <div class="col-md-6 replacementOf" style="display: none;">
+                        <div class="col-md-12 replacementOf" style="display: none;">
                             Replacement of :
                             {{-- <select class="form-control cat" name="company">
                                 <option value="">-Company-</option>
@@ -89,7 +90,7 @@
                         </div>
                         <div class="col-md-12">
                             Upload Attachment :
-                            <input type="file" name="mrf_attachment" class="form-control form-control-sm">
+                            <input type="file" name="mrf_attachment[]" class="form-control form-control-sm" accept=".pdf" multiple>
                         </div>
                     </div>
                     <hr>

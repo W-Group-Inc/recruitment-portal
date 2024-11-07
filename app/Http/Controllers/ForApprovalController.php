@@ -22,9 +22,14 @@ class ForApprovalController extends Controller
     public function index()
     {
         // $mrf = ManPowerRequisitionForm::with('mrfApprovers')->get();
-        $mrf_approvers = MrfApprover::where('user_id', auth()->user()->id)->where('status', 'Pending')->get();
+        $mrf_list = [];
+        if (auth()->user()->role == 'Human Resources Manager')
+        {
+            $mrf_list = ManPowerRequisitionForm::where('mrf_status', 'Pending')->get();
+        }
+        // $mrf_approvers = MrfApprover::where('user_id', auth()->user()->id)->where('status', 'Pending')->get();
 
-        return view('human_resources.for_approval', compact('mrf_approvers'));
+        return view('human_resources.for_approval', compact('mrf_list'));
     }
 
     /**

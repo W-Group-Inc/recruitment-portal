@@ -17,34 +17,53 @@
                         <div class="col-md-6 mb-1">
                             Position Title :
                             {{-- <input type="text" name="position_title" class="form-control form-control-sm" required> --}}
+                            @if(auth()->user()->role == 'Human Resources Manager')
                             <select name="job_position" class="form-control cat" required>
                                 <option value="">Select Job Position</option>
                                 @foreach ($job_positions as $job_position)
                                     <option value="{{$job_position->id}}">{{$job_position->position}}</option>
                                 @endforeach
                             </select>
+                            @else
+                            <select name="job_position" class="form-control cat" required>
+                                <option value="">Select Job Position</option>
+                                @foreach ($job_positions->where('department_id', auth()->user()->department_id) as $job_position)
+                                    <option value="{{$job_position->id}}">{{$job_position->position}}</option>
+                                @endforeach
+                            </select>
+                            @endif
                         </div>
                         <div class="col-md-6 mb-1">
                             Department :
+                            @if(auth()->user()->role == 'Human Resources Manager')
+                            <select class="form-control cat" name="department" required>
+                                <option value="">Select department</option>
+                                @foreach ($departments as $d)
+                                    <option value="{{$d->id}}">{{$d->code .' - '.$d->name}}</option>
+                                @endforeach
+                            </select>
+                            @else
                             <select class="form-control cat" name="department" required>
                                 {{-- <option value="">-Department-</option> --}}
                                 @foreach ($departments->where('id', auth()->user()->department_id) as $d)
                                     <option value="{{$d->id}}">{{$d->code .' - '.$d->name}}</option>
                                 @endforeach
                             </select>
+                            @endif
                         </div>
                         <div class="col-md-6 mb-1">
                             Company :
                             <select class="form-control cat" name="company" required>
-                                @foreach ($companies->where('id', auth()->user()->department->company->id) as $c)
+                                <option value="">Select Company</option>
+                                @foreach ($companies as $c)
                                     <option value="{{$c->id}}">{{$c->code .' - '.$c->name}}</option>
                                 @endforeach
                             </select>
                         </div>
-                        <div class="col-md-6 mb-1">
+                        {{-- <div class="col-md-6 mb-1">
                             Target Date of On-boarding:
                             <input type="date" name="target_date" class="form-control form-control-sm" min="{{date('Y-m-d', strtotime("+1 month"))}}" required>
-                        </div>
+                        </div> --}}
                         <div class="col-md-6 mb-1">
                             Position Status :
                             {{-- <input type="text" name="name" class="form-control form-control-sm" required> --}}
@@ -55,7 +74,7 @@
                                 <option value="Additional">Additional</option>
                             </select>
                         </div>
-                        <div class="col-md-6 mb-1 replacementOf" style="display: none;">
+                        <div class="col-md-12 mb-1 replacementOf" style="display: none;">
                             Replacement of :
                             <select class="form-control cat" name="replacement">
                                 <option value="">-Employee-</option>
@@ -64,7 +83,7 @@
                                 @endforeach
                             </select>
                         </div>
-                        <div class="col-md-6 mb-1">
+                        <div class="col-md-12 mb-1">
                             Justification :
                             <textarea name="justification" class="form-control form-control-sm" cols="30" rows="10" required></textarea>
                         </div>
@@ -94,7 +113,7 @@
                         </div>
                         <div class="col-md-12 mb-1">
                             Upload Attachment :
-                            <input type="file" name="mrf_attachment" class="form-control form-control-sm" required>
+                            <input type="file" name="mrf_attachment[]" class="form-control form-control-sm" accept=".pdf" multiple required>
                         </div>
                     </div>
                     <hr>
