@@ -25,7 +25,7 @@
         <!--- Sidemenu -->
         <ul class="side-nav">
 
-            @if(auth()->user()->role != 'Applicant' && auth()->user()->role != 'Head Business Unit')
+            @if(auth()->user()->role != 'Head Business Unit')
             <li class="side-nav-title side-nav-item">Home</li>
 
             <li class="side-nav-item">
@@ -208,13 +208,15 @@
                     <span>Job Application</span>
                 </a>
             </li>
-
-            <li class="side-nav-item">
-                <a href="{{url('applicant-documents')}}" class="side-nav-link" onclick="show()">
-                    <i class=" uil-upload"></i>
-                    <span>Applicant Documents</span>
-                </a>
-            </li>
+            
+                @if(checkIfApplicantPass(auth()->user()->id))
+                    <li class="side-nav-item">
+                        <a href="{{url('applicant-documents')}}" class="side-nav-link" onclick="show()">
+                            <i class=" uil-upload"></i>
+                            <span>Applicant Documents</span>
+                        </a>
+                    </li>
+                @endif
             @endif
         </ul>
         <!-- End Sidebar -->

@@ -65,6 +65,9 @@ class HomeController extends Controller
 
             return view('home', compact('mrf', 'applicant', 'month'));
         }
-
+        if(auth()->user()->role == "Applicant")
+        {
+            return view('home');
+        }
     }
 }
