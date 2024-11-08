@@ -54,9 +54,10 @@ class HomeController extends Controller
             for ($i=1; $i <= 12; $i++)
             {
                 $object = new stdClass;
-                $object->total_mrf = ManPowerRequisitionForm::whereYear('created_at', date('Y'))->whereMonth('created_at', date('m', mktime(0,0,0,$i,1,date("Y"))))->where('mrf_status', 'Pending')->count();
-                $object->open = ManPowerRequisitionForm::whereYear('created_at', date('Y'))->whereMonth('created_at', date('m', mktime(0,0,0,$i,1,date("Y"))))->where('progress', 'Open')->where('mrf_status', 'Pending')->count();
-                $object->serve = ManPowerRequisitionForm::whereYear('created_at', date('Y'))->whereMonth('created_at', date('m', mktime(0,0,0,$i,1,date("Y"))))->where('progress', 'Serve')->where('mrf_status', 'Pending')->count();
+                $object->total_mrf = ManPowerRequisitionForm::whereYear('created_at', date('Y'))->whereMonth('created_at', date('m', mktime(0,0,0,$i,1,date("Y"))))->count();
+                $object->open = ManPowerRequisitionForm::whereYear('created_at', date('Y'))->whereMonth('created_at', date('m', mktime(0,0,0,$i,1,date("Y"))))->where('progress', 'Open')->count();
+                $object->serve = ManPowerRequisitionForm::whereYear('created_at', date('Y'))->whereMonth('created_at', date('m', mktime(0,0,0,$i,1,date("Y"))))->where('progress', 'Serve')->count();
+                $object->reject = ManPowerRequisitionForm::whereYear('created_at', date('Y'))->whereMonth('created_at', date('m', mktime(0,0,0,$i,1,date("Y"))))->where('progress', 'Rejected')->where('mrf_status', 'Rejected')->count();
                 $object->m = date('M', mktime(0,0,0,$i,1,date('Y')));
 
                 $month[] = $object;

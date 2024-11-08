@@ -125,15 +125,18 @@
                                             <i class="uil-eye"></i>
                                         </button>
 
-                                        <a href="{{url('print-mrf/'.$m->id)}}" class="btn btn-sm btn-secondary" target="_blank">
-                                            <i class="dripicons-print"></i>
-                                        </a>
+                                        @if($m->mrf_status != 'Rejected')
+                                            <a href="{{url('print-mrf/'.$m->id)}}" class="btn btn-sm btn-secondary" target="_blank">
+                                                <i class="dripicons-print"></i>
+                                            </a>
 
-                                        @if($m->progress != null)
-                                            <button type="button" class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#editProgress{{$m->id}}">
-                                                <i class="dripicons-pencil"></i>
-                                            </button>
+                                            @if($m->progress != null)
+                                                <button type="button" class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#editProgress{{$m->id}}">
+                                                    <i class="dripicons-pencil"></i>
+                                                </button>
+                                            @endif
                                         @endif
+
 
                                         @if(!empty($m->user_id) && $m->mrf_status == 'Pending')
 
@@ -204,7 +207,7 @@
                                         <span class="badge bg-warning">
                                         @elseif($m->progress == "Cancelled")
                                         <span class="badge bg-danger">
-                                        @elseif($m->progress == "Reject")
+                                        @elseif($m->progress == "Rejected")
                                         <span class="badge bg-danger">
                                         @endif  
 

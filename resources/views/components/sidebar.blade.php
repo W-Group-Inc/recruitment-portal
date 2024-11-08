@@ -152,9 +152,6 @@
                                 <span>Approved MRF</span>
                             </a>
                         </li>
-                        <li>
-                            <a href="index.html">Reviewed MRF</a>
-                        </li>
                     </ul>
                 </div>
             </li>

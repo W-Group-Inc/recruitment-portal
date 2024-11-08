@@ -81,7 +81,26 @@ class ApplicantController extends Controller
         $attachment->move(public_path('resume'),$name);
 
         $applicant->resume = '/resume/'.$name;
+        $applicant->date_availability = $request->date_availability;
+        $applicant->previous_compensation = $request->previous_compensation;
+        $applicant->asking_compensation = $request->asking_compensation;
         $applicant->save();
+
+        $password = Str::random(8);
+        $name = $applicant->firstname.' '.$applicant->middlename.' '.$applicant->lastname;
+
+        $user = new User;
+        $user->name = $name;
+        $user->email = $applicant->email;
+        $user->password = bcrypt($password);
+        $user->status = 'Active';
+        $user->role = 'Applicant';
+        $user->department_id = $applicant->mrf->department_id;
+        $user->company_id = $applicant->mrf->company_id;
+        $user->applicant_id = $applicant->id;
+        $user->save();
+
+        // $applicant->notify(new ApplicantCredentialsNotification($user, $applicant, $password));
         
         return back()->with('success', 'Thank you for your submission. Please wait to hear from our talent acquisition team regarding your status.');
     }
@@ -239,21 +258,21 @@ class ApplicantController extends Controller
                     }
                 }
 
-                $password = Str::random(8);
-                $name = $applicant->firstname.' '.$applicant->middlename.' '.$applicant->lastname;
+                // $password = Str::random(8);
+                // $name = $applicant->firstname.' '.$applicant->middlename.' '.$applicant->lastname;
 
-                $user = new User;
-                $user->name = $name;
-                $user->email = $applicant->email;
-                $user->password = bcrypt($password);
-                $user->status = 'Active';
-                $user->role = 'Applicant';
-                $user->department_id = $applicant->mrf->department_id;
-                $user->company_id = $applicant->mrf->company_id;
-                $user->applicant_id = $applicant->id;
-                $user->save();
+                // $user = new User;
+                // $user->name = $name;
+                // $user->email = $applicant->email;
+                // $user->password = bcrypt($password);
+                // $user->status = 'Active';
+                // $user->role = 'Applicant';
+                // $user->department_id = $applicant->mrf->department_id;
+                // $user->company_id = $applicant->mrf->company_id;
+                // $user->applicant_id = $applicant->id;
+                // $user->save();
 
-                $applicant->notify(new ApplicantCredentialsNotification($user, $applicant, $password));
+                // $applicant->notify(new ApplicantCredentialsNotification($user, $applicant, $password));
             }
 
             if (auth()->user()->role == 'Human Resources')

@@ -295,7 +295,7 @@
         pageLength: 10
     })
 
-    colors = ["#39afd1", "#ffbc00", "#0acf97"];
+    colors = ["#39afd1", "#ffbc00", "#0acf97", "#fa5c7c"];
     dataColors = $("#full-stacked-column").data("colors");
     if (dataColors) {
         colors = dataColors.split(",");
@@ -305,6 +305,7 @@
     var total_mrf = {!! json_encode(collect($month)->pluck('total_mrf')->toArray()) !!}
     var open_mrf = {!! json_encode(collect($month)->pluck('open')->toArray()) !!}
     var serve_mrf = {!! json_encode(collect($month)->pluck('serve')->toArray()) !!}
+    var reject_mrf = {!! json_encode(collect($month)->pluck('reject')->toArray()) !!}
     
     var options = {
         chart: {
@@ -321,8 +322,12 @@
                 data: open_mrf
             },
             { 
-                name: "Serve", 
+                name: "Served", 
                 data: serve_mrf
+            },
+            { 
+                name: "Rejected", 
+                data: reject_mrf
             }
         ],
         xaxis: {

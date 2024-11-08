@@ -22,6 +22,7 @@
                                     <th>Position</th>
                                     <th>Company</th>
                                     <th>Department</th>
+                                    <th>Assign Recruiter</th>
                                     <th>Status</th>
                                     <th>Progress</th>
                                 </tr>
@@ -49,6 +50,7 @@
                                         <td>{{$mrf->jobPosition->position}}</td>
                                         <td>{{$mrf->company->name}}</td>
                                         <td>{{$mrf->department->name}}</td>
+                                        <td>{{$mrf->recruiter->name}}</td>
                                         <td>
                                             @if($mrf->mrf_status == "Approved")
                                             <span class="badge bg-success">
@@ -84,7 +86,7 @@
                                     </tr>
 
                                     @include('human_resources.upload_approved_mrf')
-                                    @include('human_resources.assign_recruiter')
+                                    {{-- @include('human_resources.assign_recruiter') --}}
                                 @endforeach
                             </tbody>
                         </table>

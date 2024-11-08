@@ -27,13 +27,13 @@
     </div>
 </div> --}}
 
-{{-- <div class="modal" id="assign{{$mrf->id}}">
+<div class="modal" id="recruiter{{$m->id}}">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">Assign Recruiter</h5>
             </div>
-            <form method="POST" action="{{url('assign-recruiter/'.$mrf->id)}}" onsubmit="show()">
+            <form method="POST" action="{{url('assign-recruiter/'.$m->id)}}" onsubmit="show()">
                 @csrf
 
                 <div class="modal-body">
@@ -54,4 +54,4 @@
             </form>
         </div>
     </div>
-</div> --}}
+</div>

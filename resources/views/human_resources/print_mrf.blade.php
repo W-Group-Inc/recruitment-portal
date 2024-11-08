@@ -436,7 +436,7 @@
                 </td>
                 <td width="50%">
                     <p style="text-align: center;">Received by:</p>
-                    <p style="text-align: center;" class="mt-4">&nbsp;</p>
+                    <p style="text-align: center;" class="mt-4">{{optional($mrf->recruiter)->name}}</p>
                     <p style="text-align: center; border-top: .5px solid black; width: 50%; margin: 0 auto; padding-top: 2px;">HR Analyst - Recruitment</p>
                 </td>
             </tr>

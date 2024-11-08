@@ -33,11 +33,12 @@ class ManPowerRequisitionFormController extends Controller
         $employment_status = $this->employmentStatus();
         $job_level = $this->jobLevel();
         $user = User::where('status', 'Active')->get();
+        $recruiter = User::where('status', 'Active')->whereIn('role', ['Human Resources', 'Human Resources Manager'])->get();
         $job_positions = JobPosition::where('status', null)->get();
         $get_resigned_employee = file_get_contents(env('WPRO_RESIGNED_EMPLOYEE', 'https://hris.wsystem.online'));
         $resign_employee = json_decode($get_resigned_employee);
         
-        return view('dept_head.mrf', compact('mrf', 'departments', 'companies', 'employment_status', 'job_level', 'user', 'job_positions', 'resign_employee'));
+        return view('dept_head.mrf', compact('mrf', 'departments', 'companies', 'employment_status', 'job_level', 'user', 'job_positions', 'resign_employee', 'recruiter'));
     }
 
     // public function new()

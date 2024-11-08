@@ -29,7 +29,19 @@
                         </div>
                         <div class="col-lg-12 mb-2">
                             Upload Resume
-                            <input type="file" name="resume" class="form-control form-control-sm" required>
+                            <input type="file" name="resume" class="form-control form-control-sm" accept=".pdf" required>
+                        </div>
+                        <div class="col-lg-12 mb-2">
+                            Date availability to start
+                            <input type="date" name="date_availability" class="form-control form-control-sm" min="{{date('Y-m-d')}}" required>
+                        </div>
+                        <div class="col-lg-12 mb-2">
+                            Previous compensation
+                            <input type="text" name="previous_compensation" class="form-control form-control-sm" required>
+                        </div>
+                        <div class="col-lg-12 mb-2">
+                            Asking compensation
+                            <input type="text" name="asking_compensation" class="form-control form-control-sm" required>
                         </div>
                     </div>
                 </div>
