@@ -21,10 +21,10 @@
                                 <th>Company</th>
                                 <th>Department</th>
                                 <th>Position</th>
-                                <th>Position Summary</th>
+                                {{-- <th>Position Summary</th>
                                 <th>Duties and Responsibility</th>
                                 <th>Approval Authority</th>
-                                <th>Minimum Requirements</th>
+                                <th>Minimum Requirements</th> --}}
                                 <td>Status</td>
                             </tr>
                         </thead>
@@ -32,12 +32,16 @@
                             @foreach ($job_position as $jp)
                                 <tr>
                                     <td>
+                                        <button type="button" class="btn btn-sm btn-info" data-bs-toggle="modal" data-bs-target="#view{{$jp->id}}">
+                                            <i class="dripicons-preview"></i>
+                                        </button>
+
                                         <button type="button" class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#edit{{$jp->id}}">
                                             <i class="dripicons-pencil"></i>
                                         </button>
 
                                         @if($jp->status == 'Inactive')
-                                        <form method="POST" action="{{url('activate-job-position/'.$jp->id)}}" onsubmit="show()">
+                                        <form method="POST" action="{{url('activate-job-position/'.$jp->id)}}" onsubmit="show()" class="d-inline-block">
                                             @csrf
 
                                             <button type="button" class="btn btn-sm btn-info activate-btn">
@@ -45,7 +49,7 @@
                                             </button>
                                         </form>
                                         @else
-                                        <form method="POST" action="{{url('deactivate-job-position/'.$jp->id)}}" onsubmit="show()">
+                                        <form method="POST" action="{{url('deactivate-job-position/'.$jp->id)}}" onsubmit="show()" class="d-inline-block">
                                             @csrf
 
                                             <button type="button" class="btn btn-sm btn-danger deactivate-btn">
@@ -57,10 +61,10 @@
                                     <td>{{$jp->company->name}}</td>
                                     <td>{{$jp->department->name}}</td>
                                     <td>{{$jp->position}}</td>
-                                    <td>{!! nl2br($jp->position_summary) !!}</td>
+                                    {{-- <td>{!! nl2br($jp->position_summary) !!}</td>
                                     <td>{!! nl2br($jp->duties_and_responsibility) !!}</td>
                                     <td>{!! nl2br($jp->approval_authority) !!}</td>
-                                    <td>{!! nl2br($jp->minimum_requirements) !!}</td>
+                                    <td>{!! nl2br($jp->minimum_requirements) !!}</td> --}}
                                     <td>
                                         @if($jp->status == 'Inactive')
                                         <span class="badge bg-danger">Inactive</span>
@@ -71,6 +75,7 @@
                                 </tr>
 
                                 @include('human_resources.edit_job_position')
+                                @include('human_resources.view_job_position')
                             @endforeach
                         </tbody>
                     </table>
