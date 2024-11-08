@@ -71,6 +71,7 @@ Route::get('print-jo/{id}', 'ApplicantController@printJo');
 Route::post('update-status/{id}', 'ApplicantController@updateApplicantStatus');
 Route::post('add_interviewer/{id}', 'ApplicantController@interviewer');
 Route::get('for-interview', 'ApplicantController@forInterview');
+Route::post('applicant-action', 'ApplicantController@applicantAction');
 
 # Job Application
 Route::get('job-application', 'JobApplicationController@index');

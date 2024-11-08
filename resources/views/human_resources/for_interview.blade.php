@@ -12,6 +12,7 @@
                                 <th>Actions</th>
                                 <th>Applicant</th>
                                 <th>Position</th>
+                                <th>Schedule</th>
                                 <th>Status</th>
                             </tr>
                         </thead>
@@ -31,6 +32,13 @@
                                     </td>
                                     <td>
                                         {{$applicant->mrf->jobPosition->position}}
+                                    </td>
+                                    <td>
+                                        @foreach ($applicant->schedule as $sched)
+                                            <small>Name: {{$sched->schedule_name}}</small><br>
+                                            <small>Date: {{date('M. d, Y', strtotime($sched->date_time))}}</small><br>
+                                            <small>Time: {{date('g:i A', strtotime($sched->date_time))}}</small><br>
+                                        @endforeach
                                     </td>
                                     <td>
                                         @if($applicant->applicant_status == 'Passed')

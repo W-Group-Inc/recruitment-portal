@@ -109,20 +109,6 @@
                 </a>
             </li> --}}
 
-            @endif
-
-            <li class="side-nav-item">
-                <a href="{{url('mrf')}}" class="side-nav-link" onclick="show()">
-                    @if(auth()->user()->role == "Department Head")
-                    <i class="uil-file"></i>
-                    <span> MRF</span>
-                    @elseif(auth()->user()->role == "Human Resources" || auth()->user()->role == "Human Resources Manager")
-                    <i class="uil-file"></i>
-                    <span>MRF</span>
-                    @endif
-                </a>
-            </li>
-
             <li class="side-nav-item">
                 <a data-bs-toggle="collapse" href="#mrfMenuList" aria-expanded="false" aria-controls="mrfMenuList" class="side-nav-link">
                     <i class=" dripicons-menu"></i>
@@ -154,6 +140,19 @@
                         </li>
                     </ul>
                 </div>
+            </li>
+            @endif
+
+            <li class="side-nav-item">
+                <a href="{{url('mrf')}}" class="side-nav-link" onclick="show()">
+                    @if(auth()->user()->role == "Department Head")
+                    <i class="uil-file"></i>
+                    <span> MRF</span>
+                    @elseif(auth()->user()->role == "Human Resources" || auth()->user()->role == "Human Resources Manager")
+                    <i class="uil-file"></i>
+                    <span>MRF</span>
+                    @endif
+                </a>
             </li>
             @endif
 

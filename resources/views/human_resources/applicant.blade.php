@@ -63,6 +63,7 @@
                                     <th>Middlename</th>
                                     <th>Email</th>
                                     <th>Position</th>
+                                    <th>Date Applied</th>
                                     <th>Interviewer</th>
                                     <th>Status</th>
                                 </tr>
@@ -83,21 +84,36 @@
                                                 <i class="dripicons-pencil"></i>
                                             </button>
                                             @endif --}}
-                                            
-                                            @if($applicant->applicant_status == "Pending")
-                                            <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#interviewer{{$applicant->id}}">
-                                                <i class="uil-user"></i>
-                                            </button>
+                                            @if(auth()->user()->role == 'Human Resources Manager')
+                                                @if($applicant->applicant_status == "Pending")
+                                                <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#interviewer{{$applicant->id}}">
+                                                    <i class="uil-user"></i>
+                                                </button>
+                                                @endif
                                             @endif
                                         </td>
                                         <td>{{$applicant->lastname}}</td>
                                         <td>{{$applicant->firstname}}</td>
                                         <td>{{$applicant->middlename}}</td>
                                         <td>{{$applicant->email}}</td>
-                                        <td>{{$applicant->mrf->jobPosition->position}}</td>    
+                                        <td>{{$applicant->mrf->jobPosition->position}}</td>   
+                                        <td>{{date('M. d, Y', strtotime($applicant->created_at))}}</td> 
                                         <td>
-                                            @foreach ($applicant->interviewers as $interviewer)
-                                                <small>{{$interviewer->level}} . {{$interviewer->user->name}} - {{$interviewer->status}}</small> <br>
+                                            @foreach ($applicant->interviewers as $key=>$interviewer)
+                                                <small>{{$key+1}} . {{$interviewer->user->name}} - 
+                                                    @if($interviewer->status == 'Passed')
+                                                    <span class="badge bg-success">
+                                                    @elseif($interviewer->status == 'Pending')
+                                                    <span class="badge bg-warning">
+                                                    @elseif($interviewer->status == 'Failed')
+                                                    <span class="badge bg-danger">
+                                                    @elseif($interviewer->status == 'Waiting')
+                                                    <span class="badge bg-info">
+                                                    @endif
+                                                    {{$interviewer->status}}
+                                                    </span>
+                                                </small> 
+                                                <br>
                                             @endforeach
                                         </td>
                                         <td>
@@ -131,10 +147,24 @@
                                         <td>{{$applicant->firstname}}</td>
                                         <td>{{$applicant->middlename}}</td>
                                         <td>{{$applicant->email}}</td>
-                                        <td>{{$applicant->mrf->jobPosition->position}}</td>    
+                                        <td>{{$applicant->mrf->jobPosition->position}}</td>   
+                                        <td>{{date('M. d, Y', strtotime($applicant->created_at))}}</td> 
                                         <td>
-                                            @foreach ($applicant->interviewers as $interviewer)
-                                                <small>{{$interviewer->level}} . {{$interviewer->user->name}} - {{$interviewer->status}}</small> <br>
+                                            @foreach ($applicant->interviewers as $key=>$interviewer)
+                                                <small>{{$key+1}} . {{$interviewer->user->name}} - 
+                                                    @if($interviewer->status == 'Passed')
+                                                    <span class="badge bg-success">
+                                                    @elseif($interviewer->status == 'Pending')
+                                                    <span class="badge bg-warning">
+                                                    @elseif($interviewer->status == 'Failed')
+                                                    <span class="badge bg-danger">
+                                                    @elseif($interviewer->status == 'Waiting')
+                                                    <span class="badge bg-info">
+                                                    @endif
+                                                    {{$interviewer->status}}
+                                                    </span>
+                                                </small> 
+                                                <br>
                                             @endforeach
                                         </td>
                                         <td>
@@ -175,6 +205,8 @@
     function add_interviewer(mrfId)
     {
         var lastId = $('.interviewer-container-'+mrfId).children().last().attr('id');
+        console.log(lastId);
+        
         if (lastId)
         {
             var id = lastId.split('_')
@@ -184,7 +216,8 @@
         {
             var finalId = 1
         }
-
+        console.log(finalId);
+        
         var new_row = `
             <div class="row" id="interviewer_${mrfId}_${finalId}">
                 <div class="col-md-1">

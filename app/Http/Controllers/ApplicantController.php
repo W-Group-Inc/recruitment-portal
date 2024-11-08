@@ -231,32 +231,32 @@ class ApplicantController extends Controller
             }
             else
             {
-                $applicant->applicant_status = "Passed";
-                $applicant->save();
+                // $applicant->applicant_status = "Passed";
+                // $applicant->save();
 
-                $mrf = ManPowerRequisitionForm::findOrFail($applicant->man_power_requisition_form_id);
-                $mrf->progress = 'Serve';
-                $mrf->save();
+                // $mrf = ManPowerRequisitionForm::findOrFail($applicant->man_power_requisition_form_id);
+                // $mrf->progress = 'Serve';
+                // $mrf->save();
 
-                if ($mrf->progress == 'Serve')
-                {
-                    $interviewers = Interviewer::where('man_power_requisition_form_id', $mrf->id)
-                        ->where(function($query)use($request) {
-                            $query->where('status', 'Pending')
-                                ->orWhere('status', 'Waiting');
-                        })
-                        ->get();
+                // if ($mrf->progress == 'Serve')
+                // {
+                //     $interviewers = Interviewer::where('man_power_requisition_form_id', $mrf->id)
+                //         ->where(function($query)use($request) {
+                //             $query->where('status', 'Pending')
+                //                 ->orWhere('status', 'Waiting');
+                //         })
+                //         ->get();
 
-                    foreach($interviewers as $key=>$interviewer)
-                    {
-                        $interviewer->status = 'Cancelled';
-                        $interviewer->save();
+                //     foreach($interviewers as $key=>$interviewer)
+                //     {
+                //         $interviewer->status = 'Cancelled';
+                //         $interviewer->save();
 
-                        $applicant = Applicant::where('id', $interviewer->applicant_id)->first();
-                        $applicant->applicant_status = 'Cancelled';
-                        $applicant->save();
-                    }
-                }
+                //         $applicant = Applicant::where('id', $interviewer->applicant_id)->first();
+                //         $applicant->applicant_status = 'Cancelled';
+                //         $applicant->save();
+                //     }
+                // }
 
                 // $password = Str::random(8);
                 // $name = $applicant->firstname.' '.$applicant->middlename.' '.$applicant->lastname;
@@ -344,16 +344,33 @@ class ApplicantController extends Controller
 
     public function interviewer(Request $request, $id)
     {
+        // dd($request->all());
         if($request->has('interviewer'))
         {
-            $interviewer = Interviewer::where('man_power_requisition_form_id', $request->mrf_id)->where('applicant_id', $request->applicant_id)->delete();
+            // $interviewer_data = Interviewer::where('man_power_requisition_form_id', $request->mrf_id)->where('applicant_id', $request->applicant_id)->orderBy('level', 'desc')->first();
+            $interviewer = Interviewer::where('man_power_requisition_form_id', $request->mrf_id)->where('applicant_id', $request->applicant_id)->whereIn('status', ['Pending', 'Waiting'])->delete();
             foreach($request->interviewer as $key=>$value)
             {
                 $interviewer = new Interviewer;
                 $interviewer->man_power_requisition_form_id = $request->mrf_id;
                 $interviewer->applicant_id = $request->applicant_id;
                 $interviewer->user_id = $value;
-                $interviewer->level = $key+1;
+                // $interviewer->level = $key+1;
+                // if ($interviewer_data == null)
+                // {
+                // }
+                // else
+                // {
+                //     if ($key == 0)
+                //     {
+                //         $interviewer->level = $interviewer_data->level+1;
+                //     }
+                //     else
+                //     {
+                //         $interviewer->level = $interviewer_data->level+2;
+                //     }
+                // }
+
                 if ($key == 0)
                 {
                     $interviewer->status = 'Pending';
@@ -380,5 +397,35 @@ class ApplicantController extends Controller
         $interviewers = Interviewer::where('user_id', auth()->user()->id)->where('status', 'Pending')->get();
 
         return view('human_resources.for_interview', compact('interviewers'));
+    }
+
+    public function applicantAction($id)
+    {
+        // $applicant->applicant_status = "Passed";
+        // $applicant->save();
+
+        // $mrf = ManPowerRequisitionForm::findOrFail($applicant->man_power_requisition_form_id);
+        // $mrf->progress = 'Serve';
+        // $mrf->save();
+
+        // if ($mrf->progress == 'Serve')
+        // {
+        //     $interviewers = Interviewer::where('man_power_requisition_form_id', $mrf->id)
+        //         ->where(function($query)use($request) {
+        //             $query->where('status', 'Pending')
+        //                 ->orWhere('status', 'Waiting');
+        //         })
+        //         ->get();
+
+        //     foreach($interviewers as $key=>$interviewer)
+        //     {
+        //         $interviewer->status = 'Cancelled';
+        //         $interviewer->save();
+
+        //         $applicant = Applicant::where('id', $interviewer->applicant_id)->first();
+        //         $applicant->applicant_status = 'Cancelled';
+        //         $applicant->save();
+        //     }
+        // }
     }
 }

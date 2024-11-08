@@ -20,13 +20,13 @@
                     
                     <div class="interviewer-container-{{$applicant->id}} mt-3">
                         @if($applicant->interviewers->isNotEmpty())
-                            @foreach ($applicant->interviewers as $i)
-                            <div class="row" id="interviewer_{{$applicant->id}}_{{$i->level}}">
+                            @foreach ($applicant->interviewers as $key=>$i)
+                            <div class="row" id="interviewer_{{$applicant->id}}_{{$key+1}}">
                                 <div class="col-md-1">
-                                    <small>{{$i->level}}</small>
+                                    <small>{{$key+1}}</small>
                                 </div>
                                 <div class="col-md-11 mb-3">
-                                    <select name="interviewer[]" class="form-control cat">
+                                    <select name="interviewer[]" class="form-control cat" @if($i->status == 'Passed') disabled @endif>
                                         <option value="">- Interviewer -</option>
                                         @foreach ($interviewers->whereIn('role', ['Department Head', 'Human Resources', 'Head Business Unit', 'Human Resources Manager']) as $interviewer)
                                         <option value="{{$interviewer->id}}" @if($interviewer->id == $i->user_id) selected @endif>{{$interviewer->name}}</option>
@@ -35,6 +35,20 @@
                                 </div>
                             </div>
                             @endforeach
+                        @else
+                        <div class="row" id="interviewer_{{$applicant->id}}_1">
+                            <div class="col-md-1">
+                                <small>1</small>
+                            </div>
+                            <div class="col-md-11 mb-3">
+                                <select name="interviewer[]" class="form-control cat">
+                                    <option value="">- Interviewer -</option>
+                                    @foreach ($interviewers->whereIn('role', ['Department Head', 'Human Resources', 'Head Business Unit', 'Human Resources Manager']) as $interviewer)
+                                    <option value="{{$interviewer->id}}" @if($interviewer->id == $applicant->mrf->recruiter->id) selected @endif>{{$interviewer->name}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
                         @endif
                     </div>
                 </div>
