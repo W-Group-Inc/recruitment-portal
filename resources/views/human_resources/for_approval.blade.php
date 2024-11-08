@@ -32,6 +32,7 @@
                                 <th>Position</th>
                                 <th>Company</th>
                                 <th>Department</th>
+                                <th>Reviewer</th>
                                 <th>Status</th>
                             </tr>
                         </thead>
@@ -50,6 +51,10 @@
                                             <i class="dripicons-print"></i>
                                         </a>
 
+                                        <button type="button" class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#reviewer{{$m->id}}">
+                                            <i class="dripicons-document-edit"></i>
+                                        </button>
+
                                         {{-- <form action="{{url('delete-mrf/'.$m->id)}}" method="post" class="d-inline-block">
                                             @csrf
 
@@ -63,6 +68,7 @@
                                     <td>{{$m->jobPosition->position}}</td>
                                     <td>{{$m->company->name}}</td>
                                     <td>{{$m->department->name}}</td>
+                                    <td>{{$m->reviewer->name}}</td>
                                     <td>
                                         @if($m->mrf_status == "Approved")
                                         <span class="badge bg-success">
@@ -76,6 +82,7 @@
                                 </tr>
 
                                 @include('human_resources.view_for_approval')
+                                @include('human_resources.reviewed_by')
                             @endforeach
                         </tbody>
                     </table>

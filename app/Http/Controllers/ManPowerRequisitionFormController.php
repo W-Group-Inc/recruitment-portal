@@ -284,58 +284,62 @@ class ManPowerRequisitionFormController extends Controller
     {
         // dd($request->all(), $id);
         $mrf = ManPowerRequisitionForm::findOrFail($id);
+        $mrf->reviewed_by = $request->reviewer;
+        $mrf->save();
         
-        if ($request->recruiter == 23)
-        {
-            $approvers = [23, 21];
-            $mrf_approvers = MrfApprover::where('mrf_id', $mrf->id)->delete();
-            foreach($approvers as $key=>$value)
-            {
-                $mrf_approvers = new MrfApprover;
-                $mrf_approvers->user_id = $value;
-                $mrf_approvers->mrf_id = $mrf->id;
-                $mrf_approvers->level = $key+1;
-                if ($key == 0)
-                {
-                    $mrf_approvers->status = "Pending";
+        // if ($request->recruiter == 23)
+        // {
+        //     $approvers = [23, 21];
+        //     $mrf_approvers = MrfApprover::where('mrf_id', $mrf->id)->delete();
+        //     foreach($approvers as $key=>$value)
+        //     {
+        //         $mrf_approvers = new MrfApprover;
+        //         $mrf_approvers->user_id = $value;
+        //         $mrf_approvers->mrf_id = $mrf->id;
+        //         $mrf_approvers->level = $key+1;
+        //         if ($key == 0)
+        //         {
+        //             $mrf_approvers->status = "Pending";
     
-                    $user = User::where('id', $mrf_approvers->user_id)->first();
-                    $user->notify(new PendingMrfNotification($user));
-                }
-                else
-                {
-                    $mrf_approvers->status = "Waiting";
-                }
-                $mrf_approvers->save();
-            }
-        }
-        else
-        {
-            $recruiter = collect($request->recruiter);
-            $approver = [23, 21];
-            $approvers = $recruiter->concat($approver);
+        //             $user = User::where('id', $mrf_approvers->user_id)->first();
+        //             $user->notify(new PendingMrfNotification($user));
+        //         }
+        //         else
+        //         {
+        //             $mrf_approvers->status = "Waiting";
+        //         }
+        //         $mrf_approvers->save();
+        //     }
+        // }
+        // else
+        // {
+        //     $recruiter = collect($request->recruiter);
+        //     $approver = [23, 21];
+        //     $approvers = $recruiter->concat($approver);
             
-            $mrf_approvers = MrfApprover::where('mrf_id', $mrf->id)->delete();
-            foreach($approvers as $key=>$value)
-            {
-                $mrf_approvers = new MrfApprover;
-                $mrf_approvers->user_id = $value;
-                $mrf_approvers->mrf_id = $mrf->id;
-                $mrf_approvers->level = $key+1;
-                if ($key == 0)
-                {
-                    $mrf_approvers->status = "Pending";
+        //     $mrf_approvers = MrfApprover::where('mrf_id', $mrf->id)->delete();
+        //     foreach($approvers as $key=>$value)
+        //     {
+        //         $mrf_approvers = new MrfApprover;
+        //         $mrf_approvers->user_id = $value;
+        //         $mrf_approvers->mrf_id = $mrf->id;
+        //         $mrf_approvers->level = $key+1;
+        //         if ($key == 0)
+        //         {
+        //             $mrf_approvers->status = "Pending";
     
-                    $user = User::where('id', $mrf_approvers->user_id)->first();
-                    $user->notify(new PendingMrfNotification($user));
-                }
-                else
-                {
-                    $mrf_approvers->status = "Waiting";
-                }
-                $mrf_approvers->save();
-            }
-        }
+        //             $user = User::where('id', $mrf_approvers->user_id)->first();
+        //             $user->notify(new PendingMrfNotification($user));
+        //         }
+        //         else
+        //         {
+        //             $mrf_approvers->status = "Waiting";
+        //         }
+        //         $mrf_approvers->save();
+        //     }
+        // }
+
+        
 
         Alert::success('Successfully Saved')->persistent('Dismiss');
         return back();

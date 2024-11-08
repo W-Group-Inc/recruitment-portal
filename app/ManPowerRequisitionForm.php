@@ -34,4 +34,8 @@ class ManPowerRequisitionForm extends Model
     {
         return $this->belongsTo(User::class);
     }
+    public function reviewer()
+    {
+        return $this->belongsTo(User::class,'reviewed_by');
+    }
 }

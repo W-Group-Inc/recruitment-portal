@@ -83,22 +83,32 @@
             @if(auth()->user()->role == "Department Head" || auth()->user()->role == "Human Resources" || auth()->user()->role == "Human Resources Manager" || auth()->user()->role == "Head Business Unit")
             <li class="side-nav-title side-nav-item">MRF</li>
             
-            @if(auth()->user()->role == "Human Resources" || auth()->user()->role == "Human Resources Manager" || auth()->user()->role == "Head Business Unit") 
-            <li class="side-nav-item">
+            @if(auth()->user()->role == "Human Resources" || auth()->user()->role == "Human Resources Manager") 
+            {{-- <li class="side-nav-item">
                 <a href="{{url('for-approval')}}" class="side-nav-link" onclick="show()">
                     <i class=" uil-check"></i>
                     <span>MRF For Approval</span>
-                    @php
-                        $total_count = countMrfForApproval(auth()->user()->id);
-                    @endphp
-                    @if($total_count > 0)
-                    <span class="ms-2 translate-middle badge rounded-pill bg-danger">
-                        {{$total_count}}
-                        <span class="visually-hidden">unread messages</span>
-                    </span>
+                    
+                    @if(auth()->user()->role == 'Human Resources Manager')
+                        @php
+                            $total_count = countMrfForApproval(auth()->user()->id);
+                        @endphp
+                        @if($total_count > 0)
+                        <span class="ms-2 translate-middle badge rounded-pill bg-danger">
+                            {{$total_count}}
+                        </span>
+                        @endif
                     @endif
                 </a>
-            </li>
+            </li> --}}
+
+            {{-- <li class="side-nav-item">
+                <a href="{{url('approved-mrf')}}" class="side-nav-link" onclick="show()">
+                    <i class=" uil-thumbs-up"></i>
+                    <span>Approved MRF</span>
+                </a>
+            </li> --}}
+
             @endif
 
             <li class="side-nav-item">
@@ -111,6 +121,42 @@
                     <span>MRF</span>
                     @endif
                 </a>
+            </li>
+
+            <li class="side-nav-item">
+                <a data-bs-toggle="collapse" href="#mrfMenuList" aria-expanded="false" aria-controls="mrfMenuList" class="side-nav-link">
+                    <i class=" dripicons-menu"></i>
+                    <span> MRF Menu </span>
+                    <span class="menu-arrow"></span>
+                </a>
+                <div class="collapse" id="mrfMenuList">
+                    <ul class="side-nav-second-level">
+                        <li>
+                            <a href="{{url('for-approval')}}" onclick="show()">
+                                <span>MRF For Approval</span>
+                                
+                                @if(auth()->user()->role == 'Human Resources Manager')
+                                    @php
+                                        $total_count = countMrfForApproval(auth()->user()->id);
+                                    @endphp
+                                    @if($total_count > 0)
+                                    <span class="ms-2 translate-middle badge rounded-pill bg-danger">
+                                        {{$total_count}}
+                                    </span>
+                                    @endif
+                                @endif
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{url('approved-mrf')}}" onclick="show()">
+                                <span>Approved MRF</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="index.html">Reviewed MRF</a>
+                        </li>
+                    </ul>
+                </div>
             </li>
             @endif
 

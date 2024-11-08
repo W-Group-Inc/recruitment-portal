@@ -23,13 +23,14 @@ class ForApprovalController extends Controller
     {
         // $mrf = ManPowerRequisitionForm::with('mrfApprovers')->get();
         $mrf_list = [];
+        $reviewer = User::whereIn('role', ['Human Resources Manager', 'Human Resources'])->get();
         if (auth()->user()->role == 'Human Resources Manager')
         {
             $mrf_list = ManPowerRequisitionForm::where('mrf_status', 'Pending')->get();
         }
         // $mrf_approvers = MrfApprover::where('user_id', auth()->user()->id)->where('status', 'Pending')->get();
 
-        return view('human_resources.for_approval', compact('mrf_list'));
+        return view('human_resources.for_approval', compact('mrf_list', 'reviewer'));
     }
 
     /**
@@ -84,46 +85,54 @@ class ForApprovalController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $mrf_approver = MrfApprover::findOrFail($id);
-        $mrf_approver->status = $request->action;
-        $mrf_approver->remarks = $request->remarks;
-        $mrf_approver->save();
+        // $mrf_approver = MrfApprover::findOrFail($id);
+        // $mrf_approver->status = $request->action;
+        // $mrf_approver->remarks = $request->remarks;
+        // $mrf_approver->save();
 
-        $mrf = ManPowerRequisitionForm::findOrFail($mrf_approver->mrf->id);
-
-        $next_approver = MrfApprover::where('mrf_id', $mrf->id)->where('status', 'Waiting')->orderBy('level', 'asc')->get();
+        // $mrf = ManPowerRequisitionForm::findOrFail($mrf_approver->mrf->id);
+        $mrf = ManPowerRequisitionForm::findOrFail($id);
+        
+        // $nexdt_approver = MrfApprover::where('mrf_id', $mrf->id)->where('status', 'Waiting')->orderBy('level', 'asc')->get();
         
         $message = "";
         if ($request->action == "Approved")
         {
-            if ($next_approver->isNotEmpty())
-            {
-                foreach($next_approver as $key=>$nextApprover)
-                {
-                    if ($key == 0)
-                    {
-                        $nextApprover->status = 'Pending';
+            // if ($next_approver->isNotEmpty())
+            // {
+            //     foreach($next_approver as $key=>$nextApprover)
+            //     {
+            //         if ($key == 0)
+            //         {
+            //             $nextApprover->status = 'Pending';
                         
-                        $user = User::where('id', $nextApprover->user_id)->first();
-                        $user->notify(new PendingMrfNotification($user));
-                    }
-                    else
-                    {
-                        $nextApprover->status = 'Waiting';
-                    }
+            //             $user = User::where('id', $nextApprover->user_id)->first();
+            //             $user->notify(new PendingMrfNotification($user));
+            //         }
+            //         else
+            //         {
+            //             $nextApprover->status = 'Waiting';
+            //         }
     
-                    $nextApprover->save();
-                }
-            }
-            else
-            {
-                $mrf->mrf_status = 'Approved';
-                $mrf->progress = 'Open';
-                $mrf->save();
+            //         $nextApprover->save();
+            //     }
+            // }
+            // else
+            // {
+            //     $mrf->mrf_status = 'Approved';
+            //     $mrf->progress = 'Open';
+            //     $mrf->save();
 
-                $dept_head = $mrf->department->head;
-                $dept_head->notify(new MrfNotification($mrf, $request->action, $dept_head));
-            }
+            //     $dept_head = $mrf->department->head;
+            //     $dept_head->notify(new MrfNotification($mrf, $request->action, $dept_head));
+            // }
+
+            $mrf->mrf_status = 'Approved';
+            $mrf->progress = 'Open';
+            $mrf->save();
+
+            $dept_head = $mrf->department->head;
+            $dept_head->notify(new MrfNotification($mrf, $request->action, $dept_head));
 
             $message = "Successfully Saved";
         }
@@ -133,18 +142,21 @@ class ForApprovalController extends Controller
         // }
         elseif($request->action == "Rejected")
         {
-            foreach($next_approver as $key=>$nextApprover)
-            {
-                $nextApprover->status = "Rejected";
-                $nextApprover->save();
-            }
+            // foreach($next_approver as $key=>$nextApprover)
+            // {
+            //     $nextApprover->status = "Rejected";
+            //     $nextApprover->save();
+            // }
 
-            $mrf->status = 'Rejected';
+            // $mrf->mrf_status = 'Rejected';
+            // $mrf->progress = 'Rejected';
+            // $mrf->save();
+
+            $mrf->mrf_status = 'Rejected';
             $mrf->progress = 'Rejected';
             $mrf->save();
 
             $message = "Successfully Rejected";
-            // $mrf->progress = 'Rejected';
         }
 
         Alert::success($message)->persistent('Dismiss');

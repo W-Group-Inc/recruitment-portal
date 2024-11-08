@@ -16,17 +16,27 @@
                             <select name="job_position" class="form-control cat" required>
                                 <option value="">Select Job Position</option>
                                 @foreach ($job_positions as $job_position)
-                                    <option value="{{$job_position->id}}">{{$job_position->position}}</option>
+                                    <option value="{{$job_position->id}}" @if($job_position->id == $m->job_position_id) selected @endif>{{$job_position->position}}</option>
                                 @endforeach
                             </select>
                         </div>
                         <div class="col-md-6">
                             Department :
+                            @if(auth()->user()->role == 'Human Resources Manager')
                             <select class="form-control cat" name="department" required>
-                                @foreach ($departments->where('id', auth()->user()->department_id) as $d)
-                                    <option value="{{$d->id}}" @if($d->id == $m->department_id) selected @endif>{{$d->code .' - '.$d->name}}</option>
+                                <option value="">Select department</option>
+                                @foreach ($departments as $d)
+                                    <option value="{{$d->id}}">{{$d->code .' - '.$d->name}}</option>
                                 @endforeach
                             </select>
+                            @else
+                            <select class="form-control cat" name="department" required>
+                                {{-- <option value="">-Department-</option> --}}
+                                @foreach ($departments->where('id', auth()->user()->department_id) as $d)
+                                    <option value="{{$d->id}}">{{$d->code .' - '.$d->name}}</option>
+                                @endforeach
+                            </select>
+                            @endif
                         </div>
                         <div class="col-md-6">
                             Company :
