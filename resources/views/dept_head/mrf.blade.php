@@ -37,7 +37,7 @@
                                 <th>Files</th>
                                 @endif
                                 <th>Status</th>
-                                @if(auth()->user()->role == 'Human Resources' || auth()->user()->role == 'Human Resources Manager')
+                                @if(auth()->user()->role == 'Human Resources' || auth()->user()->role == 'Human Resources Manager' || auth()->user()->role == "Head Business Unit")
                                 <th>Progress</th>
                                 @endif
                             </tr>
@@ -117,7 +117,7 @@
                             @endforeach
                             @endif
 
-                            @if(auth()->user()->role == "Human Resources" || auth()->user()->role == "Human Resources Manager")
+                            @if(auth()->user()->role == "Human Resources" || auth()->user()->role == "Human Resources Manager" || auth()->user()->role == "Head Business Unit")
                             @foreach ($mrf as $key=>$m)
                                 <tr>
                                     <td>
@@ -130,29 +130,31 @@
                                                 <i class="dripicons-print"></i>
                                             </a>
 
-                                            @if($m->progress != null)
-                                                <button type="button" class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#editProgress{{$m->id}}">
-                                                    <i class="dripicons-pencil"></i>
-                                                </button>
+                                            @if(auth()->user()->role != "Head Business Unit")
+                                                @if($m->progress != null)
+                                                    <button type="button" class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#editProgress{{$m->id}}">
+                                                        <i class="dripicons-pencil"></i>
+                                                    </button>
+                                                @endif
                                             @endif
                                         @endif
 
+                                        @if(auth()->user()->role != "Head Business Unit")
+                                            @if(!empty($m->user_id) && $m->mrf_status == 'Pending')
 
-                                        @if(!empty($m->user_id) && $m->mrf_status == 'Pending')
-
-                                            <button type="button" class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#edit{{$m->id}}" @if($m->mrf_status == "Approved") disabled @endif>
-                                                <i class="dripicons-document-edit"></i>
-                                            </button>
-
-                                            <form action="{{url('cancelled-mrf/'.$m->id)}}" method="post" class="d-inline-block" onsubmit="show()">
-                                                @csrf
-    
-                                                <button type="button" class="btn btn-sm btn-danger delete-btn">
-                                                    <i class="uil-ban"></i>
+                                                <button type="button" class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#edit{{$m->id}}" @if($m->mrf_status == "Approved") disabled @endif>
+                                                    <i class="dripicons-document-edit"></i>
                                                 </button>
-                                            </form>
-                                        @endif
 
+                                                <form action="{{url('cancelled-mrf/'.$m->id)}}" method="post" class="d-inline-block" onsubmit="show()">
+                                                    @csrf
+        
+                                                    <button type="button" class="btn btn-sm btn-danger delete-btn">
+                                                        <i class="uil-ban"></i>
+                                                    </button>
+                                                </form>
+                                            @endif
+                                        @endif
                                         {{-- @if(auth()->user()->role == 'Human Resources Manager' && $m->mrf_status == 'Pending')
                                         <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#assign{{$m->id}}" @if(count($m->mrfApprovers) > 0) disabled @endif>
                                             <i class="uil-user"></i>

@@ -28,7 +28,7 @@ class ApplicantLogin
         // }
         if(auth()->check() && auth()->user()->role == 'Head Business Unit') 
         {
-            return redirect('/for-approval');
+            return redirect('/mrf');
         }
         
         return $next($request);

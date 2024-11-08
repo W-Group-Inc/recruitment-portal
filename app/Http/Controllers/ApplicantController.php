@@ -345,10 +345,10 @@ class ApplicantController extends Controller
     public function interviewer(Request $request, $id)
     {
         // dd($request->all());
+        $interviewer = Interviewer::where('man_power_requisition_form_id', $request->mrf_id)->where('applicant_id', $request->applicant_id)->whereIn('status', ['Pending', 'Waiting'])->delete();
         if($request->has('interviewer'))
         {
             // $interviewer_data = Interviewer::where('man_power_requisition_form_id', $request->mrf_id)->where('applicant_id', $request->applicant_id)->orderBy('level', 'desc')->first();
-            $interviewer = Interviewer::where('man_power_requisition_form_id', $request->mrf_id)->where('applicant_id', $request->applicant_id)->whereIn('status', ['Pending', 'Waiting'])->delete();
             foreach($request->interviewer as $key=>$value)
             {
                 $interviewer = new Interviewer;
@@ -382,13 +382,9 @@ class ApplicantController extends Controller
                 
                 $interviewer->save();
             }
-    
-            Alert::success('Successfully Saved')->persistent('Dismiss');
         }
-        else
-        {
-            Alert::error('Error. Please add interviewer')->persistent('Dismiss');
-        }
+        
+        Alert::success('Successfully Saved')->persistent('Dismiss');
         return back();
     }
 

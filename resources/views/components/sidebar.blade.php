@@ -148,7 +148,7 @@
                     @if(auth()->user()->role == "Department Head")
                     <i class="uil-file"></i>
                     <span> MRF</span>
-                    @elseif(auth()->user()->role == "Human Resources" || auth()->user()->role == "Human Resources Manager")
+                    @elseif(auth()->user()->role == "Human Resources" || auth()->user()->role == "Human Resources Manager" || auth()->user()->role == "Head Business Unit")
                     <i class="uil-file"></i>
                     <span>MRF</span>
                     @endif
@@ -156,7 +156,7 @@
             </li>
             @endif
 
-            @if(auth()->user()->role == "Human Resources" || auth()->user()->role == "Department Head" || auth()->user()->role == "Human Resources Manager")
+            @if(auth()->user()->role == "Human Resources" || auth()->user()->role == "Department Head" || auth()->user()->role == "Human Resources Manager" || auth()->user()->role == "Head Business Unit")
             <li class="side-nav-title side-nav-item">Applicant</li>
 
             <li class="side-nav-item">

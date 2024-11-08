@@ -69,7 +69,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @if(auth()->user()->role == "Human Resources" || auth()->user()->role == 'Human Resources Manager')
+                                @if(auth()->user()->role == "Human Resources" || auth()->user()->role == 'Human Resources Manager' || auth()->user()->role == "Head Business Unit")
                                 @foreach ($applicants as $applicant)
                                     <tr>
                                         <td>
