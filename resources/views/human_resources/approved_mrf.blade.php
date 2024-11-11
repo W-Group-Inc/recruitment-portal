@@ -41,9 +41,9 @@
                                                 </a>
                                             @endif
 
-                                            {{-- <button type="button" class="btn btn-sm btn-warning" title="Assign Recruiter" data-bs-toggle="modal" data-bs-target="#assign{{$mrf->id}}">
-                                                <i class="dripicons-user"></i>
-                                            </button> --}}
+                                            <button type="button" class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#recruiter{{$mrf->id}}">
+                                                <i class="dripicons-document-edit"></i>
+                                            </button>
                                         </td>
                                         <td>{{date('M d, Y', strtotime($mrf->created_at))}}</td>
                                         <td>MRF-{{str_pad($mrf->mrf_no, 4, '0', STR_PAD_LEFT)}}</td>
@@ -86,7 +86,7 @@
                                     </tr>
 
                                     @include('human_resources.upload_approved_mrf')
-                                    {{-- @include('human_resources.assign_recruiter') --}}
+                                    @include('human_resources.assigned')
                                 @endforeach
                             </tbody>
                         </table>

@@ -9,6 +9,7 @@ use App\JobPosition;
 use App\ManPowerRequisitionForm;
 use App\MrfApprover;
 use App\MrfAttachment;
+use App\Notifications\AssignRecruiterNotification;
 use App\Notifications\NotifyHrManager;
 use App\Notifications\PendingMrfNotification;
 use App\User;
@@ -291,6 +292,9 @@ class ManPowerRequisitionFormController extends Controller
         $mrf = ManPowerRequisitionForm::findOrFail($id);
         $mrf->recruiter_id = $request->recruiter;
         $mrf->save();
+
+        $user = User::where('id', $request->recruiter)->first();
+        $user->notify(new AssignRecruiterNotification($mrf, $user));
         
         // if ($request->recruiter == 23)
         // {
@@ -355,6 +359,7 @@ class ManPowerRequisitionFormController extends Controller
         // dd($id, $request->all());
         $mrf = ManPowerRequisitionForm::findOrFail($id);
         $mrf->mrf_status = 'Cancelled';
+        $mrf->progress = 'Cancelled';
         $mrf->save();
 
         $user = User::where('role', 'Human Resources Manager')->first();

@@ -156,7 +156,7 @@
                                             <span class="badge bg-warning">
                                             @elseif($m->progress == "Cancelled")
                                             <span class="badge bg-danger">
-                                            @elseif($m->progress == "Reject")
+                                            @elseif($m->progress == "Rejected")
                                             <span class="badge bg-danger">
                                             @endif  
 

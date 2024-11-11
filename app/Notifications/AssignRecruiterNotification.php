@@ -7,7 +7,7 @@ use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 
-class MrfNotification extends Notification
+class AssignRecruiterNotification extends Notification
 {
     use Queueable;
 
@@ -17,13 +17,11 @@ class MrfNotification extends Notification
      * @return void
      */
     protected $mrf;
-    protected $action;
-    protected $dept_head;
-    public function __construct($mrf, $action, $dept_head)
+    protected $user;
+    public function __construct($mrf, $user)
     {
         $this->mrf = $mrf;
-        $this->action = $action;
-        $this->dept_head = $dept_head;
+        $this->user = $user;
     }
 
     /**
@@ -46,10 +44,12 @@ class MrfNotification extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-                    ->subject('MRF Status')
-                    ->greeting('Hello, '. $this->dept_head->name)
-                    ->line('Your MRF for the position of ' . $this->mrf->jobPosition->position.' is '. $this->action)
-                    ->action('View MRF', url('/mrf'))
+                    ->subject('Assigned MRF')
+                    ->greeting('Good day, '.$this->user->prefix.' '.$this->user->name)
+                    ->line('This email is to inform you that an MRF has been assigned to you.')
+                    ->line('MRF No. : ' .str_pad($this->mrf->mrf_no, 4, '0', STR_PAD_LEFT))
+                    ->line('Job Position : ' .$this->mrf->jobPosition->position)
+                    ->action('Notification Action', url('/'))
                     ->line('Thank you for using our application!');
     }
 

@@ -39,16 +39,21 @@ class ApplicantController extends Controller
         $department = $request->department;
         $position = $request->position;
 
-        $applicants = Applicant::when($request, function($q)use($request) {
-                $q->where('applicant_status', $request->status)
-                    ->orWhereHas('mrf.department', function($q)use($request) {
-                        $q->where('id', $request->department);
-                    })
-                    ->orWhereHas('mrf.jobPosition', function($q)use($request) {
-                        $q->where('position', $request->position);
-                    });
+        $applicants = Applicant::when($status, function($q)use($request) {
+                $q->where('applicant_status', $request->status);
+            })
+            ->when($department, function($q)use($department) {
+                $q->whereHas('mrf', function($q)use($department) {
+                    $q->where('department_id', $department);
+                });
+            })
+            ->when($position, function($q)use($request) {
+                $q->whereHas('mrf.jobPosition', function($q)use($request) {
+                    $q->where('id', $request->position);
+                });
             })
             ->get();
+
         $interviewers = User::where('status', 'Active')->get();
         $mrf = ManPowerRequisitionForm::where('mrf_status', 'Approved')->where('progress', 'Open')->get();
         if (auth()->user()->role == "Department Head")
@@ -58,7 +63,7 @@ class ApplicantController extends Controller
             })->get();
         }
 
-        return view('human_resources.applicant', compact('applicants', 'mrf', 'interviewers', 'status'));
+        return view('human_resources.applicant', compact('applicants', 'mrf', 'interviewers', 'status', 'department', 'position'));
     }
 
     /**
@@ -113,9 +118,9 @@ class ApplicantController extends Controller
         $user->applicant_id = $applicant->id;
         $user->save();
 
-        // $applicant->notify(new ApplicantCredentialsNotification($user, $applicant, $password));
+        $applicant->notify(new ApplicantCredentialsNotification($user, $applicant, $password, $name));
         
-        return back()->with('success', 'Thank you for your submission. Please wait to hear from our talent acquisition team regarding your status.');
+        return back()->with('success', 'Thank you for your submission. Please await further updates from our talent acquisition team and check your email for your portal credentials.');
     }
 
     /**

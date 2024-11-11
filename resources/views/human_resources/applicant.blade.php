@@ -4,6 +4,8 @@
 @endsection
 @section('content')
     <div class="row">
+        <h4 class="header-title">Applicants</h4>
+
         <div class="col-lg-12">
             <div class="card">
                 <div class="card-body">
@@ -14,7 +16,7 @@
                                 <select name="position" class="form-control cat">
                                     <option value="">Select position</option>
                                     @foreach ($mrf as $m)
-                                        <option value="{{$m->id}}">{{$m->jobPosition->position}}</option>
+                                        <option value="{{$m->job_position_id}}" @if($m->job_position_id == $position) selected @endif>{{$m->jobPosition->position}}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -32,7 +34,7 @@
                                 <select name="department" class="form-control cat">
                                     <option value="">Select department</option>
                                     @foreach ($mrf as $m)
-                                        <option value="{{$m->id}}">{{$m->department->name}}</option>
+                                        <option value="{{$m->department_id}}" @if($m->department_id == $department) selected @endif>{{$m->department->name}}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -49,7 +51,6 @@
         </div>
     </div>
     <div class="row">
-        <h4 class="header-title">Applicants</h4>
         <div class="col-lg-3">
             <div class="card">
                 <div class="card-body text-center">

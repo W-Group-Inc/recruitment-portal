@@ -92,9 +92,8 @@ class ForApprovalController extends Controller
 
         // $mrf = ManPowerRequisitionForm::findOrFail($mrf_approver->mrf->id);
         $mrf = ManPowerRequisitionForm::findOrFail($id);
-        
         // $nexdt_approver = MrfApprover::where('mrf_id', $mrf->id)->where('status', 'Waiting')->orderBy('level', 'asc')->get();
-        
+
         $message = "";
         if ($request->action == "Approved")
         {
@@ -127,12 +126,16 @@ class ForApprovalController extends Controller
             //     $dept_head->notify(new MrfNotification($mrf, $request->action, $dept_head));
             // }
 
+             
+            if ($mrf->recruiter_id == null)
+            {
+                Alert::error('Kindly ensure that a recruiter is assigned before approve the MRF.')->persistent('Dismiss');
+                return back();
+            }
+
             $mrf->mrf_status = 'Approved';
             $mrf->progress = 'Open';
             $mrf->save();
-
-            $dept_head = $mrf->department->head;
-            $dept_head->notify(new MrfNotification($mrf, $request->action, $dept_head));
 
             $message = "Successfully Saved";
         }
@@ -158,6 +161,9 @@ class ForApprovalController extends Controller
 
             $message = "Successfully Rejected";
         }
+
+        $dept_head = $mrf->department->head;
+        $dept_head->notify(new MrfNotification($mrf, $request->action, $dept_head));
 
         Alert::success($message)->persistent('Dismiss');
         return back();

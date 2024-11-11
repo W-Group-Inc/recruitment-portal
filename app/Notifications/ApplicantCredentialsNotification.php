@@ -19,11 +19,13 @@ class ApplicantCredentialsNotification extends Notification
     protected $user;
     protected $applicant;
     protected $password;
-    public function __construct($user, $applicant, $password)
+    protected $name;
+    public function __construct($user, $applicant, $password, $name)
     {
         $this->user = $user;
         $this->applicant = $applicant;
         $this->password = $password;
+        $this->name = $name;
     }
 
     /**
@@ -46,8 +48,9 @@ class ApplicantCredentialsNotification extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-                    ->greeting('Hello Mr./Ms. '.$this->applicant->name)
-                    ->line('Congratulations! You passed the final interview for the position of ' . $this->applicant->position. ' this is your credentials to submit job application form in our system')
+                    ->subject('Wee-Recruit Credentials')
+                    ->greeting('Hello Mr./Ms. '.$this->name)
+                    ->line('This is your credentials for accessing our portal. Please keep them confidential and secure.')
                     ->line('Email : ' . $this->applicant->email)
                     ->line('Password : '.$this->password)
                     ->action('Go to Website', url('/'))
