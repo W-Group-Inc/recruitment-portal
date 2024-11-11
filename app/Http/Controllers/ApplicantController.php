@@ -13,7 +13,9 @@ use App\Notifications\ApplicantCredentialsNotification;
 use App\Notifications\ApplicantStatusFailedNotification;
 use App\Notifications\ApplicantStatusNotification;
 use App\Notifications\FailedApplicantNotification;
+use App\Notifications\InterviewerNotification;
 use App\Notifications\NotifyDepartmentHead;
+use App\Notifications\PendingInterview;
 use App\Schedule;
 use App\SiblingInformation;
 use App\User;
@@ -362,8 +364,7 @@ class ApplicantController extends Controller
 
     public function interviewer(Request $request, $id)
     {
-        // dd($request->all());
-        $interviewer = Interviewer::where('man_power_requisition_form_id', $request->mrf_id)->where('applicant_id', $request->applicant_id)->whereIn('status', ['Pending', 'Waiting'])->delete();
+        $interviewer = Interviewer::with('mrf.jobPosition')->where('man_power_requisition_form_id', $request->mrf_id)->where('applicant_id', $request->applicant_id)->whereIn('status', ['Pending', 'Waiting'])->delete();
         if($request->has('interviewer'))
         {
             // $interviewer_data = Interviewer::where('man_power_requisition_form_id', $request->mrf_id)->where('applicant_id', $request->applicant_id)->orderBy('level', 'desc')->first();
@@ -400,6 +401,12 @@ class ApplicantController extends Controller
                 
                 $interviewer->save();
             }
+        }
+
+        $user_list = User::whereIn('id', $request->interviewer)->get();
+        foreach($user_list as $user_data)
+        {
+            $user_data->notify(new InterviewerNotification($interviewer, $user_data));
         }
         
         Alert::success('Successfully Saved')->persistent('Dismiss');

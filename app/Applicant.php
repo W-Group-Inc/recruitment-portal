@@ -41,4 +41,8 @@ class Applicant extends Model
     {
         return $this->hasMany(ApplicantDocument::class);
     }
+    public function user()
+    {
+        return $this->hasOne(User::class);
+    }
 }
