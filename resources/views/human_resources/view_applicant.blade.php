@@ -50,7 +50,7 @@
 
                 <hr>
                 <div class="text-start mt-3">
-                    <p class="text-muted mb-2 font-13"><strong>Position Applied :</strong> <span class="ms-2">{{$applicant->mrf->position_title}}</span></p>
+                    <p class="text-muted mb-2 font-13"><strong>Position Applied :</strong> <span class="ms-2">{{$applicant->mrf->jobPosition->position}}</span></p>
                     <p class="text-muted mb-2 font-13"><strong>Email:</strong> <span class="ms-2">{{$applicant->email}}</span></p>
                     {{-- <p class="text-muted mb-2 font-13"><strong>Mobile :</strong><span class="ms-2">{{$applicant->mobile_number}}</span></p> --}}
                     <p class="text-muted mb-2 font-13"><strong>Status :</strong>

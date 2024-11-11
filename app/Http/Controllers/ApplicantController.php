@@ -194,9 +194,9 @@ class ApplicantController extends Controller
         $event->endDateTime = $event->startDateTime->copy()->addHour();
         $event->googleEvent->colorId = 3;
         // $event->addMeetLink();
-        // $event->addAttendee([
-        //     'email' => auth()->user()->email
-        // ]);
+        $event->addAttendee([
+            'email' => auth()->user()->email
+        ]);
         $event->save();
 
         $schedule = new Schedule;
