@@ -9,6 +9,7 @@ use App\JobPosition;
 use App\ManPowerRequisitionForm;
 use App\MrfApprover;
 use App\MrfAttachment;
+use App\Notifications\NotifyHrManager;
 use App\Notifications\PendingMrfNotification;
 use App\User;
 use Barryvdh\DomPDF\PDF;
@@ -138,6 +139,9 @@ class ManPowerRequisitionFormController extends Controller
             $mrf_attachment->file_path = $file_name;
             $mrf_attachment->save();
         }
+
+        $user = User::where('role', 'Human Resources Manager')->first();
+        $user->notify(new NotifyHrManager($user, $mrf, ""));
 
         Alert::success('Successfully Saved')->persistent('Dismiss');
         return back();
@@ -346,11 +350,15 @@ class ManPowerRequisitionFormController extends Controller
         return back();
     }
 
-    public function cancelMrf($id)
+    public function cancelMrf(Request $request, $id)
     {
+        // dd($id, $request->all());
         $mrf = ManPowerRequisitionForm::findOrFail($id);
         $mrf->mrf_status = 'Cancelled';
         $mrf->save();
+
+        $user = User::where('role', 'Human Resources Manager')->first();
+        $user->notify(new NotifyHrManager($user, $mrf, $request->action));
 
         Alert::success('Successfully Saved')->persistent('Dismiss');
         return back();

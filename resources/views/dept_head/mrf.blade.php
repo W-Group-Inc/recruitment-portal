@@ -47,22 +47,24 @@
                             @foreach ($mrf->where('department_id', auth()->user()->department_id) as $m)
                                 <tr>
                                     <td>
-                                        @if($m->mrf_status != 'Cancelled')
-                                        <button type="button" class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#edit{{$m->id}}" @if($m->mrf_status == "Approved" || count($m->mrfApprovers) > 0) disabled @endif>
-                                            <i class="dripicons-document-edit"></i>
-                                        </button>
-
-                                        <form action="{{url('cancelled-mrf/'.$m->id)}}" method="post" class="d-inline-block" onsubmit="show()">
-                                            @csrf
-
-                                            <button type="button" class="btn btn-sm btn-danger delete-btn">
-                                                <i class="uil-ban"></i>
+                                        @if($m->mrf_status != 'Cancelled' && $m->mrf_status != 'Rejected')
+                                            <button type="button" class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#edit{{$m->id}}" @if($m->mrf_status == "Approved" || count($m->mrfApprovers) > 0) disabled @endif>
+                                                <i class="dripicons-document-edit"></i>
                                             </button>
-                                        </form>
 
-                                        <a href="{{url('print-mrf/'.$m->id)}}" class="btn btn-sm btn-info" target="_blank">
-                                            <i class="dripicons-print"></i>
-                                        </a>
+                                            <form action="{{url('cancelled-mrf/'.$m->id)}}" method="post" class="d-inline-block" onsubmit="show()">
+                                                @csrf
+
+                                                <input type="hidden" name="action" value="cancelled">
+                                                
+                                                <button type="button" class="btn btn-sm btn-danger delete-btn" >
+                                                    <i class="uil-ban"></i>
+                                                </button>
+                                            </form>
+
+                                            <a href="{{url('print-mrf/'.$m->id)}}" class="btn btn-sm btn-info" target="_blank">
+                                                <i class="dripicons-print"></i>
+                                            </a>
                                         @endif
                                     </td>
                                     <td>{{date('M d, Y', strtotime($m->created_at))}}</td>
