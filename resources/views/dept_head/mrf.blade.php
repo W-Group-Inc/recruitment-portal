@@ -67,7 +67,7 @@
                                     </td>
                                     <td>{{date('M d, Y', strtotime($m->created_at))}}</td>
                                     <td>MRF-{{str_pad($m->mrf_no, 4, '0', STR_PAD_LEFT)}}</td>
-                                    <td>{{$m->jobPosition->position}}</td>
+                                    <td>{{optional($m->jobPosition)->position}}</td>
                                     <td>{{$m->company->name}}</td>
                                     <td>{{$m->department->name}}</td>
                                     {{-- <td>

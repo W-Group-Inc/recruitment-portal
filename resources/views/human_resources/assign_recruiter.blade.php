@@ -39,7 +39,7 @@
                 <div class="modal-body">
                     <div class="form-group">
                         Assign Recruiter
-                        <select name="recruiter" class="form-control cat">
+                        <select name="recruiter" class="form-control cat" required>
                             <option value="">Select Recruiter</option>
                             @foreach ($recruiter->whereIn('role', ['Human Resources', 'Human Resources Manager']) as $recruit)
                             <option value="{{$recruit->id}}">{{$recruit->name}}</option>

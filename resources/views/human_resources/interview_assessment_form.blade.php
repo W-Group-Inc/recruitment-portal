@@ -6,16 +6,16 @@
 
 @section('content')
     <div class="col-lg-12">
+        <div class="row">
+            <div class="col-lg-6">
+                <a class="btn btn-sm btn-danger mb-2" href="{{url('view-applicant/'.$applicant->id)}}">
+                    <i class="dripicons-arrow-thin-left"></i>
+                    Back
+                </a>
+            </div>
+        </div>
         <div class="card">
             <div class="card-body">
-                <div class="row">
-                    <div class="col-lg-6">
-                        <a class="btn btn-sm btn-danger mb-2" href="{{url('view-applicant/'.$applicant->id)}}">
-                            <i class="dripicons-arrow-thin-left"></i>
-                            Back
-                        </a>
-                    </div>
-                </div>
                 <dl class="row mb-0">
                     <dt class="col-md-1">
                         <p class="mb-0">MRF No.</p>

@@ -50,6 +50,7 @@ class UserController extends Controller
         $user->role = $request->role;
         $user->password = bcrypt("wgroup123");
         $user->status = "Active";
+        $user->prefix = $request->prefix;
         $user->save();
 
         Alert::success('Successfully Saved')->persistent('Dismiss');
@@ -92,6 +93,7 @@ class UserController extends Controller
         $user->company_id = $request->company;
         $user->department_id = $request->department;
         $user->role = $request->role;
+        $user->prefix = $request->prefix;
         $user->save();
 
         Alert::success('Successfully Updated')->persistent('Dismiss');

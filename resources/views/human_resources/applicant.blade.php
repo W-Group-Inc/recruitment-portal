@@ -4,6 +4,51 @@
 @endsection
 @section('content')
     <div class="row">
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-body">
+                    <form method="GET" onsubmit="show()">
+                        <div class="row">
+                            <div class="col-lg-3">
+                                Position
+                                <select name="position" class="form-control cat">
+                                    <option value="">Select position</option>
+                                    @foreach ($mrf as $m)
+                                        <option value="{{$m->id}}">{{$m->jobPosition->position}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="col-lg-3">
+                                Status
+                                <select name="status" class="form-control cat">
+                                    <option value="">Select status</option>
+                                    <option value="Pending" @if($status == 'Pending') selected @endif>Pending</option>
+                                    <option value="Approved" @if($status == 'Approved') selected @endif>Approved</option>
+                                    <option value="Rejected" @if($status == 'Rejected') selected @endif>Rejected</option>
+                                </select>
+                            </div>
+                            <div class="col-lg-3">
+                                Department
+                                <select name="department" class="form-control cat">
+                                    <option value="">Select department</option>
+                                    @foreach ($mrf as $m)
+                                        <option value="{{$m->id}}">{{$m->department->name}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="col-lg-3">
+                                <label for="">&nbsp;</label>
+                                <div class="form-group">
+                                    <button class="btn btn-sm btn-success">Filter</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
         <h4 class="header-title">Applicants</h4>
         <div class="col-lg-3">
             <div class="card">

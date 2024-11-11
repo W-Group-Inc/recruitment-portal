@@ -25,6 +25,7 @@
                         <thead>
                             <tr>
                                 <th>Actions</th>
+                                <th>Prefix</th>
                                 <th>Name</th>
                                 <th>Email</th>
                                 <th>Company</th>
@@ -63,6 +64,7 @@
                                         </form>
                                         @endif
                                     </td>
+                                    <td>{{$user->prefix}}</td>
                                     <td>{{$user->name}}</td>
                                     <td>{{$user->email}}</td>
                                     <td>{{$user->company->name}}</td>

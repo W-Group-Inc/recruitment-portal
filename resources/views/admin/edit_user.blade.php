@@ -10,6 +10,15 @@
                 <div class="modal-body">
                     <div class="row">
                         <div class="col-md-12 mb-2">
+                            Prefix :
+                            <select name="prefix" class="form-control" required>
+                                <option value="">Select prefix</option>
+                                <option value="Ms." @if($user->prefix == 'Ms.') selected @endif>Ms.</option>
+                                <option value="Mr." @if($user->prefix == 'Mr.') selected @endif>Mr.</option>
+                                <option value="Mrs." @if($user->prefix == 'Mrs.') selected @endif>Mrs.</option>
+                            </select>
+                        </div>
+                        <div class="col-md-12 mb-2">
                             Name :
                             <input type="text" name="name" class="form-control form-control-sm" value="{{$user->name}}" readonly required>
                         </div>

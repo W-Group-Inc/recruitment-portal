@@ -210,7 +210,7 @@
                                             {{$m->department->name}}
                                         </td>
                                         <td>
-                                            {{$m->jobPosition->position}}
+                                            {{optional($m->jobPosition)->position}}
                                         </td>
                                         <td>
                                             {!! nl2br($m->justification) !!}

@@ -33,9 +33,22 @@ class ApplicantController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $applicants = Applicant::get();
+        $status = $request->status;
+        $department = $request->department;
+        $position = $request->position;
+
+        $applicants = Applicant::when($request, function($q)use($request) {
+                $q->where('applicant_status', $request->status)
+                    ->orWhereHas('mrf.department', function($q)use($request) {
+                        $q->where('id', $request->department);
+                    })
+                    ->orWhereHas('mrf.jobPosition', function($q)use($request) {
+                        $q->where('position', $request->position);
+                    });
+            })
+            ->get();
         $interviewers = User::where('status', 'Active')->get();
         $mrf = ManPowerRequisitionForm::where('mrf_status', 'Approved')->where('progress', 'Open')->get();
         if (auth()->user()->role == "Department Head")
@@ -45,7 +58,7 @@ class ApplicantController extends Controller
             })->get();
         }
 
-        return view('human_resources.applicant', compact('applicants', 'mrf', 'interviewers'));
+        return view('human_resources.applicant', compact('applicants', 'mrf', 'interviewers', 'status'));
     }
 
     /**

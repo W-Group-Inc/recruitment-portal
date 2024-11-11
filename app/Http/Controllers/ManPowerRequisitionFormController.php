@@ -285,7 +285,7 @@ class ManPowerRequisitionFormController extends Controller
     {
         // dd($request->all(), $id);
         $mrf = ManPowerRequisitionForm::findOrFail($id);
-        $mrf->reviewed_by = $request->reviewer;
+        $mrf->recruiter_id = $request->recruiter;
         $mrf->save();
         
         // if ($request->recruiter == 23)
