@@ -187,23 +187,70 @@ class ApplicantController extends Controller
 
     public function schedule(Request $request)
     {
-        $event = new Event;
-        $event->creator = auth()->user()->email;
-        $event->name = $request->event_name;
-        $event->startDateTime = Carbon::parse($request->event_start);
-        $event->endDateTime = $event->startDateTime->copy()->addHour();
-        $event->googleEvent->colorId = 3;
-        // $event->addMeetLink();
-        $event->addAttendee([
-            'email' => auth()->user()->email
-        ]);
-        $event->save();
+        // dd($request->all(), date('Y-m-d'));
+        $applicant_data = Applicant::where('id', $request->applicant_id)->first();
 
-        $schedule = new Schedule;
-        $schedule->schedule_name = $request->event_name;
-        $schedule->date_time = date('Y-m-d h:i:s', strtotime($request->event_start));
-        $schedule->applicant_id = $request->applicant_id;
-        $schedule->save();
+        $client = new Google_Client();
+        $client->setAuthConfig(storage_path('app/google-calendar/credentials.json'));
+        $client->setRedirectUri('http://localhost/recruitment-portal/public/google/callback');
+        $client->setAccessType('offline');
+        $client->addScope(\Google_Service_Calendar::CALENDAR);
+        $client->setPrompt('consent');
+        $client->setLoginHint(auth()->user()->email);
+        $client->setIncludeGrantedScopes(true);
+        // dd($client);
+        if (!session()->has('access_token')) {
+            $authUrl = $client->createAuthUrl();
+            return redirect()->away($authUrl);
+        } else {
+            $client->setAccessToken(session()->get('access_token'));
+            $calendarService = new \Google_Service_Calendar($client);
+            $event = new \Google_Service_Calendar_Event([
+                'summary' => 'Interview',
+                'description' => $request->event_name,
+                'start' => [
+                    'dateTime' => $request->start_time.':00',
+                    'timeZone' => 'Asia/Manila',
+                ],
+                'end' => [
+                    'dateTime' => $request->end_time.':00',
+                    'timeZone' => 'Asia/Manila',
+                ],
+                // 'recurrence' => [
+                //     'RRULE:FREQ=DAILY;COUNT=2'
+                // ],
+                'attendees' => [
+                    ['email' => $applicant_data->email],
+                    ['email' => auth()->user()->email]
+                    // ['email' => 'sbrin@example.com'],
+                ],
+                'reminders' => [
+                    'useDefault' => false,
+                    'overrides' => [
+                        // ['method' => 'email', 'minutes' => 24 * 60],
+                        ['method' => 'email', 'minutes' => 60],
+                    ],
+                ],
+                'conferenceData' => [
+                    'createRequest' => [
+                        'conferenceSolutionKey' => [
+                            'type' => 'hangoutsMeet'
+                        ],
+                        'requestId' => str_random()
+                    ]
+                ],
+            ]);
+            
+            $calendarId = env('GOOGLE_CALENDAR_ID');
+            $calendarService->events->insert($calendarId, $event, ['conferenceDataVersion' => 1, 'sendNotifications' => true]);
+        }
+
+        // $schedule = new Schedule;
+        // $schedule->schedule_name = $request->event_name;
+        // $schedule->date_time = date('Y-m-d h:i:s', strtotime($request->event_start));
+        // $schedule->applicant_id = $request->applicant_id;
+        // $schedule->user_id = auth()->user()->id;
+        // $schedule->save();
 
         Alert::success('Successfully Saved')->persistent('Dismiss');
         return back();
@@ -448,5 +495,31 @@ class ApplicantController extends Controller
         //         $applicant->save();
         //     }
         // }
+        
+    }
+    
+    public function handleGoogleCallback(Request $request)
+    {
+        $client = new Google_Client();
+        $client->setAuthConfig(storage_path('app/google-calendar/credentials.json'));
+        $client->setRedirectUri(route('google.callback'));
+        $client->addScope(\Google_Service_Calendar::CALENDAR);
+
+        if ($request->has('code')) {
+            // $authCode = $request->get('code');
+            // $token = $client->fetchAccessTokenWithAuthCode($authCode);
+            // $client->setAccessToken($token);
+            
+            $client->authenticate($request->code);
+            $access_token = $client->getAccessToken();
+            session()->put('access_token', $access_token);
+
+            Alert::success('Successfully authenticated with Google!')->persistent('Dismiss');
+            return back();
+        } else {
+            return redirect()->route('calendar.index')->with('error', 'Google authentication failed.');
+        }
+
+        
     }
 }

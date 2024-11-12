@@ -104,3 +104,5 @@ Route::post('add-job-offer', 'JobOfferController@store');
 
 Route::get('approved-mrf', 'ApprovedMrfController@index');
 Route::post('upload-mrf/{id}', 'ApprovedMrfController@update');
+
+Route::get('google/callback', 'ApplicantController@handleGoogleCallback')->name('google.callback');

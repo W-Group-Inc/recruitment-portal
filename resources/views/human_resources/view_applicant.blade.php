@@ -14,7 +14,7 @@
             </a>
         </div>
     </div>
-    <div class="col-xl-4 col-lg-3">
+    <div class="col-lg-3">
         <div class="card text-center">
             <div class="card-body">
                 <img src="{{asset('img/user.png')}}" class="rounded-circle avatar-lg img-thumbnail" alt="profile-image">
@@ -38,9 +38,9 @@
                 {{-- <a href="{{url('print-jo/'.$applicant->id)}}" type="button" class="btn btn-primary btn-sm mb-2" target="_blank">Job Offer</a> --}}
                 <button type="button" class="btn btn-sm btn-primary mb-2" data-bs-toggle="modal" data-bs-target="#jobOffer{{$applicant->id}}">Job Offer</button>
 
-                    @if($applicant->applicant_status == 'Pending')
+                    {{-- @if($applicant->applicant_status == 'Pending')
                     <button type="button" class="btn btn-secondary btn-sm mb-2" data-bs-toggle="modal" data-bs-target="#schedule">Schedule Interview</button>
-                    @endif
+                    @endif --}}
                 @endif
 
                 @if($applicant->applicant_status == 'Pending')
@@ -69,27 +69,22 @@
         </div> <!-- end card -->
     </div> <!-- end col-->
 
-    <div class="col-lg-4 d-flex align-items-stretch">
+    <div class="col-lg-9 d-flex align-items-stretch">
         <div class="card w-100">
             <div class="card-body">
+                {{-- @if(session()->has('access_token'))
+                    @php
+                        $token = session()->get('access_token');
+                    @endphp
+                    <pre>{{ json_encode($token, JSON_PRETTY_PRINT) }}</pre>
+                @else
+                    <p>Google access token not available.</p>
+                @endif --}}
                 <h3 class="fs-3"><i class="uil-calendar-alt me-2"></i>Schedule</h3>
                 <hr>
-                {{-- <div class="row">
-                    <div class="col-lg-4"><b>Date</b></div>
-                    <div class="col-lg-4"><b>Time</b></div>
-                    <div class="col-lg-4"><b>Name</b></div>
-                    @foreach ($applicant->schedule as $sched)
-                        <div class="col-lg-4">
-                            {{date('M d, Y', strtotime($sched->date_time))}}
-                        </div>
-                        <div class="col-lg-4">
-                            {{date('h:i A', strtotime($sched->date_time))}}
-                        </div>
-                        <div class="col-lg-4 mb-2">
-                            {{$sched->schedule_name}}
-                        </div>
-                    @endforeach
-                </div> --}}
+                @if($applicant->applicant_status == 'Pending')
+                    <button type="button" class="btn btn-secondary btn-sm mb-2" data-bs-toggle="modal" data-bs-target="#schedule">Add Schedule Interview</button>
+                @endif
 
                 <div class="table-responsive">
                     <table class="table tables table-hover table-bordered">
@@ -98,6 +93,7 @@
                                 <th>Date</th>
                                 <th>Time</th>
                                 <th>Name of Schedule</th>
+                                <th>Interviewer</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -112,6 +108,7 @@
                                     <td>
                                         {{$sched->schedule_name}}
                                     </td>
+                                    <td></td>
                                 </tr>
                             @endforeach
                         </tbody>
@@ -121,7 +118,7 @@
         </div>
     </div>
 
-    <div class="col-lg-4  d-flex align-items-stretch">
+    <div class="col-lg-3  d-flex align-items-stretch">
         <div class="card w-100">
             <div class="card-body">
                 <h3 class="fs-3">
@@ -150,8 +147,8 @@
                     @endforeach
                 </div> --}}
                 <div class="table-responsive">
-                    <table class="table table-bordered table-hover tables">
-                        <thead>
+                    <table class="table table-hover">
+                        <thead class="table-light">
                             <tr>
                                 <th>Name</th>
                                 <th>Status</th>
@@ -184,7 +181,7 @@
         </div>
     </div>
 
-    <div class="col-xl-12 col-lg-7">
+    <div class="col-xl-9 col-lg-7">
         <div class="card">
             <div class="card-body">
                 <ul class="nav nav-tabs mb-3">

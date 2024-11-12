@@ -15,11 +15,15 @@
                     <div class="row">
                         <div class="col-md-12 mb-2">
                             <label class="form-label">Event Name</label>
-                            <input type="text" name="event_name" class="form-control">
+                            <input type="text" name="event_name" class="form-control form-control-sm" required>
                         </div>
                         <div class="col-md-12 mb-2">
-                            <label class="form-label">Time</label>
-                            <input type="datetime-local" name="event_start" min="{{date('Y-m-d H:i')}}" class="form-control">
+                            <label class="form-label">Start Date Time</label>
+                            <input type="datetime-local" name="start_time" class="form-control form-control-sm" min="{{date('Y-m-d h:i')}}" required>
+                        </div>
+                        <div class="col-md-12 mb-2">
+                            <label class="form-label">End Date Time</label>
+                            <input type="datetime-local" name="end_time" class="form-control form-control-sm" min="{{date('Y-m-d h:i')}}" required>
                         </div>
                     </div>
                 </div>
