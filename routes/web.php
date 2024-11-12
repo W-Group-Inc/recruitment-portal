@@ -87,6 +87,7 @@ Route::get('print-interview-assessment/{id}', 'InterviewAssessmentController@pri
 # Upload Documents
 Route::get('applicant-documents', 'ApplicantDocumentController@index');
 Route::post('new-applicant-document', 'ApplicantDocumentController@store');
+Route::post('returned-applicant-document/{id}', 'ApplicantDocumentController@returnedDocument');
 
 # Document
 Route::get('document', 'DocumentController@index');

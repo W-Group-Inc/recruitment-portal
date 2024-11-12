@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Applicant;
 use App\ApplicantDocument;
 use App\Document;
+use App\Notifications\ReturnApplicantDOcuments;
 use Illuminate\Http\Request;
 use RealRashid\SweetAlert\Facades\Alert;
 
@@ -61,6 +62,7 @@ class ApplicantDocumentController extends Controller
             $applicant_document->applicant_id = $request->applicant_id;
             $applicant_document->document_name = $document_name;
             $applicant_document->document_file = $document_file;
+            $applicant_document->status = 'Submitted';
             $applicant_document->save();
 
             Alert::success('Successfully Saved')->persistent('Dismiss');
@@ -108,6 +110,7 @@ class ApplicantDocumentController extends Controller
         $applicant_document = ApplicantDocument::findOrFail($id);
         $applicant_document->document_id = $request->document_id;
         $applicant_document->applicant_id = $request->applicant_id;
+        $applicant_document->status = 'Submitted';
 
         if ($request->has('document_file'))
         {
@@ -135,5 +138,19 @@ class ApplicantDocumentController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function returnedDocument(Request $request, $id)
+    {
+        $applicant_document = ApplicantDocument::where('document_id', $id)->where('applicant_id', $request->applicant_id)->first();
+        $applicant_document->status = 'Returned';
+        $applicant_document->remarks = $request->remarks;
+        $applicant_document->save();
+
+        $applicant = Applicant::where('id', $request->applicant_id)->first();
+        $applicant->notify(new ReturnApplicantDOcuments($applicant, $applicant_document));
+        
+        Alert::success('Successfully Returned')->persistent('Dismiss');
+        return back();
     }
 }

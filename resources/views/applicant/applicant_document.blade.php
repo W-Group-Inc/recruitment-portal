@@ -14,6 +14,7 @@
                                 <th>Documents</th>
                                 <th>Status</th>
                                 <th>View Document</th>
+                                <th>Remarks</th>
                             </tr>
                             <tr>
                                 @foreach ($documents as $document)
@@ -26,6 +27,7 @@
                                             <a href="{{url($document->document_file)}}" class="btn btn-sm btn-primary" title="Download Form" download="{{$document->document_name}}">
                                                 <i class=" dripicons-download"></i>
                                             </a>
+                                            
                                             <button class="btn btn-info btn-sm" type="button" data-bs-toggle="modal" data-bs-target="#upload{{$document->id}}" title="Upload Form">
                                                 <i class="uil-upload"></i>
                                             </button>
@@ -35,10 +37,12 @@
                                         </td>
                                         <td>
                                             @if($uploaded_docs != null)
-                                            {{-- <i class="uil-check"></i> --}}
-                                            <span class="badge bg-success">Submitted</span>
+                                                @if($uploaded_docs->status == 'Submitted')
+                                                <span class="badge bg-success">Submitted</span>
+                                                @elseif($uploaded_docs->status == 'Returned')
+                                                <span class="badge bg-warning">Returned</span>
+                                                @endif
                                             @else
-                                            {{-- <i class="uil-times"></i> --}}
                                             <span class="badge bg-warning">Pending</span>
                                             @endif
                                         </td>
@@ -47,6 +51,11 @@
                                             <a href="{{url($uploaded_docs->document_file)}}" class="btn btn-outline-danger btn-sm" target="_blank">
                                                 <i class="uil-file"></i>
                                             </a>
+                                            @endif
+                                        </td>
+                                        <td>
+                                            @if($uploaded_docs != null)
+                                            {!! nl2br($uploaded_docs->remarks) !!}
                                             @endif
                                         </td>
                                     </tr>

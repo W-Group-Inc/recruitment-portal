@@ -236,9 +236,11 @@
                             <table class="table table-bordered table-hover tables">
                                 <thead>
                                     <tr>
+                                        <th>Actions</th>
                                         <th>Document</th>
                                         <th>Document Files</th>
                                         <th>Status</th>
+                                        <th>Remarks</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -247,6 +249,13 @@
                                             $applicant_docs = $docs->applicantDocument->where('applicant_id', $applicant->id)->first();
                                         @endphp
                                         <tr>
+                                            <td>
+                                                @if($applicant->applicant_status == 'Passed')
+                                                    <button type="button" class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#returned{{$docs->id}}">
+                                                        <i class="dripicons-return"></i>
+                                                    </button>
+                                                @endif
+                                            </td>
                                             <td>{{$docs->document_name}}</td>
                                             <td>
                                                 @if(!empty($applicant_docs))
@@ -257,12 +266,23 @@
                                             </td>
                                             <td>
                                                 @if(!empty($applicant_docs))
-                                                <span class="badge bg-success">Submitted</span>
-                                                @else 
+                                                    @if($applicant_docs->status == 'Submitted')
+                                                    <span class="badge bg-success">Submitted</span>
+                                                    @elseif($applicant_docs->status == 'Returned')
+                                                    <span class="badge bg-warning">Returned</span>
+                                                    @endif
+                                                @else
                                                 <span class="badge bg-danger">Not Submitted</span>
                                                 @endif
                                             </td>
+                                            <td>
+                                                @if(!empty($applicant_docs))
+                                                    {{$applicant_docs->remarks}}
+                                                @endif
+                                            </td>
                                         </tr>
+
+                                        @include('human_resources.returned_docs')
                                     @endforeach
                                 </tbody>
                             </table>
