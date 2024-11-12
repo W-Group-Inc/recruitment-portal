@@ -13,7 +13,7 @@
                             <select name="progress" class="form-control cat" required>
                                 <option value="">Select Progress</option>
                                 <option value="Open" @if($m->progress == 'Open') selected @endif>Open</option>
-                                <option value="Serve" @if($m->progress == 'Serve') selected @endif>Serve</option>
+                                <option value="Served" @if($m->progress == 'Served') selected @endif>Served</option>
                                 <option value="Hold" @if($m->progress == 'Hold') selected @endif>Hold</option>
                                 <option value="Cancelled" @if($m->progress == 'Cancelled') selected @endif>Cancelled</option>
                                 <option value="Reject" @if($m->progress == 'Reject') selected @endif>Reject</option>

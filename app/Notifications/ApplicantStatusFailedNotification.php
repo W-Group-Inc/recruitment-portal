@@ -42,6 +42,7 @@ class ApplicantStatusFailedNotification extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
+                    ->subject('Applicant Status')
                     ->greeting('Hello Mr./Ms. '.$this->applicant->name)
                     ->line('We would like to inform you that you have failed the initial interview for the position of ' . $this->applicant->mrf->position_title);
     }

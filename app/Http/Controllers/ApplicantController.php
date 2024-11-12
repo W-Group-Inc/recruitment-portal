@@ -135,9 +135,9 @@ class ApplicantController extends Controller
     {
         $applicant = Applicant::with('schedule', 'mrf', 'historyApplicant', 'interviewers', 'applicantDocument')->findOrFail($id);
         $documents = Document::where('document_status', 'Active')->get();
-        // $interviewer = Interviewer::where('status', 'Pending')->first();
+        $interviewer = Interviewer::where('status', 'Pending')->where('applicant_id', $applicant->id)->where('user_id', auth()->user()->id)->first();
 
-        return view('human_resources.view_applicant', compact('applicant', 'documents'));
+        return view('human_resources.view_applicant', compact('applicant', 'documents', 'interviewer'));
     }
 
     /**
@@ -296,16 +296,16 @@ class ApplicantController extends Controller
                     $nextInterview->save();
                 }
             }
-            else
-            {
+            // else
+            // {
                 // $applicant->applicant_status = "Passed";
                 // $applicant->save();
 
                 // $mrf = ManPowerRequisitionForm::findOrFail($applicant->man_power_requisition_form_id);
-                // $mrf->progress = 'Serve';
+                // $mrf->progress = 'Served';
                 // $mrf->save();
 
-                // if ($mrf->progress == 'Serve')
+                // if ($mrf->progress == 'Served')
                 // {
                 //     $interviewers = Interviewer::where('man_power_requisition_form_id', $mrf->id)
                 //         ->where(function($query)use($request) {
@@ -340,13 +340,21 @@ class ApplicantController extends Controller
                 // $user->save();
 
                 // $applicant->notify(new ApplicantCredentialsNotification($user, $applicant, $password));
-            }
+            // }
 
             if (auth()->user()->role == 'Human Resources')
             {
                 $dept_head = $applicant->mrf->department->head;
                 $dept_head->notify(new NotifyDepartmentHead($applicant->mrf, $dept_head));
 
+                $applicant->notify(new ApplicantStatusNotification($applicant));
+            }
+            elseif(auth()->user()->role == 'Department Head')
+            {
+                $applicant->notify(new ApplicantStatusNotification($applicant));
+            }
+            elseif(auth()->user()->role == 'Head Business Unit')
+            {
                 $applicant->notify(new ApplicantStatusNotification($applicant));
             }
 
@@ -392,6 +400,17 @@ class ApplicantController extends Controller
                 $dept_head = $applicant->mrf->department->head;
                 $dept_head->notify(new FailedApplicantNotification($applicant->mrf, $dept_head));
 
+                $applicant->notify(new ApplicantStatusFailedNotification($applicant));
+            }
+            elseif (auth()->user()->role == 'Department Head')
+            {
+                // $dept_head = $applicant->mrf->department->head;
+                // $dept_head->notify(new FailedApplicantNotification($applicant->mrf, $dept_head));
+
+                $applicant->notify(new ApplicantStatusFailedNotification($applicant));
+            }
+            elseif(auth()->user()->role == 'Head Business Unit')
+            {
                 $applicant->notify(new ApplicantStatusFailedNotification($applicant));
             }
 
@@ -473,10 +492,10 @@ class ApplicantController extends Controller
         // $applicant->save();
 
         // $mrf = ManPowerRequisitionForm::findOrFail($applicant->man_power_requisition_form_id);
-        // $mrf->progress = 'Serve';
+        // $mrf->progress = 'Served';
         // $mrf->save();
 
-        // if ($mrf->progress == 'Serve')
+        // if ($mrf->progress == 'Served')
         // {
         //     $interviewers = Interviewer::where('man_power_requisition_form_id', $mrf->id)
         //         ->where(function($query)use($request) {
@@ -521,5 +540,47 @@ class ApplicantController extends Controller
         }
 
         
+    }
+
+    public function updateStatus(Request $request, $id)
+    {
+        $applicant = Applicant::findOrFail($id);
+        $applicant->applicant_status = $request->status;
+        $applicant->save();
+
+        if ($request->status == 'Passed')
+        {
+            $mrf_data = ManPowerRequisitionForm::findOrFail($applicant->mrf->id);
+            $mrf_data->progress = 'Served';
+            $mrf_data->save();
+
+            if ($mrf_data->progress == 'Served')
+            {
+                $interviewers = Interviewer::where('man_power_requisition_form_id', $mrf_data->id)
+                    ->where(function($query)use($request) {
+                        $query->where('status', 'Pending')
+                            ->orWhere('status', 'Waiting');
+                    })
+                    ->get();
+    
+                if ($interviewers->isNotEmpty())
+                {
+                    foreach($interviewers as $key=>$interviewer)
+                    {
+                        $interviewer->status = 'Cancelled';
+                        $interviewer->save();
+        
+                        $applicant = Applicant::where('id', $interviewer->applicant_id)->first();
+                        $applicant->applicant_status = 'Cancelled';
+                        $applicant->save();
+                    }
+                }
+            }
+
+            $applicant->notify(new ApplicantStatusNotification($applicant));
+        }
+
+        Alert::success('Successfully Updated')->persistent('Dismiss');
+        return back();
     }
 }

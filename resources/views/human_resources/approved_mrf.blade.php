@@ -70,7 +70,7 @@
                                         <td>
                                             @if($mrf->progress == "Open")
                                             <span class="badge bg-success">
-                                            @elseif($mrf->progress == "Serve")
+                                            @elseif($mrf->progress == "Served")
                                             <span class="badge bg-success">
                                             @elseif($mrf->progress == "Hold")
                                             <span class="badge bg-warning">

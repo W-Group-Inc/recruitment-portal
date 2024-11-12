@@ -44,7 +44,8 @@ class NotifyDepartmentHead extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-                    ->greeting('Hello, '.$this->dept_head->name)
+                    ->subject('Applicant Status')
+                    ->greeting('Good day, ' .$this->dept_head->prefix.' '.$this->dept_head->name)
                     ->line('The applicant for the position of '. $this->mrf->jobPosition->position .' has passed.')
                     ->action('View Applicants', url('/applicant'))
                     ->line('Thank you for using our application!');

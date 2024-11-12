@@ -137,6 +137,10 @@
                                                 </button>
                                                 @endif
                                             @endif
+
+                                            <button type="button" class="btn btn-sm btn-warning" title="Applicant Status" data-bs-toggle="modal" data-bs-target="#applicantStatus{{$applicant->id}}">
+                                                <i class="dripicons-document-edit"></i>
+                                            </button>
                                         </td>
                                         <td>{{$applicant->lastname}}</td>
                                         <td>{{$applicant->firstname}}</td>
@@ -178,6 +182,7 @@
                                     </tr>
 
                                     @include('human_resources.edit_applicant')
+                                    @include('human_resources.applicant_status')
                                 @endforeach
                                 @endif
 

@@ -150,7 +150,7 @@
                                         <td>
                                             @if($m->progress == "Open")
                                             <span class="badge bg-success">
-                                            @elseif($m->progress == "Serve")
+                                            @elseif($m->progress == "Served")
                                             <span class="badge bg-success">
                                             @elseif($m->progress == "Hold")
                                             <span class="badge bg-warning">
@@ -165,7 +165,7 @@
                                         </td>
                                         <td>{{date('M. d, Y', strtotime($m->created_at))}}</td>
                                         <td>
-                                            @if($m->progress == 'Serve')
+                                            @if($m->progress == 'Served')
                                                 {{date('M. d, Y', strtotime($m->updated_at))}}
                                             @endif
                                         </td>
@@ -218,8 +218,8 @@
                                         <td>
                                             @if(count($m->interviewer->where('status', 'Pending')) > 0)
                                             <span class="badge bg-warning">For Interview</span>
-                                            @elseif($m->progress == 'Serve')
-                                            <span class="badge bg-success">Serve</span>
+                                            @elseif($m->progress == 'Served')
+                                            <span class="badge bg-success">Served</span>
                                             @else
                                             <span class="badge bg-success">Sourcing</span>
                                             @endif

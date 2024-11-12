@@ -82,10 +82,9 @@
                 @endif --}}
                 <h3 class="fs-3"><i class="uil-calendar-alt me-2"></i>Schedule</h3>
                 <hr>
-                @if($applicant->applicant_status == 'Pending')
-                    <button type="button" class="btn btn-secondary btn-sm mb-2" data-bs-toggle="modal" data-bs-target="#schedule">Add Schedule Interview</button>
+                @if($interviewer)
+                <button type="button" class="btn btn-secondary btn-sm mb-2" data-bs-toggle="modal" data-bs-target="#schedule">Add Schedule Interview</button>
                 @endif
-
                 <div class="table-responsive">
                     <table class="table tables table-hover table-bordered">
                         <thead>

@@ -205,7 +205,7 @@
                                     <td>
                                         @if($m->progress == "Open")
                                         <span class="badge bg-success">
-                                        @elseif($m->progress == "Serve")
+                                        @elseif($m->progress == "Served")
                                         <span class="badge bg-success">
                                         @elseif($m->progress == "Hold")
                                         <span class="badge bg-warning">
