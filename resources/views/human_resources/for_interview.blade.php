@@ -34,10 +34,13 @@
                                         {{$applicant->mrf->jobPosition->position}}
                                     </td>
                                     <td>
-                                        @foreach ($applicant->schedule as $sched)
+                                        @foreach ($applicant->schedule as $key=>$sched)
                                             <small>Name: {{$sched->schedule_name}}</small><br>
-                                            <small>Date: {{date('M. d, Y', strtotime($sched->date_time))}}</small><br>
-                                            <small>Time: {{date('g:i A', strtotime($sched->date_time))}}</small><br>
+                                            <small>Date: {{date('M. d, Y', strtotime($sched->start_datetime))}}</small><br>
+                                            <small>Start Time: {{date('g:i A', strtotime($sched->start_datetime))}}</small><br>
+                                            <small>End Time: {{date('g:i A', strtotime($sched->end_datetime))}}</small><br>
+                                            <small>Interviewer: {{$sched->user->name}}</small><br>
+                                            <hr >
                                         @endforeach
                                     </td>
                                     <td>

@@ -87,14 +87,23 @@
                 <h3 class="fs-3"><i class="uil-calendar-alt me-2"></i>Schedule</h3>
                 <hr>
                 @if($interviewer)
-                <button type="button" class="btn btn-secondary btn-sm mb-2" data-bs-toggle="modal" data-bs-target="#schedule">Add Schedule Interview</button>
+                    @if(session()->has('access_token'))
+                        <button type="button" class="btn btn-secondary btn-sm mb-2" data-bs-toggle="modal" data-bs-target="#schedule">Add Schedule Interview</button>
+                    @else
+                        <form method="POST" action="{{url('schedule-interview')}}" onsubmit="show()" >
+                            @csrf 
+                            <button type="submit" class="btn btn-danger btn-sm mb-2">Sign In Google</button>
+                        </form>
+                    @endif
                 @endif
                 <div class="table-responsive">
                     <table class="table tables table-hover table-bordered">
                         <thead>
                             <tr>
+                                <th>Action</th>
                                 <th>Date</th>
-                                <th>Time</th>
+                                <th>Start</th>
+                                <th>End</th>
                                 <th>Name of Schedule</th>
                                 <th>Interviewer</th>
                             </tr>
@@ -103,16 +112,28 @@
                             @foreach ($applicant->schedule as $sched)
                                 <tr>
                                     <td>
-                                        {{date('M d, Y', strtotime($sched->date_time))}}
+                                        @if($sched->user_id == auth()->user()->id)
+                                            <button type="button" class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#schedule{{$sched->id}}">
+                                                <i class="dripicons-document-edit"></i>
+                                            </button>
+                                        @endif
                                     </td>
                                     <td>
-                                        {{date('h:i A', strtotime($sched->date_time))}}
+                                        {{date('M d, Y', strtotime($sched->start_datetime))}}
+                                    </td>
+                                    <td>
+                                        {{date('g:i A', strtotime($sched->start_datetime))}}
+                                    </td>
+                                    <td>
+                                        {{date('g:i A', strtotime($sched->end_datetime))}}
                                     </td>
                                     <td>
                                         {{$sched->schedule_name}}
                                     </td>
-                                    <td></td>
+                                    <td>{{$sched->user->name}}</td>
                                 </tr>
+
+                                @include('human_resources.update_schedule')
                             @endforeach
                         </tbody>
                     </table>

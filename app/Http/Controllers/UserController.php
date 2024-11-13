@@ -149,7 +149,7 @@ class UserController extends Controller
 
         if ($request->route == 'view-password')
         {
-            return redirect('/job-application');
+            return redirect('/home');
         }
         else
         {

@@ -201,7 +201,7 @@ class ApplicantController extends Controller
 
         $client = new Google_Client();
         $client->setAuthConfig(storage_path('app/google-calendar/credentials.json'));
-        $client->setRedirectUri('http://localhost/recruitment-portal/public/google/callback');
+        $client->setRedirectUri(url('google/callback'));
         $client->setAccessType('offline');
         $client->addScope(\Google_Service_Calendar::CALENDAR);
         $client->setPrompt('consent');
@@ -254,12 +254,13 @@ class ApplicantController extends Controller
             $calendarService->events->insert($calendarId, $event, ['conferenceDataVersion' => 1, 'sendNotifications' => true]);
         }
 
-        // $schedule = new Schedule;
-        // $schedule->schedule_name = $request->event_name;
-        // $schedule->date_time = date('Y-m-d h:i:s', strtotime($request->event_start));
-        // $schedule->applicant_id = $request->applicant_id;
-        // $schedule->user_id = auth()->user()->id;
-        // $schedule->save();
+        $schedule = new Schedule;
+        $schedule->schedule_name = $request->event_name;
+        $schedule->start_datetime = date('Y-m-d H:i:s', strtotime($request->start_time));
+        $schedule->end_datetime = date('Y-m-d H:i:s', strtotime($request->end_time));
+        $schedule->applicant_id = $request->applicant_id;
+        $schedule->user_id = auth()->user()->id;
+        $schedule->save();
 
         Alert::success('Successfully Saved')->persistent('Dismiss');
         return back();
@@ -588,6 +589,114 @@ class ApplicantController extends Controller
 
             $applicant->notify(new ApplicantStatusNotification($applicant));
         }
+
+        Alert::success('Successfully Updated')->persistent('Dismiss');
+        return back();
+    }
+
+    public function updateSchedule(Request $request, $id)
+    {
+        // dd($request->all(), $id);
+        $applicant_data = Applicant::where('id', $request->applicant_id)->first();
+
+        $client = new Google_Client();
+        $client->setAuthConfig(storage_path('app/google-calendar/credentials.json'));
+        $client->setRedirectUri(url('google/callback'));
+        $client->setAccessType('offline');
+        $client->addScope(\Google_Service_Calendar::CALENDAR);
+        $client->setPrompt('consent');
+        $client->setLoginHint(auth()->user()->email);
+        $client->setIncludeGrantedScopes(true);
+        $client->setAccessToken(session()->get('access_token'));
+
+        $calendarService = new \Google_Service_Calendar($client);
+
+        // $event = new \Google_Service_Calendar_Event();
+        // $event->setDescription($request->event_name);
+        // $start = new \Google_Service_Calendar_EventDateTime();
+        // $start->setDateTime($request->start_time.':00');
+        // $start->setTimeZone('Asia/Manila');
+        // $event->setStart($start);
+        // $end = new \Google_Service_Calendar_EventDateTime();
+        // $end->setDateTime($request->end_time.':00');
+        // $end->setTimeZone('Asia/Manila');
+        // $event->setEnd($end);
+
+        $calendarId = env('GOOGLE_CALENDAR_ID');
+        $list_events = $calendarService->events->listEvents($calendarId);
+        $eventId = null;
+        foreach ($list_events->getItems() as $event) {
+            if ($event->getDescription() == $request->event_name) {
+                $eventId = $event->getId();
+                break;
+            }
+        }
+
+        // $event = new \Google_Service_Calendar_Event();
+        // $event->setDescription($request->event_name);
+        // $start = new \Google_Service_Calendar_EventDateTime();
+        // $start->setDateTime($request->start_time.':00');
+        // $start->setTimeZone('Asia/Manila');
+        // $event->setStart($start);
+        // $end = new \Google_Service_Calendar_EventDateTime();
+        // $end->setDateTime($request->end_time.':00');
+        // $end->setTimeZone('Asia/Manila');
+        // $event->setEnd($end);
+        // $attendee1 = new \Google_Service_Calendar_EventAttendee();
+        // $attendee1->setEmail($applicant_data->email);
+        // $attendee2 = new \Google_Service_Calendar_EventAttendee();
+        // $attendee2->setEmail(auth()->user()->email);
+        // $attendees = array($attendee1, $attendee2);
+        // $event->attendees = $attendees;
+
+        $event = new \Google_Service_Calendar_Event([
+            'summary' => 'Interview',
+            'description' => $request->event_name,
+            'start' => [
+                'dateTime' => $request->start_time.':00',
+                'timeZone' => 'Asia/Manila',
+            ],
+            'end' => [
+                'dateTime' => $request->end_time.':00',
+                'timeZone' => 'Asia/Manila',
+            ],
+            // 'recurrence' => [
+            //     'RRULE:FREQ=DAILY;COUNT=2'
+            // ],
+            'attendees' => [
+                ['email' => $applicant_data->email],
+                ['email' => auth()->user()->email]
+                // ['email' => 'sbrin@example.com'],
+            ],
+            'reminders' => [
+                'useDefault' => false,
+                'overrides' => [
+                    // ['method' => 'email', 'minutes' => 24 * 60],
+                    ['method' => 'email', 'minutes' => 60],
+                ],
+            ],
+            'conferenceData' => [
+                'createRequest' => [
+                    'conferenceSolutionKey' => [
+                        'type' => 'hangoutsMeet'
+                    ],
+                    'requestId' => str_random()
+                ]
+            ],
+        ]);
+
+        $calendarService->events->update($calendarId, $eventId, $event, [
+            'conferenceDataVersion' => 1,
+            'sendNotifications' => true,
+        ]);
+
+        $schedule = Schedule::findOrFail($id);
+        $schedule->schedule_name = $request->event_name;
+        $schedule->start_datetime = date('Y-m-d H:i:s', strtotime($request->start_time));
+        $schedule->end_datetime = date('Y-m-d H:i:s', strtotime($request->end_time));
+        $schedule->applicant_id = $request->applicant_id;
+        $schedule->user_id = auth()->user()->id;
+        $schedule->save();
 
         Alert::success('Successfully Updated')->persistent('Dismiss');
         return back();

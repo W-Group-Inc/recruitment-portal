@@ -17,15 +17,15 @@ class ApplicantLogin
      */
     public function handle($request, Closure $next)
     {
-        // if (auth()->check() && auth()->user()->role == 'Applicant')
-        // {
-        //     if (auth()->user()->is_login == null)
-        //     {
-        //         return redirect('/view-password');
-        //     }
+        if (auth()->check() && auth()->user()->role == 'Applicant')
+        {
+            if (auth()->user()->is_login == null)
+            {
+                return redirect('/view-password');
+            }
 
-        //     return redirect('/job-application');
-        // }
+            // return redirect('/job-application');
+        }
         if(auth()->check() && auth()->user()->role == 'Head Business Unit') 
         {
             return redirect('/mrf');
