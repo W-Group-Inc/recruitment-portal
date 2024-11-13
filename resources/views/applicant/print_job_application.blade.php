@@ -393,16 +393,16 @@
             <tr>
                 <td style="vertical-align:top; border: 2px solid black;">
                     <p style="font-size:8;"><small>SPOUSE</small></p>
-                    <p style="font-size:9;" class="mb-0 p-0 text-center">{{$sibling->spouse_name}}</p>
+                    <p style="font-size:9;" class="mb-0 p-0 text-center">{{$job_application->spouse_name}}</p>
                 </td>
                 <td style="border: 2px solid black; vertical-align:bottom;">
-                    <p style="font-size:9;" class="mb-0 p-0 text-center">{{$sibling->spouse_occupation}}</p>
+                    <p style="font-size:9;" class="mb-0 p-0 text-center">{{$job_application->spouse_occupation}}</p>
                 </td>
                 <td style="border: 2px solid black; vertical-align:bottom;">
-                    <p style="font-size:9;" class="mb-0 p-0 text-center">{{$sibling->spouse_company_location}}</p>
+                    <p style="font-size:9;" class="mb-0 p-0 text-center">{{$job_application->spouse_company_location}}</p>
                 </td>
                 <td style="border: 2px solid black; vertical-align:bottom;">
-                    <p style="font-size:9;" class="mb-0 p-0 text-center">{{$sibling->spouse_contact_no}}</p>
+                    <p style="font-size:9;" class="mb-0 p-0 text-center">{{$job_application->spouse_contact_no}}</p>
                 </td>
             </tr>
             <tr>
@@ -555,41 +555,46 @@
             </tr>
         </table>
         <table cellpadding="0" cellspacing="0" style="width: 100%; border:2px solid black;" class="mt-2">
-            <tr style="border: 2px solid black;">
-                <td colspan="3">
-                    <p class="mb-0 font-weight-bold" style="font-size:8; background-color:#e1dfdf;">V. WORK EXPERIENCES (START FROM THE MOST RECENT)</p>
-                </td>
-            </tr>
-            <tr>
-                <td style="border:2px solid black;" class="align-top">
-                    <p style="font-size: 8;"><small>1. NAME & ADDRESS OF THE COMPANY</small></p>
-                    <p style="font-size: 9;" class="text-center">{{$job_application->name_of_company}}</p>
-                    <p style="font-size: 9;" class="text-center">{{$job_application->address_of_company}}</p>
-                </td>
-                <td style="border:2px solid black;" class="align-top">
-                    <p style="font-size: 8;"><small>POSITION</small></p>
-                    <p style="font-size: 9;" class="text-center">{{$job_application->position}}</p>
-                </td>
-                <td style="border:2px solid black;" class="align-top">
-                    <p style="font-size: 8;"><small>EMPLOYMENT PERIOD</small></p>
-                    <p style="font-size: 9;" class="text-center">{{$job_application->employment_period}}</p>
-                </td>
-            </tr>
-            <tr>
-                <td style="border:2px solid black;" class="align-top">
-                    <p style="font-size: 8;"><small>COMPANY INDUSTRY</small></p>
-                    <p style="font-size: 9;" class="text-center">{{$job_application->company_industry}}</p>
-                </td>
-                <td style="border:2px solid black;" class="align-top">
-                    <p style="font-size: 8;"><small>REASON FOR LEAVING</small></p>
-                    <p style="font-size: 9;" class="text-center">{!! nl2br($job_application->reason_for_leaving) !!}</p>
-                </td>
-                <td style="border:2px solid black;" class="align-top">
-                    <p style="font-size: 8;"><small>LAST SALARY</small></p>
-                    <p style="font-size: 9;" class="text-center">{{$job_application->last_salary}} PHP</p>
-                </td>
-            </tr>
-            <tr>
+            @foreach ($job_application->workExperience as $key=>$work_exp)
+                <tr style="border: 2px solid black;">
+                    <td colspan="3">
+                        <p class="mb-0 font-weight-bold" style="font-size:8; background-color:#e1dfdf;">V. WORK EXPERIENCES (START FROM THE MOST RECENT)</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="border:2px solid black;" class="align-top">
+                        <p style="font-size: 8;"><small>{{$key+1}}. NAME & ADDRESS OF THE COMPANY</small></p>
+                        <p style="font-size: 9;" class="text-center">{{$work_exp->name_of_company}}</p>
+                        <p style="font-size: 9;" class="text-center">{{$work_exp->address_of_company}}</p>
+                    </td>
+                    <td style="border:2px solid black;" class="align-top">
+                        <p style="font-size: 8;"><small>POSITION</small></p>
+                        <p style="font-size: 9;" class="text-center">{{$work_exp->position}}</p>
+                    </td>
+                    <td style="border:2px solid black;" class="align-top">
+                        <p style="font-size: 8;"><small>EMPLOYMENT PERIOD</small></p>
+                        <p style="font-size: 9;" class="text-center">{{$work_exp->employment_period}}</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="border:2px solid black;" class="align-top">
+                        <p style="font-size: 8;"><small>COMPANY INDUSTRY</small></p>
+                        <p style="font-size: 9;" class="text-center">{{$work_exp->company_industry}}</p>
+                    </td>
+                    <td style="border:2px solid black;" class="align-top">
+                        <p style="font-size: 8;"><small>REASON FOR LEAVING</small></p>
+                        <p style="font-size: 9;" class="text-center">{!! nl2br($work_exp->reason_for_leaving) !!}</p>
+                    </td>
+                    <td style="border:2px solid black;" class="align-top">
+                        <p style="font-size: 8;"><small>LAST SALARY</small></p>
+                        @php
+                            $last_salary = str_replace('₱ ', '', $work_exp->last_salary);
+                        @endphp
+                        <p style="font-size: 9;" class="text-center">{{$last_salary}} PHP</p>
+                    </td>
+                </tr>
+            @endforeach
+            {{-- <tr>
                 <td style="border:2px solid black;" class="align-top">
                     <p style="font-size: 8;"><small>2. NAME & ADDRESS OF THE COMPANY</small></p>
                     <p style="font-size: 9;" class="text-center">&nbsp;</p>
@@ -617,7 +622,7 @@
                     <p style="font-size: 8;"><small>LAST SALARY</small></p>
                     <p style="font-size: 9;" class="text-center">&nbsp;</p>
                 </td>
-            </tr>
+            </tr> --}}
         </table>
         <p style="font-size: 8;"><small>I hereby give my consent to _____________ to collect my personal data and information for purpose of considering for employment. All the information I provided shall be treated in strict
             confidence and the same shall not be shared to third persons without my written permission or consent, except as may be provided by laws. I understand and agree that any malicious
