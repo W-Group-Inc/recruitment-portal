@@ -1,5 +1,10 @@
 @extends('layouts.public_app')
 
+@section('css')
+<link rel="stylesheet" href="{{asset('css/component-chosen.css')}}">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/intl-tel-input@24.6.0/build/css/intlTelInput.css">
+@endsection
+
 @section('public_content')
     <div class="col-lg-8 mx-auto">
         <div class="row">
@@ -43,4 +48,42 @@
     </div>
 
     @include('human_resources.apply')
+@endsection
+
+@section('js')
+<script src="{{asset('js/chosen.jquery.min.js')}}"></script>
+<script src="https://cdn.jsdelivr.net/npm/intl-tel-input@24.6.0/build/js/intlTelInput.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $('.cat').chosen({width: "100%"})
+
+        $('#source').on('change', function() {
+            $('#application').remove();
+            $('#employee').remove();
+
+            if ($(this).val() == 'Online Application')
+            {
+                var newRow = `
+                    <div class="col-lg-12 col-md-12 mb-2" id="application">
+                        Name of application
+                        <input type="text" name="application" class="form-control form-control-sm required" placeholder="Example: Jobstreet, Indeed, etc.">
+                    </div>
+                `
+                
+                $('.cat').closest('#sourceColumn').after(newRow);
+            }
+            else if($(this).val() == 'Employee Referral')
+            {
+                var newRow = `
+                    <div class="col-lg-12 col-md-12 mb-2" id="employee">
+                        Full name of Employee
+                        <input type="text" name="employee" class="form-control form-control-sm required">
+                    </div>
+                `
+
+                $('.cat').closest('#sourceColumn').after(newRow);
+            }
+        })
+    })
+</script>
 @endsection

@@ -145,7 +145,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($mrf as $m)
+                                @foreach ($mrf->where('mrf_status', '<>', 'Cancelled') as $m)
                                     <tr>
                                         <td>
                                             @if($m->progress == "Open")
@@ -228,6 +228,89 @@
                                             {{$m->salary_range}}
                                         </td>
                                     </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="header-title">Applicant Tracking</h5>
+
+                    <div class="table-responsive">
+                        <table class="table tables table-bordered" width="100%">
+                            <thead>
+                                <tr>
+                                    <th>Position</th>
+                                    <th>Recruiter In Charge</th>
+                                    <th>Candidate Name</th>
+                                    <th>Date Sourced</th>
+                                    <th>Date Screened</th>
+                                    <th>Initial Screening Status</th>
+                                    <th>Source</th>
+                                    <th>Contact Number</th>
+                                    <th>Email</th>
+                                    <th>Resume</th>
+                                    <th>Applicant Status</th>
+                                    <th>Job Offer Date</th>
+                                    <th>Start Date</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($mrf->where('mrf_status', 'Approved')->where('recruiter_id', auth()->user()->id) as $mrf_data)
+                                    @foreach ($mrf_data->applicant as $applicant_data)
+                                        <tr>
+                                            <td>{{$applicant_data->mrf->jobPosition->position}}</td>
+                                            <td>{{$applicant_data->mrf->recruiter->name}}</td>
+                                            <td>{{$applicant_data->user->name}}</td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td>
+                                                @php
+                                                    $name = "";
+                                                    if ($applicant_data->source == 'Online Application')
+                                                    {
+                                                        $name = $applicant_data->application;
+                                                    }
+                                                    elseif($applicant_data->source == 'Employee Referral')
+                                                    {
+                                                        $name = $applicant_data->employee;
+                                                    }
+                                                @endphp
+                                                {{$applicant_data->source.' - '.$name}} 
+                                            </td>
+                                            <td>{{$applicant_data->mobile_number}}</td>
+                                            <td>{{$applicant_data->email}}</td>
+                                            <td>
+                                                <a href="{{url($applicant_data->resume)}}" target="_blank">
+                                                    <i class="uil-file"></i>
+                                                </a>
+                                            </td>
+                                            <td>
+                                                @if($applicant_data->applicant_status == "Pending")
+                                                    <span class="badge bg-warning">{{$applicant_data->applicant_status}}</span>
+                                                @elseif($applicant_data->applicant_status == "Passed")
+                                                    <span class="badge bg-success">{{$applicant_data->applicant_status}}</span>
+                                                @elseif($applicant_data->applicant_status == "Failed")
+                                                    <span class="badge bg-danger">{{$applicant_data->applicant_status}}</span>
+                                                @endif
+                                            </td>
+                                            <td>
+                                                @if($applicant_data->jobOffer)
+                                                    {{date('M. d Y', strtotime(optional($applicant_data->jobOffer)->updated_at))}}
+                                                @endif
+                                            </td>
+                                            <td>
+                                                @if($applicant_data->jobOffer)
+                                                    {{date('M. d Y', strtotime(optional($applicant_data->jobOffer)->start_date))}}
+                                                @endif
+                                            </td>
+                                        </tr>
+                                    @endforeach
                                 @endforeach
                             </tbody>
                         </table>

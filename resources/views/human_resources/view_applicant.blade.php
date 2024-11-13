@@ -23,30 +23,34 @@
 
                 @foreach ($applicant->interviewers->where('status', 'Pending')->where('user_id', auth()->user()->id)->where('applicant_id', $applicant->id) as $i)
             
-                <button type="button" class="btn btn-danger btn-sm mb-2" data-bs-toggle="modal" data-bs-target="#failedApplicant">Fail</button>
-                
-                <form method="POST" action="{{url('update-status/'.$applicant->id)}}" class="d-inline-block" onsubmit="show()">
-                    @csrf
+                    <button type="button" class="btn btn-danger btn-sm mb-2" data-bs-toggle="modal" data-bs-target="#failedApplicant">Fail</button>
+                    
+                    <form method="POST" action="{{url('update-status/'.$applicant->id)}}" class="d-inline-block" onsubmit="show()">
+                        @csrf
 
-                    <input type="hidden" name="action" value="passed">
-                    <input type="hidden" name="interviewer_id" value="{{$i->id}}">
+                        <input type="hidden" name="action" value="passed">
+                        <input type="hidden" name="interviewer_id" value="{{$i->id}}">
 
-                    <button type="button" class="btn btn-success btn-sm mb-2 passedBtn">Pass</button>
-                </form>
+                        <button type="button" class="btn btn-success btn-sm mb-2 passedBtn">Pass</button>
+                    </form>
 
-                @if(auth()->user()->role == 'Human Resources' || auth()->user()->role == 'Human Resources Manager')
-                {{-- <a href="{{url('print-jo/'.$applicant->id)}}" type="button" class="btn btn-primary btn-sm mb-2" target="_blank">Job Offer</a> --}}
-                <button type="button" class="btn btn-sm btn-primary mb-2" data-bs-toggle="modal" data-bs-target="#jobOffer{{$applicant->id}}">Job Offer</button>
+                    @if(auth()->user()->role == 'Human Resources' || auth()->user()->role == 'Human Resources Manager')
+                    {{-- <a href="{{url('print-jo/'.$applicant->id)}}" type="button" class="btn btn-primary btn-sm mb-2" target="_blank">Job Offer</a> --}}
+                    <button type="button" class="btn btn-sm btn-primary mb-2" data-bs-toggle="modal" data-bs-target="#jobOffer{{$applicant->id}}">Job Offer</button>
 
-                    {{-- @if($applicant->applicant_status == 'Pending')
-                    <button type="button" class="btn btn-secondary btn-sm mb-2" data-bs-toggle="modal" data-bs-target="#schedule">Schedule Interview</button>
-                    @endif --}}
-                @endif
+                        {{-- @if($applicant->applicant_status == 'Pending')
+                        <button type="button" class="btn btn-secondary btn-sm mb-2" data-bs-toggle="modal" data-bs-target="#schedule">Schedule Interview</button>
+                        @endif --}}
+                    @endif
 
-                @if($applicant->applicant_status == 'Pending')
-                <a href="{{url('interview-assessment/'.$applicant->id)}}" class="btn btn-warning btn-sm mb-2">Interview Assessment Form</a>
-                @endif
+                    @if($applicant->applicant_status == 'Pending')
+                    <a href="{{url('interview-assessment/'.$applicant->id)}}" class="btn btn-warning btn-sm mb-2">Interview Assessment Form</a>
+                    @endif
                 @endforeach
+
+                @if($applicant->applicant_status == 'Passed')
+                    <button type="button" class="btn btn-sm btn-primary mb-2" data-bs-toggle="modal" data-bs-target="#jobOffer{{$applicant->id}}">Job Offer</button>
+                @endif
 
                 <hr>
                 <div class="text-start mt-3">

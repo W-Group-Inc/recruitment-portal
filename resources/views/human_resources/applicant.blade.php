@@ -136,11 +136,11 @@
                                                     <i class="uil-user"></i>
                                                 </button>
                                                 @endif
-                                            @endif
 
-                                            <button type="button" class="btn btn-sm btn-warning" title="Applicant Status" data-bs-toggle="modal" data-bs-target="#applicantStatus{{$applicant->id}}">
-                                                <i class="dripicons-document-edit"></i>
-                                            </button>
+                                                <button type="button" class="btn btn-sm btn-warning" title="Applicant Status" data-bs-toggle="modal" data-bs-target="#applicantStatus{{$applicant->id}}">
+                                                    <i class="dripicons-document-edit"></i>
+                                                </button>
+                                            @endif
                                         </td>
                                         <td>{{$applicant->lastname}}</td>
                                         <td>{{$applicant->firstname}}</td>

@@ -36,7 +36,7 @@
                         </div>
                         <div class="col-lg-12 mb-2">
                             Start Date
-                            <input type="date" name="start_date" class="form-control form-control-sm" value="{{optional($applicant->jobOffer)->start_date}}" required>
+                            <input type="date" name="start_date" class="form-control form-control-sm" min="{{date('Y-m-d')}}" value="{{optional($applicant->jobOffer)->start_date}}" required>
                         </div>
                     </div>
                 </div>

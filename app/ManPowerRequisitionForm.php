@@ -38,4 +38,8 @@ class ManPowerRequisitionForm extends Model
     {
         return $this->belongsTo(User::class,'recruiter_id');
     }
+    public function applicant()
+    {
+        return $this->hasMany(Applicant::class);
+    }
 }

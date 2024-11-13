@@ -92,9 +92,18 @@ class ApplicantController extends Controller
         $applicant->firstname = $request->firstname;
         $applicant->middlename = $request->middlename;
         $applicant->email = $request->email;
-        // $applicant->mobile_number = $request->mobile_number;
+        $applicant->mobile_number = $request->mobile_number;
         $applicant->man_power_requisition_form_id = $request->mrf_id;
         $applicant->applicant_status = 'Pending';
+        $applicant->source = $request->source;
+        if ($request->has('application'))
+        {
+            $applicant->application = $request->application;
+        }
+        if ($request->has('employee'))
+        {
+            $applicant->employee = $request->employee;
+        }
         
         $attachment = $request->file('resume');
         $name = time().'_'.$attachment->getClientOriginalName();

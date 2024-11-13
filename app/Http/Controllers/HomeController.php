@@ -47,14 +47,15 @@ class HomeController extends Controller
 
         if(auth()->user()->role == "Human Resources" || auth()->user()->role == "Human Resources Manager")
         {
-            $mrf = ManPowerRequisitionForm::where('mrf_status', '<>' ,'Cancelled')->get();
+            // $mrf = ManPowerRequisitionForm::where('mrf_status', '<>' ,'Cancelled')->get();
+            $mrf = ManPowerRequisitionForm::get();
             $applicant = Applicant::get();
 
             $month = [];
             for ($i=1; $i <= 12; $i++)
             {
                 $object = new stdClass;
-                $object->total_mrf = ManPowerRequisitionForm::whereYear('created_at', date('Y'))->whereMonth('created_at', date('m', mktime(0,0,0,$i,1,date("Y"))))->count();
+                $object->total_mrf = ManPowerRequisitionForm::whereYear('created_at', date('Y'))->whereMonth('created_at', date('m', mktime(0,0,0,$i,1,date("Y"))))->where('mrf_status', '<>', 'Cancelled')->count();
                 $object->open = ManPowerRequisitionForm::whereYear('created_at', date('Y'))->whereMonth('created_at', date('m', mktime(0,0,0,$i,1,date("Y"))))->where('progress', 'Open')->count();
                 $object->serve = ManPowerRequisitionForm::whereYear('created_at', date('Y'))->whereMonth('created_at', date('m', mktime(0,0,0,$i,1,date("Y"))))->where('progress', 'Served')->count();
                 $object->reject = ManPowerRequisitionForm::whereYear('created_at', date('Y'))->whereMonth('created_at', date('m', mktime(0,0,0,$i,1,date("Y"))))->where('progress', 'Rejected')->where('mrf_status', 'Rejected')->count();
@@ -62,6 +63,15 @@ class HomeController extends Controller
 
                 $month[] = $object;
             }
+
+            // $ats_array = [];
+            // foreach($mrf->where('mrf_status', 'Approved')->where('recruiter_id', auth()->user()->id) as $mrf_data)
+            // {
+            //     $object = new stdClass;
+            //     $get_applicant = $mrf_data->applicant;
+            //     $object->applicants = $get_applicant;
+            //     $ats_array[] = $object;
+            // }
 
             return view('home', compact('mrf', 'applicant', 'month'));
         }

@@ -118,7 +118,7 @@
 </script>
 <script src="{{asset('assets/js/vendor.min.js')}}"></script>
 <script src="{{asset('assets/js/app.min.js')}}"></script>
-
+@yield('js')
 <!-- third party js -->
 {{-- <script src="assets/js/vendor/apexcharts.min.js"></script>
 <script src="assets/js/vendor/jquery-jvectormap-1.2.2.min.js"></script>

@@ -43,10 +43,26 @@
                             Asking compensation
                             <input type="text" name="asking_compensation" class="form-control form-control-sm" required>
                         </div>
+                        <div class="col-lg-12 mb-2">
+                            Mobile Number
+                            <input type="tel" name="mobile_number" class="form-control form-control-sm" data-mask="00000000000" placeholder="Ex: 09" required>
+                        </div>
+                        <div class="col-lg-12 mb-2" id="sourceColumn">
+                            Source
+                            <select name="source" class="form-control cat" id="source">
+                                <option value="">- Source -</option>
+                                <option value="Walk In">Walk In</option>
+                                <option value="PESO">PESO</option>
+                                <option value="Advertisement">Advertisement</option>
+                                <option value="Job Fair">Job Fair</option>
+                                <option value="Online Application">Online Application</option>
+                                <option value="Employee Referral">Employee Referral</option>
+                            </select>
+                        </div>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-sm btn-secondary">Close</button>
+                    <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Close</button>
                     <button type="submit" class="btn btn-sm btn-success">Save</button>
                 </div>
             </form>
