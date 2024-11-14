@@ -539,7 +539,7 @@ class ApplicantController extends Controller
             // $token = $client->fetchAccessTokenWithAuthCode($authCode);
             // $client->setAccessToken($token);
             
-            $client->authenticate($request->code);
+            $client->fetchAccessTokenWithAuthCode($request->code);
             $access_token = $client->getAccessToken();
             session()->put('access_token', $access_token);
 
