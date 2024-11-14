@@ -544,7 +544,7 @@ class ApplicantController extends Controller
             session()->put('access_token', $access_token);
 
             Alert::success('Successfully authenticated with Google.')->persistent('Dismiss');
-            return redirect('applicants');
+            return back();
         } else {
             // return redirect()->route('calendar.index')->with('error', 'Google authentication failed.');
             Alert::error('Google authentication failed.')->persistent('Dismiss');
