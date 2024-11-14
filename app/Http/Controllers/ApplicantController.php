@@ -531,7 +531,7 @@ class ApplicantController extends Controller
     {
         $client = new Google_Client();
         $client->setAuthConfig(storage_path('app/google-calendar/credentials.json'));
-        $client->setRedirectUri(route('google.callback'));
+        $client->setRedirectUri(url('google/callback'));
         $client->addScope(\Google_Service_Calendar::CALENDAR);
 
         if ($request->has('code')) {
@@ -543,10 +543,12 @@ class ApplicantController extends Controller
             $access_token = $client->getAccessToken();
             session()->put('access_token', $access_token);
 
-            Alert::success('Successfully authenticated with Google!')->persistent('Dismiss');
+            Alert::success('Successfully authenticated with Google.')->persistent('Dismiss');
             return back();
         } else {
-            return redirect()->route('calendar.index')->with('error', 'Google authentication failed.');
+            // return redirect()->route('calendar.index')->with('error', 'Google authentication failed.');
+            Alert::error('Google authentication failed.')->persistent('Dismiss');
+            return back();
         }
 
         
