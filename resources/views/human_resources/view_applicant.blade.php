@@ -113,7 +113,7 @@
                                 <tr>
                                     <td>
                                         @if($sched->user_id == auth()->user()->id)
-                                            <button type="button" class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#schedule{{$sched->id}}">
+                                        <button type="button" class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#schedule{{$sched->id}}" @if($check_if_passed->status == 'Passed') disabled @endif>
                                                 <i class="dripicons-document-edit"></i>
                                             </button>
                                         @endif
@@ -221,6 +221,12 @@
                             <span class="d-none d-md-block">Applicant Documents</span>
                         </a>
                     </li>
+                    <li class="nav-item">
+                        <a href="#examResult" data-bs-toggle="tab" aria-expanded="false" class="nav-link">
+                            {{-- <i class="mdi mdi-home-variant d-md-none d-block"></i> --}}
+                            <span class="d-none d-md-block">Exam Result</span>
+                        </a>
+                    </li>
                 </ul>
                 
                 <div class="tab-content">
@@ -313,11 +319,49 @@
                             </table>
                         </div>
                     </div>
+                    <div class="tab-pane" id="examResult">
+                        <button type="button" class="btn btn-sm btn-success" data-bs-toggle="modal" data-bs-target="#newExam">
+                            <i class="uil-plus"></i>
+                            Add Exam Result
+                        </button>
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-hover tables">
+                                <thead>
+                                    <tr>
+                                        <th>Actions</th>
+                                        <th>Exam Name</th>
+                                        <th>Exam Result</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($exam_result as $ex_res)
+                                        <tr>
+                                            <td>
+                                                <button type="button" class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#editExam{{$ex_res->id}}">
+                                                    <i class="dripicons-document-edit"></i>
+                                                </button>
+                                            </td>
+                                            <td>{{$ex_res->exam_name}}</td>
+                                            <td>{{$ex_res->exam_score}}</td>
+                                            <td>
+                                                {{$ex_res->status}}
+                                            </td>
+                                        </tr>
+
+                                        @include('human_resources.edit_exam')
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
             </div> <!-- end card body -->
         </div> <!-- end card -->
     </div> <!-- end col -->
 </div>
+
+@include('human_resources.new_exam')
 @include('human_resources.schedule_interview')
 @include('human_resources.job_offer')
 @foreach ($applicant->mrf->interviewer->where('status', 'Pending')->where('user_id', auth()->user()->id)->where('applicant_id', $applicant->id) as $i)

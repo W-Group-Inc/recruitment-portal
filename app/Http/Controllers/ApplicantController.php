@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Applicant;
+use App\ApplicantExamResult;
 use App\ChildrenInformation;
 use App\Document;
 use App\HistoryApplicant;
@@ -145,8 +146,10 @@ class ApplicantController extends Controller
         $applicant = Applicant::with('schedule', 'mrf', 'historyApplicant', 'interviewers', 'applicantDocument')->findOrFail($id);
         $documents = Document::where('document_status', 'Active')->get();
         $interviewer = Interviewer::where('status', 'Pending')->where('applicant_id', $applicant->id)->where('user_id', auth()->user()->id)->first();
+        $check_if_passed = Interviewer::where('applicant_id', $applicant->id)->where('user_id', auth()->user()->id)->first();
+        $exam_result = ApplicantExamResult::where('applicant_id', $applicant->id)->get();
 
-        return view('human_resources.view_applicant', compact('applicant', 'documents', 'interviewer'));
+        return view('human_resources.view_applicant', compact('applicant', 'documents', 'interviewer', 'check_if_passed', 'exam_result'));
     }
 
     /**

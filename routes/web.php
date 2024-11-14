@@ -109,3 +109,6 @@ Route::get('approved-mrf', 'ApprovedMrfController@index');
 Route::post('upload-mrf/{id}', 'ApprovedMrfController@update');
 
 Route::get('google/callback', 'ApplicantController@handleGoogleCallback')->name('google.callback');
+
+Route::post('add-exam', 'ApplicantExamResultController@store');
+Route::post('update-exam/{id}', 'ApplicantExamResultController@update');
