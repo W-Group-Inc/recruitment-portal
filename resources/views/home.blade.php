@@ -241,7 +241,7 @@
                     <h5 class="header-title">Applicant Tracking</h5>
 
                     <div class="table-responsive">
-                        <table class="table tables table-bordered" width="100%">
+                        <table class="table tables table-bordered nowrap">
                             <thead>
                                 <tr>
                                     <th>Position</th>
@@ -255,63 +255,150 @@
                                     <th>Email</th>
                                     <th>Resume</th>
                                     <th>Applicant Status</th>
+                                    <th>Interview Schedule</th>
+                                    <th>Interview Status</th>
                                     <th>Job Offer Date</th>
                                     <th>Start Date</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($mrf->where('mrf_status', 'Approved')->where('recruiter_id', auth()->user()->id) as $mrf_data)
-                                    @foreach ($mrf_data->applicant as $applicant_data)
-                                        <tr>
-                                            <td>{{$applicant_data->mrf->jobPosition->position}}</td>
-                                            <td>{{$applicant_data->mrf->recruiter->name}}</td>
-                                            <td>{{$applicant_data->user->name}}</td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td>
-                                                @php
-                                                    $name = "";
-                                                    if ($applicant_data->source == 'Online Application')
-                                                    {
-                                                        $name = $applicant_data->application;
-                                                    }
-                                                    elseif($applicant_data->source == 'Employee Referral')
-                                                    {
-                                                        $name = $applicant_data->employee;
-                                                    }
-                                                @endphp
-                                                {{$applicant_data->source.' - '.$name}} 
-                                            </td>
-                                            <td>{{$applicant_data->mobile_number}}</td>
-                                            <td>{{$applicant_data->email}}</td>
-                                            <td>
-                                                <a href="{{url($applicant_data->resume)}}" target="_blank">
-                                                    <i class="uil-file"></i>
-                                                </a>
-                                            </td>
-                                            <td>
-                                                @if($applicant_data->applicant_status == "Pending")
-                                                    <span class="badge bg-warning">{{$applicant_data->applicant_status}}</span>
-                                                @elseif($applicant_data->applicant_status == "Passed")
-                                                    <span class="badge bg-success">{{$applicant_data->applicant_status}}</span>
-                                                @elseif($applicant_data->applicant_status == "Failed")
-                                                    <span class="badge bg-danger">{{$applicant_data->applicant_status}}</span>
-                                                @endif
-                                            </td>
-                                            <td>
-                                                @if($applicant_data->jobOffer)
-                                                    {{date('M. d Y', strtotime(optional($applicant_data->jobOffer)->updated_at))}}
-                                                @endif
-                                            </td>
-                                            <td>
-                                                @if($applicant_data->jobOffer)
-                                                    {{date('M. d Y', strtotime(optional($applicant_data->jobOffer)->start_date))}}
-                                                @endif
-                                            </td>
-                                        </tr>
+                                @if(auth()->user()->role == 'Human Resources Manager')
+                                    @foreach ($mrf->where('mrf_status', 'Approved') as $mrf_data)
+                                        @foreach ($mrf_data->applicant as $applicant_data)
+                                            <tr>
+                                                <td>{{$applicant_data->mrf->jobPosition->position}}</td>
+                                                <td>{{$applicant_data->mrf->recruiter->name}}</td>
+                                                <td>{{$applicant_data->user->name}}</td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td>
+                                                    @php
+                                                        $name = "";
+                                                        if ($applicant_data->source == 'Online Application')
+                                                        {
+                                                            $name = $applicant_data->application;
+                                                        }
+                                                        elseif($applicant_data->source == 'Employee Referral')
+                                                        {
+                                                            $name = $applicant_data->employee;
+                                                        }
+                                                    @endphp
+                                                    {{$applicant_data->source.' - '.$name}} 
+                                                </td>
+                                                <td>{{$applicant_data->mobile_number}}</td>
+                                                <td>{{$applicant_data->email}}</td>
+                                                <td>
+                                                    <a href="{{url($applicant_data->resume)}}" target="_blank">
+                                                        <i class="uil-file"></i>
+                                                    </a>
+                                                </td>
+                                                <td>
+                                                    @if($applicant_data->applicant_status == "Pending")
+                                                        <span class="badge bg-warning">{{$applicant_data->applicant_status}}</span>
+                                                    @elseif($applicant_data->applicant_status == "Passed")
+                                                        <span class="badge bg-success">{{$applicant_data->applicant_status}}</span>
+                                                    @elseif($applicant_data->applicant_status == "Failed")
+                                                        <span class="badge bg-danger">{{$applicant_data->applicant_status}}</span>
+                                                    @endif
+                                                </td>
+                                                <td>
+                                                    @foreach ($applicant_data->schedule as $sched)
+                                                        <small>
+                                                            Name: {{$sched->schedule_name}} <br>
+                                                            Date: {{date('M d Y', strtotime($sched->start_datetime))}} <br>
+                                                            Start: {{date('g:i A', strtotime($sched->start_datetime))}} <br>
+                                                            End: {{date('g:i A', strtotime($sched->end_datetime))}} <br>
+                                                        </small>
+                                                        <hr>
+                                                    @endforeach
+                                                </td>
+                                                <td>
+                                                    @foreach ($applicant_data->interviewers as $int)
+                                                        <small>{{$int->user->name}} - 
+                                                            @if($int->status == 'Passed')
+                                                            <span class="badge bg-success">
+                                                            @elseif($int->status == 'Failed')
+                                                            <span class="badge bg-danger">
+                                                            @elseif($int->status == 'Pending')
+                                                            <span class="badge bg-warning">
+                                                            @elseif($int->status == 'Waiting')
+                                                            <span class="badge bg-info">
+                                                            @endif
+                                                            
+                                                            {{$int->status}}
+                                                            </span>
+                                                        </small> 
+                                                        <br>
+                                                    @endforeach
+                                                </td>
+                                                <td>
+                                                    @if($applicant_data->jobOffer)
+                                                        {{date('M. d Y', strtotime(optional($applicant_data->jobOffer)->updated_at))}}
+                                                    @endif
+                                                </td>
+                                                <td>
+                                                    @if($applicant_data->jobOffer)
+                                                        {{date('M. d Y', strtotime(optional($applicant_data->jobOffer)->start_date))}}
+                                                    @endif
+                                                </td>
+                                            </tr>
+                                        @endforeach
                                     @endforeach
-                                @endforeach
+                                @else
+                                    @foreach ($mrf->where('mrf_status', 'Approved')->where('recruiter_id', auth()->user()->id) as $mrf_data)
+                                        @foreach ($mrf_data->applicant as $applicant_data)
+                                            <tr>
+                                                <td>{{$applicant_data->mrf->jobPosition->position}}</td>
+                                                <td>{{$applicant_data->mrf->recruiter->name}}</td>
+                                                <td>{{$applicant_data->user->name}}</td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td>
+                                                    @php
+                                                        $name = "";
+                                                        if ($applicant_data->source == 'Online Application')
+                                                        {
+                                                            $name = $applicant_data->application;
+                                                        }
+                                                        elseif($applicant_data->source == 'Employee Referral')
+                                                        {
+                                                            $name = $applicant_data->employee;
+                                                        }
+                                                    @endphp
+                                                    {{$applicant_data->source.' - '.$name}} 
+                                                </td>
+                                                <td>{{$applicant_data->mobile_number}}</td>
+                                                <td>{{$applicant_data->email}}</td>
+                                                <td>
+                                                    <a href="{{url($applicant_data->resume)}}" target="_blank">
+                                                        <i class="uil-file"></i>
+                                                    </a>
+                                                </td>
+                                                <td>
+                                                    @if($applicant_data->applicant_status == "Pending")
+                                                        <span class="badge bg-warning">{{$applicant_data->applicant_status}}</span>
+                                                    @elseif($applicant_data->applicant_status == "Passed")
+                                                        <span class="badge bg-success">{{$applicant_data->applicant_status}}</span>
+                                                    @elseif($applicant_data->applicant_status == "Failed")
+                                                        <span class="badge bg-danger">{{$applicant_data->applicant_status}}</span>
+                                                    @endif
+                                                </td>
+                                                <td>
+                                                    @if($applicant_data->jobOffer)
+                                                        {{date('M. d Y', strtotime(optional($applicant_data->jobOffer)->updated_at))}}
+                                                    @endif
+                                                </td>
+                                                <td>
+                                                    @if($applicant_data->jobOffer)
+                                                        {{date('M. d Y', strtotime(optional($applicant_data->jobOffer)->start_date))}}
+                                                    @endif
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    @endforeach
+                                @endif
                             </tbody>
                         </table>
                     </div>
@@ -386,7 +473,7 @@
     $('.tables').DataTable({
         ordering:false,
         processing: false,
-        serverside:false,
+        serverSide:false,
         pageLength: 10
     })
 
