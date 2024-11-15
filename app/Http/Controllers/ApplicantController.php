@@ -172,17 +172,55 @@ class ApplicantController extends Controller
      */
     public function update(Request $request, $id)
     {
-        // dd($request->all(), $id);
+        // dd($request->all());
         $applicant = Applicant::findOrFail($id);
-        $applicant->lastname = $request->lastname;
-        $applicant->firstname = $request->firstname;
-        $applicant->middlename = $request->middlename;
-        $applicant->email = $request->email;
-        $applicant->mobile_number = $request->mobile_number;
-        $applicant->man_power_requisition_form_id = $request->position;
+        $applicant->source = $request->source;
+        if ($request->has('employee'))
+        {
+            $applicant->employee = $request->employee;
+        }
+        if($request->has('application'))
+        {
+            $applicant->application = $request->application;
+        }
+        if($request->status != null)
+        {
+            $applicant->applicant_status = $request->status;
+            if ($request->status == 'Passed')
+            {
+                $mrf_data = ManPowerRequisitionForm::findOrFail($applicant->mrf->id);
+                $mrf_data->progress = 'Served';
+                $mrf_data->save();
+    
+                if ($mrf_data->progress == 'Served')
+                {
+                    $interviewers = Interviewer::where('man_power_requisition_form_id', $mrf_data->id)
+                        ->where(function($query)use($request) {
+                            $query->where('status', 'Pending')
+                                ->orWhere('status', 'Waiting');
+                        })
+                        ->get();
+        
+                    if ($interviewers->isNotEmpty())
+                    {
+                        foreach($interviewers as $key=>$interviewer)
+                        {
+                            $interviewer->status = 'Cancelled';
+                            $interviewer->save();
+            
+                            $applicant = Applicant::where('id', $interviewer->applicant_id)->first();
+                            $applicant->applicant_status = 'Cancelled';
+                            $applicant->save();
+                        }
+                    }
+                }
+    
+                $applicant->notify(new ApplicantStatusNotification($applicant));
+            }
+        }
         $applicant->save();
 
-        Alert::success('Successfully Saved')->persistent('Dismiss');
+        Alert::success('Successfully Updated')->persistent('Dismiss');
         return back();
     }
 
@@ -360,16 +398,16 @@ class ApplicantController extends Controller
                 $dept_head = $applicant->mrf->department->head;
                 $dept_head->notify(new NotifyDepartmentHead($applicant->mrf, $dept_head));
 
-                $applicant->notify(new ApplicantStatusNotification($applicant));
+                // $applicant->notify(new ApplicantStatusNotification($applicant));
             }
             elseif(auth()->user()->role == 'Department Head')
             {
                 $applicant->notify(new ApplicantStatusNotification($applicant));
             }
-            elseif(auth()->user()->role == 'Head Business Unit')
-            {
-                $applicant->notify(new ApplicantStatusNotification($applicant));
-            }
+            // elseif(auth()->user()->role == 'Head Business Unit')
+            // {
+            //     $applicant->notify(new ApplicantStatusNotification($applicant));
+            // }
 
             $history = new HistoryApplicant;
             $history->applicant_id = $applicant->id;
@@ -555,48 +593,6 @@ class ApplicantController extends Controller
         }
 
         
-    }
-
-    public function updateStatus(Request $request, $id)
-    {
-        $applicant = Applicant::findOrFail($id);
-        $applicant->applicant_status = $request->status;
-        $applicant->save();
-
-        if ($request->status == 'Passed')
-        {
-            $mrf_data = ManPowerRequisitionForm::findOrFail($applicant->mrf->id);
-            $mrf_data->progress = 'Served';
-            $mrf_data->save();
-
-            if ($mrf_data->progress == 'Served')
-            {
-                $interviewers = Interviewer::where('man_power_requisition_form_id', $mrf_data->id)
-                    ->where(function($query)use($request) {
-                        $query->where('status', 'Pending')
-                            ->orWhere('status', 'Waiting');
-                    })
-                    ->get();
-    
-                if ($interviewers->isNotEmpty())
-                {
-                    foreach($interviewers as $key=>$interviewer)
-                    {
-                        $interviewer->status = 'Cancelled';
-                        $interviewer->save();
-        
-                        $applicant = Applicant::where('id', $interviewer->applicant_id)->first();
-                        $applicant->applicant_status = 'Cancelled';
-                        $applicant->save();
-                    }
-                }
-            }
-
-            $applicant->notify(new ApplicantStatusNotification($applicant));
-        }
-
-        Alert::success('Successfully Updated')->persistent('Dismiss');
-        return back();
     }
 
     public function updateSchedule(Request $request, $id)

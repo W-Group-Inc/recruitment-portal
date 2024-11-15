@@ -181,8 +181,7 @@
                                         </td>
                                     </tr>
 
-                                    @include('human_resources.edit_applicant')
-                                    @include('human_resources.applicant_status')
+                                    {{-- @include('human_resources.edit_applicant') --}}
                                 @endforeach
                                 @endif
 
@@ -246,6 +245,7 @@
 {{-- @include('human_resources.new_applicant') --}}
 @foreach ($applicants as $key=>$applicant)
 @include('dept_head.interviewer')
+@include('human_resources.applicant_status')
 @endforeach
 @endsection
 
@@ -302,6 +302,34 @@
     
     $(document).ready(function() {
         $('.cat').chosen({width:"100%"})
+
+        $('#source').on('change', function() {
+            $('#application').remove();
+            $('#employee').remove();
+
+            if ($(this).val() == 'Online Application')
+            {
+                var newRow = `
+                    <div class="col-lg-12 col-md-12 mb-2" id="application">
+                        Name of application
+                        <input type="text" name="application" class="form-control form-control-sm required" placeholder="Example: Jobstreet, Indeed, etc.">
+                    </div>
+                `
+                
+                $('.cat').closest('#sourceColumn').after(newRow);
+            }
+            else if($(this).val() == 'Employee Referral')
+            {
+                var newRow = `
+                    <div class="col-lg-12 col-md-12 mb-2" id="employee">
+                        Full name of Employee
+                        <input type="text" name="employee" class="form-control form-control-sm required">
+                    </div>
+                `
+
+                $('.cat').closest('#sourceColumn').after(newRow);
+            }
+        })
     })
 </script>
 @endsection

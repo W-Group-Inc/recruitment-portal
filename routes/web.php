@@ -73,7 +73,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('add_interviewer/{id}', 'ApplicantController@interviewer');
     Route::get('for-interview', 'ApplicantController@forInterview');
     Route::post('applicant-action', 'ApplicantController@applicantAction');
-    Route::post('update-applicant-status/{id}', 'ApplicantController@updateStatus');
+    // Route::post('update-applicant-status/{id}', 'ApplicantController@updateStatus');
     Route::post('update-schedule/{id}', 'ApplicantController@updateSchedule');
     
     # Job Application

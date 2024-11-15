@@ -18,6 +18,7 @@
                                 <tr>
                                     <th>Actions</th>
                                     <th>Date Requested</th>
+                                    <th>Date Approved</th>
                                     <th>MRF #</th>
                                     <th>Position</th>
                                     <th>Company</th>
@@ -46,6 +47,11 @@
                                             </button>
                                         </td>
                                         <td>{{date('M d, Y', strtotime($mrf->created_at))}}</td>
+                                        <td>
+                                            @if($mrf->mrf_status == 'Approved')
+                                                {{date('M d, Y', strtotime($mrf->updated_at))}}
+                                            @endif
+                                        </td>
                                         <td>MRF-{{str_pad($mrf->mrf_no, 4, '0', STR_PAD_LEFT)}}</td>
                                         <td>{{$mrf->jobPosition->position}}</td>
                                         <td>{{$mrf->company->name}}</td>

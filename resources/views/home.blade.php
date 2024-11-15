@@ -177,7 +177,7 @@
                                                 $s = $running_days->d > 1 ? 's' : '';
                                             @endphp
 
-                                            @if($m->progress == 'Open')
+                                            @if($m->progress == 'Open' && $m->mrf_status == 'Approved')
                                                 @if($running_days->d > 0)
                                                     {{$running_days->d.' day'.$s}}
                                                 @endif 
@@ -249,7 +249,7 @@
                                     <th>Candidate Name</th>
                                     <th>Date Sourced</th>
                                     <th>Date Screened</th>
-                                    <th>Initial Screening Status</th>
+                                    {{-- <th>Initial Screening Status</th> --}}
                                     <th>Source</th>
                                     <th>Contact Number</th>
                                     <th>Email</th>
@@ -269,9 +269,9 @@
                                                 <td>{{$applicant_data->mrf->jobPosition->position}}</td>
                                                 <td>{{$applicant_data->mrf->recruiter->name}}</td>
                                                 <td>{{$applicant_data->user->name}}</td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
+                                                <td>{{date('M d, Y', strtotime($applicant_data->created_at))}}</td>
+                                                <td>{{date('M d, Y', strtotime($applicant_data->created_at))}}</td>
+                                                {{-- <td></td> --}}
                                                 <td>
                                                     @php
                                                         $name = "";
@@ -352,9 +352,9 @@
                                                 <td>{{$applicant_data->mrf->jobPosition->position}}</td>
                                                 <td>{{$applicant_data->mrf->recruiter->name}}</td>
                                                 <td>{{$applicant_data->user->name}}</td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
+                                                <td>{{date('M d, Y', strtotime($applicant_data->created_at))}}</td>
+                                                <td>{{date('M d, Y', strtotime($applicant_data->created_at))}}</td>
+                                                {{-- <td></td> --}}
                                                 <td>
                                                     @php
                                                         $name = "";
@@ -413,7 +413,8 @@
                 <div class="card-body">
                     <p class="h2">Welcome, {{auth()->user()->name}}</p>
 
-                    <p class="h4 mt-3">Applicant Status:  {{auth()->user()->applicant->applicant_status}}</p>
+                    <p class="h5" style="font-weight: normal;">Applicant Status:  <strong>{{auth()->user()->applicant->applicant_status}}</strong></p>
+                    <p class="h5" style="font-weight: normal;">Position Applied:  <strong>{{auth()->user()->applicant->mrf->jobPosition->position}}</strong></p>
                 </div>
             </div>
         </div>

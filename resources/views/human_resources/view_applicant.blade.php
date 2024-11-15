@@ -322,16 +322,18 @@
                     <div class="tab-pane" id="examResult">
                         <button type="button" class="btn btn-sm btn-success" data-bs-toggle="modal" data-bs-target="#newExam">
                             <i class="uil-plus"></i>
-                            Add Exam Result
+                            Add
                         </button>
                         <div class="table-responsive">
                             <table class="table table-bordered table-hover tables">
                                 <thead>
                                     <tr>
                                         <th>Actions</th>
-                                        <th>Exam Name</th>
-                                        <th>Exam Result</th>
-                                        <th>Status</th>
+                                        <th>Critical Thinking Assessment</th>
+                                        <th>DISC Personality Profile</th>
+                                        <th>Supervisory Skills Test</th>
+                                        <th>Managerial Skills Test</th>
+                                        <th>Accounting Skills Test</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -342,11 +344,11 @@
                                                     <i class="dripicons-document-edit"></i>
                                                 </button>
                                             </td>
-                                            <td>{{$ex_res->exam_name}}</td>
-                                            <td>{{$ex_res->exam_score}}</td>
-                                            <td>
-                                                {{$ex_res->status}}
-                                            </td>
+                                            <td>{{$ex_res->critical_thinking}}</td>
+                                            <td>{{$ex_res->disc_personality}}</td>
+                                            <td>{{$ex_res->supervisory_skills}}</td>
+                                            <td>{{$ex_res->managerial_skills}}</td>
+                                            <td>{{$ex_res->accounting_skills}}</td>
                                         </tr>
 
                                         @include('human_resources.edit_exam')
