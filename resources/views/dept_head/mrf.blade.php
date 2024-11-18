@@ -57,7 +57,7 @@
 
                                                 <input type="hidden" name="action" value="cancelled">
                                                 
-                                                <button type="button" class="btn btn-sm btn-danger delete-btn" >
+                                                <button type="button" class="btn btn-sm btn-danger delete-btn" @if($m->mrf_status == "Approved") disabled @endif>
                                                     <i class="uil-ban"></i>
                                                 </button>
                                             </form>

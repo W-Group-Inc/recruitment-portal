@@ -105,6 +105,7 @@
 
 
 <!-- bundle -->
+@include('sweetalert::alert')
 <script>
     function show()
     {

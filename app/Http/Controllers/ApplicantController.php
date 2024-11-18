@@ -12,6 +12,7 @@ use App\JobApplication;
 use App\JobPosition;
 use App\ManPowerRequisitionForm;
 use App\Notifications\ApplicantCredentialsNotification;
+use App\Notifications\ApplicantExistingAccountNotification;
 use App\Notifications\ApplicantStatusFailedNotification;
 use App\Notifications\ApplicantStatusNotification;
 use App\Notifications\FailedApplicantNotification;
@@ -89,51 +90,72 @@ class ApplicantController extends Controller
     public function store(Request $request)
     {
         // dd($request->all());
-        $applicant = new Applicant;
-        $applicant->lastname = $request->lastname;
-        $applicant->firstname = $request->firstname;
-        $applicant->middlename = $request->middlename;
-        $applicant->email = $request->email;
-        $applicant->mobile_number = $request->mobile_number;
-        $applicant->man_power_requisition_form_id = $request->mrf_id;
-        $applicant->applicant_status = 'Pending';
-        $applicant->source = $request->source;
-        if ($request->has('application'))
+        $applicant = Applicant::where('email', $request->email)->where('applicant_status', 'Pending')->first();
+        if(empty($applicant))
         {
-            $applicant->application = $request->application;
+            $applicant = new Applicant;
+            $applicant->lastname = $request->lastname;
+            $applicant->firstname = $request->firstname;
+            $applicant->middlename = $request->middlename;
+            $applicant->email = $request->email;
+            $applicant->mobile_number = $request->mobile_number;
+            $applicant->man_power_requisition_form_id = $request->mrf_id;
+            $applicant->applicant_status = 'Pending';
+            $applicant->source = $request->source;
+            if ($request->has('application'))
+            {
+                $applicant->application = $request->application;
+            }
+            if ($request->has('employee'))
+            {
+                $applicant->employee = $request->employee;
+            }
+            
+            $attachment = $request->file('resume');
+            $name = time().'_'.$attachment->getClientOriginalName();
+            $attachment->move(public_path('resume'),$name);
+    
+            $applicant->resume = '/resume/'.$name;
+            $applicant->date_availability = $request->date_availability;
+            $applicant->previous_compensation = $request->previous_compensation;
+            $applicant->asking_compensation = $request->asking_compensation;
+            $applicant->save();
+    
+            $user_list = User::where('email', $request->email)->where('status', 'Active')->first();
+            
+            if ($user_list == null)
+            {
+                $password = Str::random(8);
+                $name = $applicant->firstname.' '.$applicant->middlename.' '.$applicant->lastname;
+        
+                $user = new User;
+                $user->name = $name;
+                $user->email = $applicant->email;
+                $user->password = bcrypt($password);
+                $user->status = 'Active';
+                $user->role = 'Applicant';
+                $user->department_id = $applicant->mrf->department_id;
+                $user->company_id = $applicant->mrf->company_id;
+                $user->applicant_id = $applicant->id;
+                $user->save();
+    
+                Alert::success('Thank you for your submission', 'Please await further updates from our talent acquisition team and check your email for your portal credentials')->persistent('Dismiss');
+        
+                $applicant->notify(new ApplicantCredentialsNotification($user, $applicant, $password, $name));
+            }
+            else
+            {
+                Alert::success('Thank you for your submission', 'Please await further updates from our talent acquisition team')->persistent('Dismiss');
+    
+                $applicant->notify(new ApplicantExistingAccountNotification);
+            }
         }
-        if ($request->has('employee'))
+        else
         {
-            $applicant->employee = $request->employee;
+            Alert::error('You have a pending application')->persistent('Dismiss');
         }
         
-        $attachment = $request->file('resume');
-        $name = time().'_'.$attachment->getClientOriginalName();
-        $attachment->move(public_path('resume'),$name);
-
-        $applicant->resume = '/resume/'.$name;
-        $applicant->date_availability = $request->date_availability;
-        $applicant->previous_compensation = $request->previous_compensation;
-        $applicant->asking_compensation = $request->asking_compensation;
-        $applicant->save();
-
-        $password = Str::random(8);
-        $name = $applicant->firstname.' '.$applicant->middlename.' '.$applicant->lastname;
-
-        $user = new User;
-        $user->name = $name;
-        $user->email = $applicant->email;
-        $user->password = bcrypt($password);
-        $user->status = 'Active';
-        $user->role = 'Applicant';
-        $user->department_id = $applicant->mrf->department_id;
-        $user->company_id = $applicant->mrf->company_id;
-        $user->applicant_id = $applicant->id;
-        $user->save();
-
-        $applicant->notify(new ApplicantCredentialsNotification($user, $applicant, $password, $name));
-        
-        return back()->with('success', 'Thank you for your submission. Please await further updates from our talent acquisition team and check your email for your portal credentials.');
+        return back();
     }
 
     /**

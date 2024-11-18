@@ -12,8 +12,8 @@
                         Applicant Status
                         <select name="status" class="form-control cat">
                             <option value="">Select applicant status</option>
-                            <option value="Passed">Passed</option>
-                            <option value="Failed">Failed</option>
+                            <option value="Passed" @if($applicant->applicant_status == 'Passed') selected @endif>Passed</option>
+                            <option value="Failed" @if($applicant->applicant_status == 'Failed') selected @endif>Failed</option>
                         </select>
                     </div>
                     <div class="form-group mb-2" id="sourceColumn">
@@ -29,12 +29,12 @@
                         </select>
                     </div>
                     @if($applicant->source == 'Online Application')
-                        <div class="form-group mb-2" id="application">
+                        <div class="form-group mb-2 application">
                             Name of application
                             <input type="text" name="application" class="form-control form-control-sm required" value="{{$applicant->application}}" placeholder="Example: Jobstreet, Indeed, etc.">
                         </div>
                     @elseif ($applicant->source == 'Employee Referral')
-                        <div class="form-group mb-2" id="employee">
+                        <div class="form-group mb-2 employee">
                             Full name of Employee
                             <input type="text" name="employee" class="form-control form-control-sm required" value="{{$applicant->employee}}" required>
                         </div>

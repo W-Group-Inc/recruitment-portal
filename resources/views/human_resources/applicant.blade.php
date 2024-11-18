@@ -64,7 +64,7 @@
                                     <option value="">Select status</option>
                                     <option value="Pending" @if($status == 'Pending') selected @endif>Pending</option>
                                     <option value="Approved" @if($status == 'Approved') selected @endif>Approved</option>
-                                    <option value="Rejected" @if($status == 'Rejected') selected @endif>Rejected</option>
+                                    <option value="Failed" @if($status == 'Failed') selected @endif>Failed</option>
                                 </select>
                             </div>
                             <div class="col-lg-3">
@@ -135,11 +135,11 @@
                                                 <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#interviewer{{$applicant->id}}">
                                                     <i class="uil-user"></i>
                                                 </button>
-                                                @endif
 
                                                 <button type="button" class="btn btn-sm btn-warning" title="Applicant Status" data-bs-toggle="modal" data-bs-target="#applicantStatus{{$applicant->id}}">
                                                     <i class="dripicons-document-edit"></i>
                                                 </button>
+                                                @endif
                                             @endif
                                         </td>
                                         <td>{{$applicant->lastname}}</td>
@@ -303,14 +303,14 @@
     $(document).ready(function() {
         $('.cat').chosen({width:"100%"})
 
-        $('#source').on('change', function() {
-            $('#application').remove();
-            $('#employee').remove();
+        $('[name="source"]').on('change', function() {
+            $('.application').remove();
+            $('.employee').remove();
 
             if ($(this).val() == 'Online Application')
             {
                 var newRow = `
-                    <div class="col-lg-12 col-md-12 mb-2" id="application">
+                    <div class="col-lg-12 col-md-12 mb-2 application">
                         Name of application
                         <input type="text" name="application" class="form-control form-control-sm required" placeholder="Example: Jobstreet, Indeed, etc.">
                     </div>
@@ -321,7 +321,7 @@
             else if($(this).val() == 'Employee Referral')
             {
                 var newRow = `
-                    <div class="col-lg-12 col-md-12 mb-2" id="employee">
+                    <div class="col-lg-12 col-md-12 mb-2 employee">
                         Full name of Employee
                         <input type="text" name="employee" class="form-control form-control-sm required">
                     </div>
