@@ -51,16 +51,16 @@ class NotifyHrManager extends Notification
                         ->subject('MRF Notification')
                         ->greeting('Good day, '.$this->user->prefix.' '. $this->user->name)
                         ->line('This email is to inform you that the MRF for the '.$this->mrf->jobPosition->position.' position has been canceled.')
-                        ->action('View MRF', url('/mrf'))
-                        ->line('Thank you for using our application!');
+                        ->action('View MRF', url('/mrf'));
+                        // ->line('Thank you for using our application!');
         }
 
         return (new MailMessage)
-                    ->subject('For Approval MRF')
-                    ->greeting('Good day, '.$this->user->prefix.' '. $this->user->name)
-                    ->line('You have a MRF awaiting your approval.')
-                    ->action('For Approval', url('/for-approval'))
-                    ->line('Thank you for using our application!');
+                    ->subject('MRF for Approval')
+                    ->greeting('Good day, '.$this->user->prefix.' '. $this->user->name.'!')
+                    ->line('You have an MRF pending for approval.')
+                    ->action('For Approval', url('/for-approval'));
+                    // ->line('Thank you for using our application!');
     }
 
     /**

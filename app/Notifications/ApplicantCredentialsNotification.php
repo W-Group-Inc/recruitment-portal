@@ -53,8 +53,8 @@ class ApplicantCredentialsNotification extends Notification
                     ->line('This is your credentials for accessing our portal. Please keep them confidential and secure.')
                     ->line('Email : ' . $this->applicant->email)
                     ->line('Password : '.$this->password)
-                    ->action('Go to Website', url('/'))
-                    ->line('Thank you for using our application!');
+                    ->action('Go to Website', url('/'));
+                    // ->line('Thank you for using our application!');
     }
 
     /**

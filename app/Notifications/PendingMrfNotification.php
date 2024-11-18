@@ -44,8 +44,8 @@ class PendingMrfNotification extends Notification
         return (new MailMessage)
                     ->greeting('Hi, Mr./Ms. ' . $this->user->name)
                     ->line('This is to inform you that there is a pending MRF approval requiring your attention.')
-                    ->action('View MRF For Approval', url('/for-approval'))
-                    ->line('Thank you for using our application!');
+                    ->action('View MRF For Approval', url('/for-approval'));
+                    // ->line('Thank you for using our application!');
     }
 
     /**

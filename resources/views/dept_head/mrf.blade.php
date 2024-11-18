@@ -142,7 +142,7 @@
                                         @endif
 
                                         @if(auth()->user()->role != "Head Business Unit")
-                                            @if(!empty($m->user_id) && $m->mrf_status == 'Pending')
+                                            @if($m->user_id == auth()->user()->id && $m->mrf_status == 'Pending')
 
                                                 <button type="button" class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#edit{{$m->id}}" @if($m->mrf_status == "Approved") disabled @endif>
                                                     <i class="dripicons-document-edit"></i>

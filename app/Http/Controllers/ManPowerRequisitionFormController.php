@@ -113,6 +113,10 @@ class ManPowerRequisitionFormController extends Controller
         {
             $mrf->is_resignation_letter = 1;
         }
+        if ($request->has('replacement'))
+        {
+            $mrf->resign_employee = $request->replacement;
+        }
         $mrf->user_id = auth()->user()->id;
         // dd('no');
         $mrf->educational_attainment = $request->educational_attainment;
@@ -179,13 +183,22 @@ class ManPowerRequisitionFormController extends Controller
      */
     public function update(Request $request, $id)
     {
+        // dd($request->all());
         $mrf = ManPowerRequisitionForm::findOrFail($id);
         // $mrf->mrf_no = $mrfNo;
         // $mrf->position_title = $request->position_title;
         $mrf->job_position_id = $request->job_position;
         $mrf->department_id = $request->department;
         $mrf->company_id = $request->company;
-        $mrf->target_date = $request->target_date;
+        if ($request->job_level == 'Rank and File')
+        {
+            $target_date = date('Y-m-d', strtotime('+30 days'));
+        } 
+        elseif ($request->job_level == 'Supervisory' || $request->job_level == 'Managerial')
+        {
+            $target_date = date('Y-m-d', strtotime('+60 days'));
+        }
+        $mrf->target_date = $target_date;
         $mrf->position_status = $request->position_status;
         $mrf->justification = $request->justification;
         if ($request->has('is_plantilla'))
@@ -199,6 +212,17 @@ class ManPowerRequisitionFormController extends Controller
         if ($request->has('is_resignation_letter'))
         {
             $mrf->is_resignation_letter = 1;
+        }
+        if ($request->position_status == 'Replacement')
+        {
+            if ($request->has('replacement'))
+            {
+                $mrf->resign_employee = $request->replacement;
+            }
+        }
+        else
+        {
+            $mrf->resign_employee = null;
         }
         $mrf->educational_attainment = $request->educational_attainment;
         $mrf->work_experience = $request->work_experience;

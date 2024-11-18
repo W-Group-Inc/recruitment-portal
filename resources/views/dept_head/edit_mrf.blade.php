@@ -10,7 +10,7 @@
                 <div class="modal-body">
                     <div class="row mb-3">
                         <h2>Position</h2>
-                        <div class="col-md-6">
+                        <div class="col-md-6 mb-1">
                             Position Title :
                             {{-- <input type="text" name="position_title" class="form-control form-control-sm" value="{{$m->position_title}}" required> --}}
                             <select name="job_position" class="form-control cat" required>
@@ -20,7 +20,7 @@
                                 @endforeach
                             </select>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-6 mb-1">
                             Department :
                             @if(auth()->user()->role == 'Human Resources Manager')
                             <select class="form-control cat" name="department" required>
@@ -38,7 +38,7 @@
                             </select>
                             @endif
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-6 mb-1">
                             Company :
                             <select class="form-control cat" name="company" required>
                                 <option value="">Select Company</option>
@@ -51,7 +51,7 @@
                             Target Date :
                             <input type="date" name="target_date" class="form-control form-control-sm" value="{{$m->target_date}}" required>
                         </div> --}}
-                        <div class="col-md-6">
+                        <div class="col-md-6 mb-1">
                             Position Status :
                             {{-- <input type="text" name="name" class="form-control form-control-sm" required> --}}
                             <select class="form-control position_status cat" name="position_status">
@@ -61,20 +61,35 @@
                                 <option value="Additional" @if($m->position_status == "Additional") selected @endif>Additional</option>
                             </select>
                         </div>
-                        <div class="col-md-12 replacementOf" style="display: none;">
-                            Replacement of :
-                            {{-- <select class="form-control cat" name="company">
-                                <option value="">-Company-</option>
-                                @foreach ($companies as $c)
-                                    <option value="{{$c->id}}">{{$c->code .' - '.$c->name}}</option>
-                                @endforeach
-                            </select> --}}
-                        </div>
-                        <div class="col-md-6">
+                        @if($m->resign_employee != null)
+                            <div class="col-md-12 mb-1 replacementOf">
+                                Replacement of :
+                                <select class="form-control cat" name="replacement">
+                                    <option value="">-Employee-</option>
+                                    @foreach ($resign_employee as $resign_emp)
+                                        @php
+                                            $full_name = $resign_emp->first_name .' '.$resign_emp->last_name;
+                                        @endphp
+                                        <option value="{{$resign_emp->first_name .' '.$resign_emp->last_name}}" @if($full_name == $m->resign_employee) selected @endif>{{$resign_emp->first_name .' '.$resign_emp->last_name}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        @else
+                            <div class="col-md-12 mb-1 replacementOf" style="display: none;">
+                                Replacement of :
+                                <select class="form-control cat" name="replacement">
+                                    <option value="">-Employee-</option>
+                                    @foreach ($resign_employee as $resign_emp)
+                                        <option value="{{$resign_emp->first_name .' '.$resign_emp->last_name}}">{{$resign_emp->first_name .' '.$resign_emp->last_name}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        @endif
+                        <div class="col-md-6 mb-1">
                             Justification :
                             <textarea name="justification" class="form-control form-control-sm" cols="30" rows="10" required>{{$m->justification}}</textarea>
                         </div>
-                        <div class="col-md-12">
+                        <div class="col-md-12 mb-1">
                             Attach the following :
 
                             <div class="row">
@@ -98,7 +113,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-12">
+                        <div class="col-md-12 mb-1">
                             Upload Attachment :
                             <input type="file" name="mrf_attachment[]" class="form-control form-control-sm" accept=".pdf" multiple>
                         </div>
@@ -106,23 +121,23 @@
                     <hr>
                     <div class="row mb-3">
                         <h2>Qualification</h2>
-                        <div class="col-md-6">
+                        <div class="col-md-6 mb-1">
                             Educational Attainment (Degree) :
                             <input type="text" name="educational_attainment" class="form-control form-control-sm" value="{{$m->educational_attainment}}" required>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-6 mb-1">
                             Work Experience (Years) :
                             <input type="text" name="work_experience" class="form-control form-control-sm" value="{{$m->work_experience}}" required>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-6 mb-1">
                             Specific Field :
                             <input type="text" name="specific_field" class="form-control form-control-sm" value="{{$m->specific_field}}" required>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-6 mb-1">
                             Special Skills :
                             <input type="text" name="special_skills" class="form-control form-control-sm" value="{{$m->special_skills}}" required>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-6 mb-1">
                             Others :
                             <input type="text" name="others" class="form-control form-control-sm" value="{{$m->others}}" required>
                         </div>
@@ -130,7 +145,7 @@
                     <hr>
                     <div class="row mb-3">
                         <h2>Employment Details</h2>
-                        <div class="col-md-6">
+                        <div class="col-md-6 mb-1">
                             Employment Status :
                             <select class="form-control cat" name="employment_status" required>
                                 <option value="">-Employment Status-</option>
@@ -139,7 +154,7 @@
                                 @endforeach
                             </select>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-6 mb-1">
                             Job Level :
                             <select class="form-control cat" name="job_level" required>
                                 <option value="">-Job Level-</option>
@@ -148,11 +163,11 @@
                                 @endforeach
                             </select>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-6 mb-1">
                             Salary Rate
                             <input type="text" name="salary_rate" class="form-control form-control-sm" value="{{$m->salary_range}}" required>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-6 mb-1">
                             Other Remarks :
                             <textarea name="other_remarks" class="form-control form-control-sm" cols="30" rows="10" required>{{$m->other_remarks}}</textarea>
                         </div>

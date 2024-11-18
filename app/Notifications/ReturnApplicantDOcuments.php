@@ -49,8 +49,8 @@ class ReturnApplicantDOcuments extends Notification
                     ->line('We would like to inform you that we have returned the document you uploaded.')
                     ->line('Document : '. $this->applicant_documents->document->document_name)
                     ->line('Remarks : '. $this->applicant_documents->remarks)
-                    ->action('View Applicant Documents', url('/applicant-documents'))
-                    ->line('Thank you for using our application!');
+                    ->action('View Applicant Documents', url('/applicant-documents'));
+                    // ->line('Thank you for using our application!');
     }
 
     /**

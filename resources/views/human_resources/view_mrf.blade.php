@@ -8,7 +8,7 @@
             <div class="modal-body">
                 <div class="card border border-1 border-primary">
                     <div class="card-header bg-primary">
-                        <h5 class="card-title text-white">MRF Information</h5>
+                        <h5 class="card-title text-white">MRF Details</h5>
                     </div>
                     <div class="card-body">
                         <div class="row mb-2">
@@ -96,38 +96,20 @@
                                 <strong>II. QUALIFICATION</strong>
                             </div>
                             <hr>
-                            <dl class="row mb-0">
-                                <dt class="col-md-3">
-                                    Educational Attainment:
-                                </dt>
-                                <dd class="col-md-9  ">
-                                    {{$m->educational_attainment}}
-                                </dd>
-                            </dl>
-                            <dl class="row mb-0">
-                                <dt class="col-md-3">
-                                    Work Experience :
-                                </dt>
-                                <dd class="col-md-9">
-                                    {{$m->work_experience}}
-                                </dd>
-                            </dl>
-                            <dl class="row mb-0">
-                                <dt class="col-md-3">
-                                    Special Skills :
-                                </dt>
-                                <dd class="col-md-9">
-                                    {{$m->special_skills}}
-                                </dd>
-                            </dl>
-                            <dl class="row mb-0">
-                                <dt class="col-md-3">
-                                    Others :
-                                </dt>
-                                <dd class="col-md-9">
-                                    {{$m->others}}
-                                </dd>
-                            </dl>
+                            <div class="row mb-0">
+                                <div class="col-md-12">
+                                    <strong>Educational Attainment: </strong> {{$m->educational_attainment}}
+                                </div>
+                                <div class="col-md-12">
+                                    <strong>Work Experience: </strong> {{$m->work_experience}}
+                                </div>
+                                <div class="col-md-12">
+                                    <strong>Special Skills: </strong>{{$m->special_skills}}
+                                </div>
+                                <div class="col-md-12">
+                                    <strong>Others: </strong>{{$m->others}}
+                                </div>
+                            </div>
                         </div>
                         <div class="row mb-2">
                             <div class="col-md-12">

@@ -46,17 +46,17 @@ class ApplicantStatusNotification extends Notification
             return (new MailMessage)
                         ->subject('Applicant Status')
                         ->greeting('Hello Mr./Ms. '.$this->applicant->user->name)
-                        ->line('Congratulations We would like to inform you that you have passed the final interview for the position of ' . $this->applicant->mrf->jobPosition->position.' .Please Login to our portal to submit the document requirements')
+                        ->line('Congratulations We would like to inform you that you have passed the final interview for the position of ' . $this->applicant->mrf->jobPosition->position.' .Please Login to our portal to submit the document requirements');
                         // ->action('Notification Action', url('/'))
-                        ->line('Thank you for using our application!');
+                        // ->line('Thank you for using our application!');
         }
 
         return (new MailMessage)
                     ->subject('Applicant Status')
                     ->greeting('Hello Mr./Ms. '.$this->applicant->user->name)
-                    ->line('We would like to inform you that you have passed the interview for the position of ' . $this->applicant->mrf->jobPosition->position)
+                    ->line('We would like to inform you that you have passed the interview for the position of ' . $this->applicant->mrf->jobPosition->position);
                     // ->action('Notification Action', url('/'))
-                    ->line('Thank you for using our application!');
+                    // ->line('Thank you for using our application!');
     }
 
     /**

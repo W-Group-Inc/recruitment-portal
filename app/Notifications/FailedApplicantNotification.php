@@ -47,8 +47,8 @@ class FailedApplicantNotification extends Notification
                     ->subject('Applicant Status')
                     ->greeting('Hello, '.$this->dept_head->name)
                     ->line('The applicant for the position of '. $this->mrf->jobPosition->position .' has failed.')
-                    ->action('View Applicants', url('/applicant'))
-                    ->line('Thank you for using our application!');
+                    ->action('View Applicants', url('/applicant'));
+                    // ->line('Thank you for using our application!');
     }
 
     /**

@@ -49,8 +49,8 @@ class AssignRecruiterNotification extends Notification
                     ->line('This email is to inform you that an MRF has been assigned to you.')
                     ->line('MRF No. : ' .str_pad($this->mrf->mrf_no, 4, '0', STR_PAD_LEFT))
                     ->line('Job Position : ' .$this->mrf->jobPosition->position)
-                    ->action('Notification Action', url('/'))
-                    ->line('Thank you for using our application!');
+                    ->action('Notification Action', url('/'));
+                    // ->line('Thank you for using our application!');
     }
 
     /**

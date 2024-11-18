@@ -47,8 +47,8 @@ class NotifyDepartmentHead extends Notification
                     ->subject('Applicant Status')
                     ->greeting('Good day, ' .$this->dept_head->prefix.' '.$this->dept_head->name)
                     ->line('The applicant for the position of '. $this->mrf->jobPosition->position .' has passed.')
-                    ->action('View Applicants', url('/applicant'))
-                    ->line('Thank you for using our application!');
+                    ->action('View Applicants', url('/applicant'));
+                    // ->line('Thank you for using our application!');
     }
 
     /**

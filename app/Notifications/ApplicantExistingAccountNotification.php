@@ -45,8 +45,8 @@ class ApplicantExistingAccountNotification extends Notification
                     ->greeting('Good day, applicant')
                     ->line('We notice that you have an existing account in our records. Please login your account if you want to know your status')
                     ->line('If you forgot your password click "Forgot Password" button')
-                    ->action('Forgot Password', url('/'))
-                    ->line('Thank you for using our application!');
+                    ->action('Forgot Password', url('/'));
+                    // ->line('Thank you for using our application!');
     }
 
     /**

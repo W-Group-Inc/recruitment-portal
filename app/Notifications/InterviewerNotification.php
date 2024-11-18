@@ -49,8 +49,8 @@ class InterviewerNotification extends Notification
                     ->line('You have been assigned as the interviewer for the applicant.')
                     ->line('Applicant Name: '.$this->interviewer->applicant->user->name)
                     ->line('Job Position: '.$this->interviewer->mrf->jobPosition->position)
-                    ->action('View Applicant', url('/applicant'))
-                    ->line('Thank you for using our application!');
+                    ->action('View Applicant', url('/applicant'));
+                    // ->line('Thank you for using our application!');
     }
 
     /**
