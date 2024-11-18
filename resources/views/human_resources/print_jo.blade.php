@@ -55,7 +55,7 @@
             text-align: right;
         }
 
-        /* footer {
+        footer {
             position: fixed;
             bottom: -60px;
             left: 0px;
@@ -69,7 +69,7 @@
             left: 500px;
             right: 0px;
             height: 50px;
-        } */
+        }
 
         .fixed {
             position: fixed;
@@ -79,9 +79,9 @@
             height: 20px;
         }
 
-        /* .page-number:after {
-            content: counter(page);
-        } */
+            .page-number:after {
+                content: counter(page);
+            }
 
         table {
             page-break-inside: auto;
@@ -147,6 +147,22 @@
 
 <body>
     <header>
+        <footer>
+            <table style='width:100%;' border="0" cellspacing="0" cellpadding="0">
+                <tr>
+                    <td class='text-left"'>
+                        <p class="m-0" style="font-size:9;">WGI-TP-HRD-005</p>
+                        <p class="m-0" style="font-size:9;">Rev. 2 10/29/2024</p>
+                    </td>
+                    <td class='text-center'>
+                        <i ></i>
+                    </td>
+                    <td class='text-right'>
+                        <span class="page-number">Page <script type="text/php">{PAGE_NUM} of {PAGE_COUNT}</script></span>
+                    </td>
+                </tr>
+            </table>
+        </footer>
         <table style='width:100%;' border="1" cellspacing="0" cellpadding="0">
             <tr>
                 <td width='100px' style='width:20; text-align:center;' rowspan="1">
@@ -397,7 +413,7 @@
                     <div class="mt-4">
                         <p style="font-size: 9" class="text-center">&nbsp;</p>
                         <p style="text-align: center; border-top: 1px solid black; margin: 0 auto; width: 80%; padding-top: 2px;">
-                            <b>Head of Business Unit</b> <br>
+                            <b>Top Management</b> <br>
                             <span>(Signature over Printed Name/Date)</span>
                         </p>
                     </div>

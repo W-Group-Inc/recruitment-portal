@@ -14,6 +14,15 @@
                 <div class="modal-body">
                     <div class="row">
                         <div class="col-md-12 mb-2">
+                            <label class="form-label">Interview Type</label>
+                            {{-- <input type="text" name="event_name" class="form-control form-control-sm" required> --}}
+                            <select name="interview_type" class="form-control cat" required>
+                                <option value="">Select interview type</option>
+                                <option value="Online">Online</option>
+                                <option value="Face to Face">Face to Face</option>
+                            </select>
+                        </div>
+                        <div class="col-md-12 mb-2">
                             <label class="form-label">Event Name</label>
                             <input type="text" name="event_name" class="form-control form-control-sm" required>
                         </div>

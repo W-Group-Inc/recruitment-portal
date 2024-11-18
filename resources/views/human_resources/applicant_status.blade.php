@@ -39,6 +39,19 @@
                             <input type="text" name="employee" class="form-control form-control-sm required" value="{{$applicant->employee}}" required>
                         </div>
                     @endif
+                    <div class="form-group mb-2">
+                        Assigned Position
+                        <select name="assign_position" class="form-control cat">
+                            <option value="">Select position</option>
+                            @foreach ($mrf as $m)
+                                @php
+                                    $job_position = $m->jobPosition;
+                                @endphp
+
+                                <option value="{{$job_position->id}}" @if($job_position->id == $applicant->mrf->jobPosition->id) selected @endif>{{$job_position->position}}</option>
+                            @endforeach
+                        </select>
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>

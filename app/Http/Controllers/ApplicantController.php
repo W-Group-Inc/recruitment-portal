@@ -9,6 +9,7 @@ use App\Document;
 use App\HistoryApplicant;
 use App\Interviewer;
 use App\JobApplication;
+use App\JobPosition;
 use App\ManPowerRequisitionForm;
 use App\Notifications\ApplicantCredentialsNotification;
 use App\Notifications\ApplicantStatusFailedNotification;
@@ -218,6 +219,11 @@ class ApplicantController extends Controller
                 $applicant->notify(new ApplicantStatusNotification($applicant));
             }
         }
+        if($request->assign_position != null)
+        {
+            $applicant->man_power_requisition_form_id = $request->assign_position;
+        }
+        
         $applicant->save();
 
         Alert::success('Successfully Updated')->persistent('Dismiss');
@@ -237,16 +243,17 @@ class ApplicantController extends Controller
 
     public function schedule(Request $request)
     {
-        // dd($request->all(), date('Y-m-d'));
+        // dd($request->all());
         $applicant_data = Applicant::where('id', $request->applicant_id)->first();
 
         $client = new Google_Client();
         $client->setAuthConfig(storage_path('app/google-calendar/credentials.json'));
         $client->setRedirectUri(url('google/callback'));
-        $client->setAccessType('offline');
+        $client->setAccessType('online');
         $client->addScope(\Google_Service_Calendar::CALENDAR);
-        $client->setPrompt('consent');
-        $client->setLoginHint(auth()->user()->email);
+        // $client->setPrompt('consent');
+        // $client->setLoginHint(auth()->user()->email);
+        $client->setApprovalPrompt('auto');
         $client->setIncludeGrantedScopes(true);
         // dd($client);
         if (!session()->has('access_token')) {
@@ -255,44 +262,81 @@ class ApplicantController extends Controller
         } else {
             $client->setAccessToken(session()->get('access_token'));
             $calendarService = new \Google_Service_Calendar($client);
-            $event = new \Google_Service_Calendar_Event([
-                'summary' => 'Interview',
-                'description' => $request->event_name,
-                'start' => [
-                    'dateTime' => $request->start_time.':00',
-                    'timeZone' => 'Asia/Manila',
-                ],
-                'end' => [
-                    'dateTime' => $request->end_time.':00',
-                    'timeZone' => 'Asia/Manila',
-                ],
-                // 'recurrence' => [
-                //     'RRULE:FREQ=DAILY;COUNT=2'
-                // ],
-                'attendees' => [
-                    ['email' => $applicant_data->email],
-                    ['email' => auth()->user()->email]
-                    // ['email' => 'sbrin@example.com'],
-                ],
-                'reminders' => [
-                    'useDefault' => false,
-                    'overrides' => [
-                        // ['method' => 'email', 'minutes' => 24 * 60],
-                        ['method' => 'email', 'minutes' => 60],
+
+            if($request->interview_type == 'Face to Face')
+            {
+                $event = new \Google_Service_Calendar_Event([
+                    'summary' => 'Interview',
+                    'description' => $request->event_name,
+                    'start' => [
+                        'dateTime' => $request->start_time.':00',
+                        'timeZone' => 'Asia/Manila',
                     ],
-                ],
-                'conferenceData' => [
-                    'createRequest' => [
-                        'conferenceSolutionKey' => [
-                            'type' => 'hangoutsMeet'
+                    'end' => [
+                        'dateTime' => $request->end_time.':00',
+                        'timeZone' => 'Asia/Manila',
+                    ],
+                    // 'recurrence' => [
+                    //     'RRULE:FREQ=DAILY;COUNT=2'
+                    // ],
+                    'attendees' => [
+                        ['email' => $applicant_data->email],
+                    ],
+                    'reminders' => [
+                        'useDefault' => false,
+                        'overrides' => [
+                            // ['method' => 'email', 'minutes' => 24 * 60],
+                            ['method' => 'email', 'minutes' => 60],
                         ],
-                        'requestId' => str_random()
-                    ]
-                ],
-            ]);
+                    ],
+                ]);
+
+                $calendarId = 'primary';
+                $calendarService->events->insert($calendarId, $event, ['sendNotifications' => true]);
+            }
+            else
+            {
+                $event = new \Google_Service_Calendar_Event([
+                    'summary' => 'Interview',
+                    'description' => $request->event_name,
+                    'start' => [
+                        'dateTime' => $request->start_time.':00',
+                        'timeZone' => 'Asia/Manila',
+                    ],
+                    'end' => [
+                        'dateTime' => $request->end_time.':00',
+                        'timeZone' => 'Asia/Manila',
+                    ],
+                    // 'recurrence' => [
+                    //     'RRULE:FREQ=DAILY;COUNT=2'
+                    // ],
+                    'attendees' => [
+                        ['email' => $applicant_data->email],
+                        ['email' => auth()->user()->email]
+                        // ['email' => 'sbrin@example.com'],
+                    ],
+                    'reminders' => [
+                        'useDefault' => false,
+                        'overrides' => [
+                            // ['method' => 'email', 'minutes' => 24 * 60],
+                            ['method' => 'email', 'minutes' => 60],
+                        ],
+                    ],
+                    'conferenceData' => [
+                        'createRequest' => [
+                            'conferenceSolutionKey' => [
+                                'type' => 'hangoutsMeet'
+                            ],
+                            'requestId' => str_random()
+                        ]
+                    ],
+                ]);
+
+                $calendarId = 'primary';
+                $calendarService->events->insert($calendarId, $event, ['conferenceDataVersion' => 1, 'sendNotifications' => true]);
+            }
             
-            $calendarId = env('GOOGLE_CALENDAR_ID');
-            $calendarService->events->insert($calendarId, $event, ['conferenceDataVersion' => 1, 'sendNotifications' => true]);
+            // $calendarId = env('GOOGLE_CALENDAR_ID');
         }
 
         $schedule = new Schedule;
@@ -612,18 +656,7 @@ class ApplicantController extends Controller
 
         $calendarService = new \Google_Service_Calendar($client);
 
-        // $event = new \Google_Service_Calendar_Event();
-        // $event->setDescription($request->event_name);
-        // $start = new \Google_Service_Calendar_EventDateTime();
-        // $start->setDateTime($request->start_time.':00');
-        // $start->setTimeZone('Asia/Manila');
-        // $event->setStart($start);
-        // $end = new \Google_Service_Calendar_EventDateTime();
-        // $end->setDateTime($request->end_time.':00');
-        // $end->setTimeZone('Asia/Manila');
-        // $event->setEnd($end);
-
-        $calendarId = env('GOOGLE_CALENDAR_ID');
+        $calendarId = 'primary';
         $list_events = $calendarService->events->listEvents($calendarId);
         $eventId = null;
         foreach ($list_events->getItems() as $event) {
@@ -633,63 +666,93 @@ class ApplicantController extends Controller
             }
         }
 
-        // $event = new \Google_Service_Calendar_Event();
-        // $event->setDescription($request->event_name);
-        // $start = new \Google_Service_Calendar_EventDateTime();
-        // $start->setDateTime($request->start_time.':00');
-        // $start->setTimeZone('Asia/Manila');
-        // $event->setStart($start);
-        // $end = new \Google_Service_Calendar_EventDateTime();
-        // $end->setDateTime($request->end_time.':00');
-        // $end->setTimeZone('Asia/Manila');
-        // $event->setEnd($end);
-        // $attendee1 = new \Google_Service_Calendar_EventAttendee();
-        // $attendee1->setEmail($applicant_data->email);
-        // $attendee2 = new \Google_Service_Calendar_EventAttendee();
-        // $attendee2->setEmail(auth()->user()->email);
-        // $attendees = array($attendee1, $attendee2);
-        // $event->attendees = $attendees;
-
-        $event = new \Google_Service_Calendar_Event([
-            'summary' => 'Interview',
-            'description' => $request->event_name,
-            'start' => [
-                'dateTime' => $request->start_time.':00',
-                'timeZone' => 'Asia/Manila',
-            ],
-            'end' => [
-                'dateTime' => $request->end_time.':00',
-                'timeZone' => 'Asia/Manila',
-            ],
-            // 'recurrence' => [
-            //     'RRULE:FREQ=DAILY;COUNT=2'
-            // ],
-            'attendees' => [
-                ['email' => $applicant_data->email],
-                ['email' => auth()->user()->email]
-                // ['email' => 'sbrin@example.com'],
-            ],
-            'reminders' => [
-                'useDefault' => false,
-                'overrides' => [
-                    // ['method' => 'email', 'minutes' => 24 * 60],
-                    ['method' => 'email', 'minutes' => 60],
+        if ($request->interview_type == 'Face to Face')
+        {
+            $event = new \Google_Service_Calendar_Event([
+                'summary' => 'Interview',
+                'description' => $request->event_name,
+                'start' => [
+                    'dateTime' => $request->start_time.':00',
+                    'timeZone' => 'Asia/Manila',
                 ],
-            ],
-            'conferenceData' => [
-                'createRequest' => [
-                    'conferenceSolutionKey' => [
-                        'type' => 'hangoutsMeet'
+                'end' => [
+                    'dateTime' => $request->end_time.':00',
+                    'timeZone' => 'Asia/Manila',
+                ],
+                // 'recurrence' => [
+                //     'RRULE:FREQ=DAILY;COUNT=2'
+                // ],
+                'attendees' => [
+                    ['email' => $applicant_data->email],
+                    ['email' => auth()->user()->email]
+                    // ['email' => 'sbrin@example.com'],
+                ],
+                'reminders' => [
+                    'useDefault' => false,
+                    'overrides' => [
+                        // ['method' => 'email', 'minutes' => 24 * 60],
+                        ['method' => 'email', 'minutes' => 60],
                     ],
-                    'requestId' => str_random()
-                ]
-            ],
-        ]);
+                ],
+                // 'conferenceData' => [
+                //     'createRequest' => [
+                //         'conferenceSolutionKey' => [
+                //             'type' => 'hangoutsMeet'
+                //         ],
+                //         'requestId' => str_random()
+                //     ]
+                // ],
+            ]);
 
-        $calendarService->events->update($calendarId, $eventId, $event, [
-            'conferenceDataVersion' => 1,
-            'sendNotifications' => true,
-        ]);
+            $calendarService->events->update($calendarId, $eventId, $event, [
+                // 'conferenceDataVersion' => 1,
+                'sendNotifications' => true,
+            ]);
+        }
+        else
+        {
+            $event = new \Google_Service_Calendar_Event([
+                'summary' => 'Interview',
+                'description' => $request->event_name,
+                'start' => [
+                    'dateTime' => $request->start_time.':00',
+                    'timeZone' => 'Asia/Manila',
+                ],
+                'end' => [
+                    'dateTime' => $request->end_time.':00',
+                    'timeZone' => 'Asia/Manila',
+                ],
+                // 'recurrence' => [
+                //     'RRULE:FREQ=DAILY;COUNT=2'
+                // ],
+                'attendees' => [
+                    ['email' => $applicant_data->email],
+                    ['email' => auth()->user()->email]
+                    // ['email' => 'sbrin@example.com'],
+                ],
+                'reminders' => [
+                    'useDefault' => false,
+                    'overrides' => [
+                        // ['method' => 'email', 'minutes' => 24 * 60],
+                        ['method' => 'email', 'minutes' => 60],
+                    ],
+                ],
+                'conferenceData' => [
+                    'createRequest' => [
+                        'conferenceSolutionKey' => [
+                            'type' => 'hangoutsMeet'
+                        ],
+                        'requestId' => str_random()
+                    ]
+                ],
+            ]);
+
+            $calendarService->events->update($calendarId, $eventId, $event, [
+                'conferenceDataVersion' => 1,
+                'sendNotifications' => true,
+            ]);
+        }
+
 
         $schedule = Schedule::findOrFail($id);
         $schedule->schedule_name = $request->event_name;

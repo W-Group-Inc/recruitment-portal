@@ -23,7 +23,7 @@ class ForApprovalController extends Controller
     {
         // $mrf = ManPowerRequisitionForm::with('mrfApprovers')->get();
         $mrf_list = [];
-        $recruiter = User::whereIn('role', ['Human Resources Manager', 'Human Resources'])->get();
+        $recruiter = User::whereIn('role', ['Human Resources Manager', 'Human Resources'])->where('status', 'Active')->get();
         if (auth()->user()->role == 'Human Resources Manager')
         {
             $mrf_list = ManPowerRequisitionForm::where('mrf_status', 'Pending')->get();

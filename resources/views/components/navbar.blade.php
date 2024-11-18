@@ -248,6 +248,11 @@
                     <span>Logout</span>
                 </a>
 
+                <a href="{{url('view-password')}}" class="dropdown-item notify-item" onclick="show();">
+                    <i class="dripicons-lock me-1"></i>
+                    <span>Change Password</span>
+                </a>
+
                 <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                     @csrf
                 </form>
