@@ -149,8 +149,10 @@ class ApplicantController extends Controller
         $interviewer = Interviewer::where('status', 'Pending')->where('applicant_id', $applicant->id)->where('user_id', auth()->user()->id)->first();
         $check_if_passed = Interviewer::where('applicant_id', $applicant->id)->where('user_id', auth()->user()->id)->first();
         $exam_result = ApplicantExamResult::where('applicant_id', $applicant->id)->get();
+        $get_schedule = file_get_contents(env('WPRO_SCHEDULE'));
+        $schedules = json_decode($get_schedule);
 
-        return view('human_resources.view_applicant', compact('applicant', 'documents', 'interviewer', 'check_if_passed', 'exam_result'));
+        return view('human_resources.view_applicant', compact('applicant', 'documents', 'interviewer', 'check_if_passed', 'exam_result', 'schedules'));
     }
 
     /**
@@ -357,6 +359,7 @@ class ApplicantController extends Controller
         // dd($applicant->mrf->department->name);
         $data = [];
         $data['applicant'] = $applicant;
+        $data['hr_manager'] = User::where('role', 'Human Resources Manager')->where('status', 'Active')->first();
 
         $pdf = App::make('dompdf.wrapper');
         $pdf->loadView('human_resources.print_jo', $data)->setPaper('legal', 'portrait');

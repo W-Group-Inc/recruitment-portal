@@ -34,23 +34,23 @@
                         <button type="button" class="btn btn-success btn-sm mb-2 passedBtn">Pass</button>
                     </form>
 
-                    @if(auth()->user()->role == 'Human Resources' || auth()->user()->role == 'Human Resources Manager')
-                    {{-- <a href="{{url('print-jo/'.$applicant->id)}}" type="button" class="btn btn-primary btn-sm mb-2" target="_blank">Job Offer</a> --}}
+                    {{-- @if(auth()->user()->role == 'Human Resources' || auth()->user()->role == 'Human Resources Manager')
+                    <a href="{{url('print-jo/'.$applicant->id)}}" type="button" class="btn btn-primary btn-sm mb-2" target="_blank">Job Offer</a>
                     <button type="button" class="btn btn-sm btn-primary mb-2" data-bs-toggle="modal" data-bs-target="#jobOffer{{$applicant->id}}">Job Offer</button>
 
-                        {{-- @if($applicant->applicant_status == 'Pending')
+                        @if($applicant->applicant_status == 'Pending')
                         <button type="button" class="btn btn-secondary btn-sm mb-2" data-bs-toggle="modal" data-bs-target="#schedule">Schedule Interview</button>
-                        @endif --}}
-                    @endif
+                        @endif
+                    @endif --}}
 
                     @if($applicant->applicant_status == 'Pending')
                     <a href="{{url('interview-assessment/'.$applicant->id)}}" class="btn btn-warning btn-sm mb-2">Interview Assessment Form</a>
                     @endif
                 @endforeach
 
-                @if($applicant->applicant_status == 'Passed')
-                    <button type="button" class="btn btn-sm btn-primary mb-2" data-bs-toggle="modal" data-bs-target="#jobOffer{{$applicant->id}}">Job Offer</button>
-                @endif
+                {{-- @if($applicant->applicant_status == 'Passed') --}}
+                <button type="button" class="btn btn-sm btn-primary mb-2" data-bs-toggle="modal" data-bs-target="#jobOffer{{$applicant->id}}">Job Offer</button>
+                {{-- @endif --}}
 
                 <hr>
                 <div class="text-start mt-3">

@@ -19,7 +19,10 @@
                             Work Schedule
                             <select name="work_schedule" class="form-control form-control-sm cat" required>
                                 <option value="">Select work schedule</option>
-                                <option value="8:00 - 17:00" @if(optional($applicant->jobOffer)->work_schedule == "8:00 - 17:00") selected @endif>8:00 - 17:00</option>
+                                {{-- <option value="8:00 - 17:00" @if(optional($applicant->jobOffer)->work_schedule == "8:00 - 17:00") selected @endif>8:00 - 17:00</option> --}}
+                                @foreach ($schedules as $schedule)
+                                    <option value="{{$schedule->schedule_name}}">{{$schedule->schedule_name}}</option>
+                                @endforeach
                             </select>
                         </div>
                         <div class="col-lg-12 mb-2">

@@ -380,11 +380,17 @@
 
         <table style="width: 100%;" class="mt-5" border="0" cellspacing="0" cellpadding="0">
             <tr>
-                <td width="50%">
-                    <p style="text-align: center; border-top: .5px solid black; width: 50%; padding-top: 2px;">(Signature over Printed Name/Date)</p>
+                <td width="50%" style="text-align: center;">
+                    <p class="text-center" style="font-size: 9; margin-bottom: 0;">{{$hr_manager->name}}</p>
+                    <p style="text-align: center; border-top: .5px solid black; width: 50%; margin: 0 auto; padding-top: 2px;">
+                        (Signature over Printed Name/Date)
+                    </p>
                 </td>
-                <td>
-                    <p style="text-align: center; border-top: .5px solid black; width: 50%; padding-top: 2px;">(Signature over Printed Name/Date)</p>
+                <td style="text-align: center;">
+                    <p class="text-center" style="font-size: 9; margin-bottom: 0;">{{$applicant->mrf->department->head->name}}</p>
+                    <p style="text-align: center; border-top: .5px solid black; width: 50%; margin: 0 auto; padding-top: 2px;">
+                        (Signature over Printed Name/Date)
+                    </p>
                 </td>
             </tr>
         </table>
