@@ -49,8 +49,16 @@ class HomeController extends Controller
         {
             // $mrf = ManPowerRequisitionForm::where('mrf_status', '<>' ,'Cancelled')->get();
             $mrf = ManPowerRequisitionForm::get();
-            $applicant = Applicant::get();
-
+            $applicant = Applicant::has('user')->get();
+            if (auth()->user()->role == 'Human Resources')
+            {
+                $applicant = Applicant::has('user')
+                    ->whereHas('mrf', function($q){
+                        $q->where('recruiter_id', auth()->user()->id);
+                    })
+                    ->get();
+            }
+            
             $month = [];
             for ($i=1; $i <= 12; $i++)
             {

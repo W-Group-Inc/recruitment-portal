@@ -262,16 +262,15 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @if(auth()->user()->role == 'Human Resources Manager')
+                                {{-- @if(auth()->user()->role == 'Human Resources Manager')
                                     @foreach ($mrf->where('mrf_status', 'Approved') as $mrf_data)
                                         @foreach ($mrf_data->applicant as $applicant_data)
                                             <tr>
                                                 <td>{{$applicant_data->mrf->jobPosition->position}}</td>
                                                 <td>{{$applicant_data->mrf->recruiter->name}}</td>
-                                                <td>{{$applicant_data->user->name}}</td>
+                                                <td>{{optional($applicant_data->user)->name}}</td>
                                                 <td>{{date('M d, Y', strtotime($applicant_data->created_at))}}</td>
                                                 <td>{{date('M d, Y', strtotime($applicant_data->created_at))}}</td>
-                                                {{-- <td></td> --}}
                                                 <td>
                                                     @php
                                                         $name = "";
@@ -354,7 +353,6 @@
                                                 <td>{{$applicant_data->user->name}}</td>
                                                 <td>{{date('M d, Y', strtotime($applicant_data->created_at))}}</td>
                                                 <td>{{date('M d, Y', strtotime($applicant_data->created_at))}}</td>
-                                                {{-- <td></td> --}}
                                                 <td>
                                                     @php
                                                         $name = "";
@@ -398,7 +396,86 @@
                                             </tr>
                                         @endforeach
                                     @endforeach
-                                @endif
+                                @endif --}}
+                                @foreach ($applicant as $applicant_data)
+                                    <tr>
+                                        <td>{{$applicant_data->mrf->jobPosition->position}}</td>
+                                        <td>{{$applicant_data->mrf->recruiter->name}}</td>
+                                        <td>{{$applicant_data->user->name}}</td>
+                                        <td>{{date('M d, Y', strtotime($applicant_data->created_at))}}</td>
+                                        <td>{{date('M d, Y', strtotime($applicant_data->created_at))}}</td>
+                                        <td>
+                                            @php
+                                                $name = "";
+                                                if ($applicant_data->source == 'Online Application')
+                                                {
+                                                    $name = $applicant_data->application;
+                                                }
+                                                elseif($applicant_data->source == 'Employee Referral')
+                                                {
+                                                    $name = $applicant_data->employee;
+                                                }
+                                            @endphp
+                                            {{$applicant_data->source.' - '.$name}} 
+                                        </td>
+                                        <td>{{$applicant_data->mobile_number}}</td>
+                                        <td>{{$applicant_data->email}}</td>
+                                        <td>
+                                            <a href="{{url($applicant_data->resume)}}" target="_blank">
+                                                <i class="uil-file"></i>
+                                            </a>
+                                        </td>
+                                        <td>
+                                            @if($applicant_data->applicant_status == "Pending")
+                                                <span class="badge bg-warning">{{$applicant_data->applicant_status}}</span>
+                                            @elseif($applicant_data->applicant_status == "Passed")
+                                                <span class="badge bg-success">{{$applicant_data->applicant_status}}</span>
+                                            @elseif($applicant_data->applicant_status == "Failed")
+                                                <span class="badge bg-danger">{{$applicant_data->applicant_status}}</span>
+                                            @endif
+                                        </td>
+                                        <td>
+                                            @foreach ($applicant_data->schedule as $sched)
+                                                <small>
+                                                    Name: {{$sched->schedule_name}} <br>
+                                                    Date: {{date('M d Y', strtotime($sched->start_datetime))}} <br>
+                                                    Start: {{date('g:i A', strtotime($sched->start_datetime))}} <br>
+                                                    End: {{date('g:i A', strtotime($sched->end_datetime))}} <br>
+                                                </small>
+                                                <hr>
+                                            @endforeach
+                                        </td>
+                                        <td>
+                                            @foreach ($applicant_data->interviewers as $int)
+                                                <small>{{$int->user->name}} - 
+                                                    @if($int->status == 'Passed')
+                                                    <span class="badge bg-success">
+                                                    @elseif($int->status == 'Failed')
+                                                    <span class="badge bg-danger">
+                                                    @elseif($int->status == 'Pending')
+                                                    <span class="badge bg-warning">
+                                                    @elseif($int->status == 'Waiting')
+                                                    <span class="badge bg-info">
+                                                    @endif
+                                                    
+                                                    {{$int->status}}
+                                                    </span>
+                                                </small> 
+                                                <br>
+                                            @endforeach
+                                        </td>
+                                        <td>
+                                            @if($applicant_data->jobOffer)
+                                                {{date('M. d Y', strtotime(optional($applicant_data->jobOffer)->updated_at))}}
+                                            @endif
+                                        </td>
+                                        <td>
+                                            @if($applicant_data->jobOffer)
+                                                {{date('M. d Y', strtotime(optional($applicant_data->jobOffer)->start_date))}}
+                                            @endif
+                                        </td>
+                                    </tr>
+                                @endforeach
                             </tbody>
                         </table>
                     </div>
