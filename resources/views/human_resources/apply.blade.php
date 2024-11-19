@@ -12,43 +12,43 @@
                 <div class="modal-body">
                     <div class="row">
                         <div class="col-lg-12 mb-2">
-                            Last name
+                            Last Name:
                             <input type="text" name="lastname" class="form-control form-control-sm" required>
                         </div>
                         <div class="col-lg-12 mb-2">
-                            First name
+                            First Name:
                             <input type="text" name="firstname" class="form-control form-control-sm" required>
                         </div>
                         <div class="col-lg-12 mb-2">
-                            Middle name 
+                            Middle Name: 
                             <input type="text" name="middlename" class="form-control form-control-sm">
                         </div>
                         <div class="col-lg-12 mb-2">
-                            Email
+                            Email:
                             <input type="email" name="email" class="form-control form-control-sm" required>
                         </div>
                         <div class="col-lg-12 mb-2">
-                            Upload Resume
+                            Resume (Choose file to Upload):
                             <input type="file" name="resume" class="form-control form-control-sm" accept=".pdf" required>
                         </div>
                         <div class="col-lg-12 mb-2">
-                            Date availability to start
+                            Availability to Start:
                             <input type="date" name="date_availability" class="form-control form-control-sm" min="{{date('Y-m-d')}}" required>
                         </div>
                         <div class="col-lg-12 mb-2">
-                            Previous compensation
+                            Previous Compensation:
                             <input type="text" name="previous_compensation" class="form-control form-control-sm" required>
                         </div>
                         <div class="col-lg-12 mb-2">
-                            Asking compensation
+                            Asking Compensation:
                             <input type="text" name="asking_compensation" class="form-control form-control-sm" required>
                         </div>
                         <div class="col-lg-12 mb-2">
-                            Mobile Number
+                            Mobile Number:
                             <input type="tel" name="mobile_number" class="form-control form-control-sm" data-mask="00000000000" placeholder="Ex: 09" required>
                         </div>
                         <div class="col-lg-12 mb-2" id="sourceColumn">
-                            Source
+                            Source of Application:
                             <select name="source" class="form-control cat" id="source">
                                 <option value="">- Source -</option>
                                 <option value="Walk In">Walk In</option>
