@@ -47,7 +47,14 @@
                             @foreach ($mrf->where('department_id', auth()->user()->department_id) as $m)
                                 <tr>
                                     <td>
-                                        @if($m->mrf_status != 'Cancelled' && $m->mrf_status != 'Rejected')
+                                        <button type="button" class="btn btn-sm btn-info" data-bs-toggle="modal" data-bs-target="#view{{$m->id}}">
+                                            <i class="uil-eye"></i>
+                                        </button>
+
+                                        <a href="{{url('print-mrf/'.$m->id)}}" class="btn btn-sm btn-secondary" target="_blank">
+                                            <i class="dripicons-print"></i>
+                                        </a>
+                                        @if($m->mrf_status == 'Pending')
                                             <button type="button" class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#edit{{$m->id}}" @if($m->mrf_status == "Approved" || count($m->mrfApprovers) > 0) disabled @endif>
                                                 <i class="dripicons-document-edit"></i>
                                             </button>
@@ -62,9 +69,9 @@
                                                 </button>
                                             </form>
 
-                                            <a href="{{url('print-mrf/'.$m->id)}}" class="btn btn-sm btn-info" target="_blank">
+                                            {{-- <a href="{{url('print-mrf/'.$m->id)}}" class="btn btn-sm btn-success" target="_blank">
                                                 <i class="dripicons-print"></i>
-                                            </a>
+                                            </a> --}}
                                         @endif
                                     </td>
                                     <td>{{date('M d, Y', strtotime($m->created_at))}}</td>
@@ -116,6 +123,7 @@
                                 </tr>
 
                                 @include('dept_head.edit_mrf')
+                                @include('human_resources.view_mrf')
                             @endforeach
                             @endif
 
@@ -127,22 +135,11 @@
                                             <i class="uil-eye"></i>
                                         </button>
 
-                                        @if($m->mrf_status != 'Rejected')
-                                            <a href="{{url('print-mrf/'.$m->id)}}" class="btn btn-sm btn-secondary" target="_blank">
-                                                <i class="dripicons-print"></i>
-                                            </a>
-
-                                            @if(auth()->user()->role != "Head Business Unit")
-                                                @if($m->progress != null)
-                                                    <button type="button" class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#editProgress{{$m->id}}">
-                                                        <i class="dripicons-pencil"></i>
-                                                    </button>
-                                                @endif
-                                            @endif
-                                        @endif
-
                                         @if(auth()->user()->role != "Head Business Unit")
                                             @if($m->user_id == auth()->user()->id && $m->mrf_status == 'Pending')
+                                                <a href="{{url('print-mrf/'.$m->id)}}" class="btn btn-sm btn-secondary" target="_blank">
+                                                    <i class="dripicons-print"></i>
+                                                </a>
 
                                                 <button type="button" class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#edit{{$m->id}}" @if($m->mrf_status == "Approved") disabled @endif>
                                                     <i class="dripicons-document-edit"></i>
@@ -151,17 +148,40 @@
                                                 <form action="{{url('cancelled-mrf/'.$m->id)}}" method="post" class="d-inline-block" onsubmit="show()">
                                                     @csrf
         
-                                                    <button type="button" class="btn btn-sm btn-danger delete-btn">
+                                                    <button type="button" class="btn btn-sm btn-danger delete-btn"> 
                                                         <i class="uil-ban"></i>
                                                     </button>
                                                 </form>
+
+                                                @if($m->mrf_status == 'Hold')
+                                                    <form method="POST" action="{{url('update-progress/'.$m->id)}}" class="d-inline-block" onsubmit="show()">
+                                                        @csrf
+
+                                                        <button type="button" class="btn btn-sm btn-warning pendingBtn">
+                                                            <i class="dripicons-clockwise"></i>
+                                                        </button>
+                                                    </form>
+                                                @endif
+                                            @else
+                                                <a href="{{url('print-mrf/'.$m->id)}}" class="btn btn-sm btn-secondary" target="_blank">
+                                                    <i class="dripicons-print"></i>
+                                                </a>
+                                                @if($m->mrf_status != 'Rejected' && $m->mrf_status != 'Cancelled')
+
+                                                    @if(auth()->user()->role != "Head Business Unit")
+                                                        @if($m->mrf_status == 'Hold')
+                                                            <form method="POST" action="{{url('update-progress/'.$m->id)}}" class="d-inline-block" onsubmit="show()">
+                                                                @csrf
+
+                                                                <button type="button" class="btn btn-sm btn-warning pendingBtn">
+                                                                    <i class=" dripicons-clockwise"></i>
+                                                                </button>
+                                                            </form>
+                                                        @endif
+                                                    @endif
+                                                @endif
                                             @endif
                                         @endif
-                                        {{-- @if(auth()->user()->role == 'Human Resources Manager' && $m->mrf_status == 'Pending')
-                                        <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#assign{{$m->id}}" @if(count($m->mrfApprovers) > 0) disabled @endif>
-                                            <i class="uil-user"></i>
-                                        </button>
-                                        @endif --}}
                                     </td>
                                     <td>{{date('M d, Y', strtotime($m->created_at))}}</td>
                                     <td>MRF-{{str_pad($m->mrf_no, 4, '0', STR_PAD_LEFT)}}</td>
@@ -197,6 +217,8 @@
                                         <span class="badge bg-danger">
                                         @elseif($m->mrf_status == "Cancelled")
                                         <span class="badge bg-danger">
+                                        @elseif($m->mrf_status == "Hold")
+                                        <span class="badge bg-warning">
                                         @endif  
 
                                         {{$m->mrf_status}}
@@ -220,7 +242,7 @@
                                     </td>
                                 </tr>
 
-                                @include('human_resources.edit_progress')
+                                {{-- @include('human_resources.edit_progress') --}}
                                 @include('human_resources.view_mrf')
                                 @include('human_resources.assign_recruiter')
                                 @include('dept_head.edit_mrf')
@@ -266,6 +288,22 @@
                 confirmButtonColor: "#3085d6",
                 cancelButtonColor: "#d33",
                 confirmButtonText: "Yes, canceled it!"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $(this).closest('form').submit();
+                }
+            });
+        })
+
+        $('.pendingBtn').on('click', function() {
+            Swal.fire({
+                title: "Are you sure?",
+                text: "This MRF will be back in pending",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                // confirmButtonText: "Yes, canceled it!"
             }).then((result) => {
                 if (result.isConfirmed) {
                     $(this).closest('form').submit();

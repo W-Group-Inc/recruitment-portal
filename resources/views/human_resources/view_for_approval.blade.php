@@ -111,18 +111,28 @@
                             @if($m->mrf_status == 'Pending')
                             <hr>
                             <div class="row">
-                                <div class="col-md-6">
+                                <div class="col-md-6 mb-1">
                                     Action :
-                                    <select name="action" class="form-control form-control-sm cat">
-                                        <option value="">-Select </option>
+                                    <select name="action" class="form-control form-control-sm cat" onchange="assignRecruiter(this.value,{{$m->id}})" required>
+                                        <option value="">Select action</option>
                                         <option value="Approved">Approve</option>
-                                        {{-- <option value="Returned">Return</option> --}}
                                         <option value="Rejected">Reject</option>
+                                        <option value="Hold">Hold</option>
+                                        <option value="Cancelled">Cancel</option>
                                     </select>
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-md-6 mb-1" style="display: none;" id="assignRecruiterCol{{$m->id}}">
+                                    Assigned Recruiter :
+                                    <select name="recruiter" class="form-control cat" id="assignRecruiter{{$m->id}}">
+                                        <option value="">Select Recruiter</option>
+                                        @foreach ($recruiter->whereIn('role', ['Human Resources', 'Human Resources Manager']) as $recruit)
+                                        <option value="{{$recruit->id}}">{{$recruit->name}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="col-md-12">
                                     Remarks :
-                                    <textarea name="remarks" class="form-control form-control-sm" cols="30" rows="10"></textarea>
+                                    <textarea name="remarks" class="form-control form-control-sm" id="remarks{{$m->id}}" cols="30" rows="10"></textarea>
                                 </div>
                             </div>
                             @endif

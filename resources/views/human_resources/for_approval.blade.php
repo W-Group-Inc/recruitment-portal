@@ -51,9 +51,9 @@
                                             <i class="dripicons-print"></i>
                                         </a>
 
-                                        <button type="button" class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#recruiter{{$m->id}}">
+                                        {{-- <button type="button" class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#recruiter{{$m->id}}">
                                             <i class="dripicons-document-edit"></i>
-                                        </button>
+                                        </button> --}}
 
                                         {{-- <form action="{{url('delete-mrf/'.$m->id)}}" method="post" class="d-inline-block">
                                             @csrf
@@ -99,6 +99,22 @@
 @section('js')
 <script src="{{asset('js/chosen.jquery.min.js')}}"></script>
 <script>
+    function assignRecruiter(value,id)
+    {
+        if (value == "Approved")
+        {
+            $("#assignRecruiterCol"+id).css('display','block');
+            $("#assignRecruiter"+id).prop('required', true);
+            $("#remarks"+id).prop('required', false);
+        }
+        else
+        {
+            $("#assignRecruiterCol"+id).css('display','none');
+            $("#assignRecruiter"+id).prop('required', false);
+            $("#remarks"+id).prop('required', true);
+        }
+    }
+
     $(document).ready(function() {
         // $('.select2').select2({
         //     dropdownParent: $('.modal')

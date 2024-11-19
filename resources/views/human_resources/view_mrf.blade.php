@@ -16,71 +16,32 @@
                                 <strong>I. POSITION</strong>
                             </div>
                             <hr>
-                            <dl class="row mb-0">
-                                <dt class="col-md-3">
-                                    Position Title :
-                                </dt>
-                                <dd class="col-md-9">
-                                    {{$m->jobPosition->position}}
-                                </dd>
-                            </dl>
-                            <dl class="row mb-0">
-                                <dt class="col-md-3">
-                                    Department :
-                                </dt>
-                                <dd class="col-md-9">
-                                    {{$m->department->name}}
-                                </dd>
-                            </dl>
-                            <dl class="row mb-0">
-                                <dt class="col-md-3">
-                                    Date Requested :
-                                </dt>
-                                <dd class="col-md-9">
-                                    {{date('M d, Y', strtotime($m->created_at))}}
-                                </dd>
-                            </dl>
-                            <dl class="row mb-0">
-                                <dt class="col-md-3">
-                                    Target Date On-boarding:
-                                </dt>
-                                <dd class="col-md-9">
+                            <div class="row">
+                                <div class="col-md-12 mb-1">
+                                    <strong>Position Title:</strong> {{$m->jobPosition->position}}
+                                </div>
+                                <div class="col-md-12 mb-1">
+                                    <strong>Department:</strong> {{$m->department->name}}
+                                </div>
+                                <div class="col-md-12 mb-1">
+                                    <strong>Date Requested:</strong> {{date('M d, Y', strtotime($m->created_at))}}
+                                </div>
+                                <div class="col-md-12 mb-1">
+                                    <strong>Target Date:</strong>
                                     {{date('M d, Y', strtotime($m->target_date))}}
-                                </dd>
-                            </dl>
-                            <dl class="row mb-0">
-                                <dt class="col-md-3">
-                                    Position Status :
-                                </dt>
-                                <dd class="col-md-9">
+                                </div>
+                                <div class="col-md-12 mb-1">
+                                    <strong>Position Status:</strong>
                                     {{$m->position_status}}
-                                </dd>
-                            </dl>
-                            <dl class="row mb-0">
-                                <dt class="col-md-3">
-                                    Attachment
-                                </dt>
-                                <dd class="col-md-9">
-                                    {{-- @if($m->is_plantilla == 1)
-                                    Plantilla
-                                    <a href="{{url($m->mrf_attachment)}}" target="_blank">
-                                        <i class="uil-file"></i>
-                                    </a>
-                                    @endif
-
-                                    @if($m->is_job_description == 1)
-                                    Job Description
-                                    <a href="{{url($m->mrf_attachment)}}" target="_blank">
-                                        <i class="uil-file"></i>
-                                    </a>
-                                    @endif
-
-                                    @if($m->is_resignation_letter == 1)
-                                    Resignation Letter
-                                    <a href="{{url($m->mrf_attachment)}}" target="_blank">
-                                        <i class="uil-file"></i>
-                                    </a>
-                                    @endif --}}
+                                </div>
+                                @if($m->position_status == 'Replacement')
+                                <div class="col-md-12 mb-1">
+                                    <strong>Employee:</strong>
+                                    {{$m->resign_employee}}
+                                </div>
+                                @endif
+                                <div class="col-md-12 mb-1">
+                                    <strong>Attachment:</strong> <br>
                                     @foreach ($m->mrfAttachment as $key=>$attachment)
                                         <small>{{$key+1}} .</small>
                                         <a href="{{url($attachment->file_path)}}" target="_blank">
@@ -88,8 +49,8 @@
                                         </a>
                                         <br>
                                     @endforeach
-                                </dd>
-                            </dl>
+                                </div>
+                            </div>
                         </div>
                         <div class="row mb-2">
                             <div class="col-md-12">
@@ -97,16 +58,16 @@
                             </div>
                             <hr>
                             <div class="row mb-0">
-                                <div class="col-md-12">
+                                <div class="col-md-12 mb-1">
                                     <strong>Educational Attainment: </strong> {{$m->educational_attainment}}
                                 </div>
-                                <div class="col-md-12">
+                                <div class="col-md-12 mb-1">
                                     <strong>Work Experience: </strong> {{$m->work_experience}}
                                 </div>
-                                <div class="col-md-12">
+                                <div class="col-md-12 mb-1">
                                     <strong>Special Skills: </strong>{{$m->special_skills}}
                                 </div>
-                                <div class="col-md-12">
+                                <div class="col-md-12 mb-1">
                                     <strong>Others: </strong>{{$m->others}}
                                 </div>
                             </div>
@@ -116,57 +77,32 @@
                                 <strong>III. EMPLOYMENT DETAILS</strong>
                             </div>
                             <hr>
-                            <dl class="row mb-0">
-                                <dt class="col-md-3">
-                                    Employment Status :
-                                </dt>
-                                <dd class="col-md-9  ">
+                            <div class="row">
+                                <div class="col-md-12 mb-1">
+                                    <strong>Employment Status:</strong>
                                     {{$m->employment_status}}
-                                </dd>
-                            </dl>
-                            <dl class="row mb-0">
-                                <dt class="col-md-3">
-                                    Job Level / Grade :
-                                </dt>
-                                <dd class="col-md-9">
+                                </div>
+                                <div class="col-md-12 mb-1">
+                                    <strong>Job Level / Grade:</strong>
                                     {{$m->job_level}}
-                                </dd>
-                            </dl>
-                            <dl class="row mb-0">
-                                <dt class="col-md-3">
-                                    Salary Rate / Range :
-                                </dt>
-                                <dd class="col-md-9">
+                                </div>
+                                <div class="col-md-12 mb-1">
+                                    <strong>Salary Rate / Range:</strong>
                                     {{$m->salary_range}}
-                                </dd>
-                            </dl>
-                            <dl class="row mb-0">
-                                <dt class="col-md-3">
-                                    Others Remarks :
-                                </dt>
-                                <dd class="col-md-9">
+                                </div>
+                                <div class="col-md-12 mb-1">
+                                    <strong>Others Remarks:</strong>
                                     {{$m->other_remarks}}
-                                </dd>
-                            </dl>
+                                </div>
+                            </div>
                         </div>
-                        {{-- @if($m->mrf_status == 'Pending')
                         <hr>
                         <div class="row">
-                            <div class="col-md-6">
-                                Action :
-                                <select name="action" class="form-control form-control-sm cat">
-                                    <option value="">-Select </option>
-                                    <option value="Approved">Approve</option>
-                                    <option value="Rejected">Reject</option>
-                                </select>
-                            </div>
-                            <div class="col-md-6">
-                                Remarks :
-                                <textarea name="remarks" class="form-control form-control-sm" cols="30"
-                                    rows="10"></textarea>
+                            <div class="col-lg-12">
+                                <strong>Remarks :</strong>
+                                {!! nl2br($m->approver_remarks) !!}
                             </div>
                         </div>
-                        @endif --}}
                     </div>
                 </div>
             </div>

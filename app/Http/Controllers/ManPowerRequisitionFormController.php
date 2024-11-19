@@ -303,10 +303,14 @@ class ManPowerRequisitionFormController extends Controller
     public function progress(Request $request, $id)
     {
         $mrf = ManPowerRequisitionForm::findOrFail($id);
-        $mrf->progress = $request->progress;
+        $mrf->mrf_status = 'Pending';
+        $mrf->progress = null;
         $mrf->save();
 
-        Alert::success('Successfully Saved')->persistent('Dismiss');
+        $user = User::where('role', 'Human Resources Manager')->first();
+        $user->notify(new NotifyHrManager($user, $mrf, ""));
+        
+        Alert::success('Successfully Updated')->persistent('Dismiss');
         return back();
     }
 

@@ -27,7 +27,7 @@
     </div>
 </div> --}}
 
-<div class="modal" id="recruiter{{$m->id}}">
+{{-- <div class="modal" id="recruiter{{$m->id}}">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
@@ -54,4 +54,4 @@
             </form>
         </div>
     </div>
-</div>
+</div> --}}

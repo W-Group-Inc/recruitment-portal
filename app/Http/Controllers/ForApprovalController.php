@@ -85,85 +85,32 @@ class ForApprovalController extends Controller
      */
     public function update(Request $request, $id)
     {
-        // $mrf_approver = MrfApprover::findOrFail($id);
-        // $mrf_approver->status = $request->action;
-        // $mrf_approver->remarks = $request->remarks;
-        // $mrf_approver->save();
-
-        // $mrf = ManPowerRequisitionForm::findOrFail($mrf_approver->mrf->id);
+        // dd($request->all());
         $mrf = ManPowerRequisitionForm::findOrFail($id);
-        // $nexdt_approver = MrfApprover::where('mrf_id', $mrf->id)->where('status', 'Waiting')->orderBy('level', 'asc')->get();
 
         $message = "";
         if ($request->action == "Approved")
         {
-            // if ($next_approver->isNotEmpty())
-            // {
-            //     foreach($next_approver as $key=>$nextApprover)
-            //     {
-            //         if ($key == 0)
-            //         {
-            //             $nextApprover->status = 'Pending';
-                        
-            //             $user = User::where('id', $nextApprover->user_id)->first();
-            //             $user->notify(new PendingMrfNotification($user));
-            //         }
-            //         else
-            //         {
-            //             $nextApprover->status = 'Waiting';
-            //         }
-    
-            //         $nextApprover->save();
-            //     }
-            // }
-            // else
-            // {
-            //     $mrf->mrf_status = 'Approved';
-            //     $mrf->progress = 'Open';
-            //     $mrf->save();
-
-            //     $dept_head = $mrf->department->head;
-            //     $dept_head->notify(new MrfNotification($mrf, $request->action, $dept_head));
-            // }
-
-             
-            if ($mrf->recruiter_id == null)
-            {
-                Alert::error('Kindly ensure that a recruiter is assigned before approve the MRF.')->persistent('Dismiss');
-                return back();
-            }
-
             $mrf->mrf_status = 'Approved';
             $mrf->progress = 'Open';
+            $mrf->recruiter_id = $request->recruiter;
+            $mrf->approver_remarks = $request->remarks;
             $mrf->save();
 
-            $message = "Successfully Saved";
+            $message = "Successfully Approved";
         }
-        // elseif($request->action == "Returned")
-        // {
-        //     $message = "Successfully Returned";
-        // }
-        elseif($request->action == "Rejected")
+        else
         {
-            // foreach($next_approver as $key=>$nextApprover)
-            // {
-            //     $nextApprover->status = "Rejected";
-            //     $nextApprover->save();
-            // }
-
-            // $mrf->mrf_status = 'Rejected';
-            // $mrf->progress = 'Rejected';
-            // $mrf->save();
-
-            $mrf->mrf_status = 'Rejected';
-            $mrf->progress = 'Rejected';
+            $mrf->mrf_status = $request->action;
+            $mrf->progress =  $request->action;
+            $mrf->approver_remarks = $request->remarks;
             $mrf->save();
 
-            $message = "Successfully Rejected";
+            $message = "Successfully ".$request->action;
         }
 
-        $dept_head = $mrf->department->head;
-        $dept_head->notify(new MrfNotification($mrf, $request->action, $dept_head));
+        // $dept_head = $mrf->department->head;
+        // $dept_head->notify(new MrfNotification($mrf, $request->action, $dept_head));
 
         Alert::success($message)->persistent('Dismiss');
         return back();

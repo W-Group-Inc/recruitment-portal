@@ -1,4 +1,4 @@
-<div class="modal" id="editProgress{{$m->id}}">
+{{-- <div class="modal" id="editProgress{{$m->id}}">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
@@ -28,4 +28,4 @@
             </form>
         </div>
     </div>
-</div>
+</div> --}}

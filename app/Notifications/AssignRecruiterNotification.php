@@ -45,11 +45,11 @@ class AssignRecruiterNotification extends Notification
     {
         return (new MailMessage)
                     ->subject('Assigned MRF')
-                    ->greeting('Good day, '.$this->user->prefix.' '.$this->user->name)
-                    ->line('This email is to inform you that an MRF has been assigned to you.')
-                    ->line('MRF No. : ' .str_pad($this->mrf->mrf_no, 4, '0', STR_PAD_LEFT))
-                    ->line('Job Position : ' .$this->mrf->jobPosition->position)
-                    ->action('Notification Action', url('/'));
+                    ->greeting('Good day, '.$this->user->prefix.' '.$this->user->name.'!')
+                    ->line('A new position has been assigned to you.')
+                    ->line('MRF No.: ' .str_pad($this->mrf->mrf_no, 4, '0', STR_PAD_LEFT))
+                    ->line('Job Position: ' .$this->mrf->jobPosition->position);
+                    // ->action('Notification Action', url('/'));
                     // ->line('Thank you for using our application!');
     }
 
