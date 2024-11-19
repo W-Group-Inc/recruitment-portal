@@ -19,6 +19,7 @@ Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');
 
 Route::get('jobs', 'JobController@index');
 Route::get('view-jobs/{id}', 'JobController@show');
+Route::post('add-applicant', 'ApplicantController@store');
 
 Auth::routes();
 Route::group(['middleware' => 'auth'], function () {
@@ -64,7 +65,6 @@ Route::group(['middleware' => 'auth'], function () {
     
     # Applicant
     Route::get('applicant', 'ApplicantController@index');
-    Route::post('add-applicant', 'ApplicantController@store');
     Route::post('update-applicant/{id}', 'ApplicantController@update');
     Route::get('view-applicant/{id}', 'ApplicantController@show');
     Route::post('schedule-interview', 'ApplicantController@schedule');
