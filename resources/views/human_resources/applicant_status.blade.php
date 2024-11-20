@@ -44,11 +44,11 @@
                         <select name="assign_position" class="form-control cat">
                             <option value="">Select position</option>
                             @foreach ($mrf as $m)
-                                @php
+                                {{-- @php
                                     $job_position = $m->jobPosition;
-                                @endphp
+                                @endphp --}}
 
-                                <option value="{{$job_position->id}}" @if($job_position->id == $applicant->mrf->jobPosition->id) selected @endif>{{$job_position->position}}</option>
+                                <option value="{{$m->id}}" @if($m->id == $applicant->mrf->id) selected @endif>{{$m->jobPosition->position}}</option>
                             @endforeach
                         </select>
                     </div>
