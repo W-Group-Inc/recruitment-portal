@@ -48,9 +48,9 @@
                     @endif
                 @endforeach
 
-                {{-- @if($applicant->applicant_status == 'Passed') --}}
+                @if(auth()->user()->role == 'Human Resources Manager')
                 <button type="button" class="btn btn-sm btn-primary mb-2" data-bs-toggle="modal" data-bs-target="#jobOffer{{$applicant->id}}">Job Offer</button>
-                {{-- @endif --}}
+                @endif
 
                 <hr>
                 <div class="text-start mt-3">
