@@ -28,6 +28,15 @@
                             <input type="email" name="email" class="form-control form-control-sm" required>
                         </div>
                         <div class="col-lg-12 mb-2">
+                            Prefix
+                            <select name="prefix" class="form-control cat" required>
+                                <option value="">Select prefix</option>
+                                <option value="Mr.">Mr.</option>
+                                <option value="Ms.">Ms.</option>
+                                <option value="Mrs.">Mrs.</option>
+                            </select>
+                        </div>
+                        <div class="col-lg-12 mb-2">
                             Resume (Choose file to Upload):
                             <input type="file" name="resume" class="form-control form-control-sm" accept=".pdf" required>
                         </div>
@@ -48,7 +57,7 @@
                             <input type="tel" name="mobile_number" class="form-control form-control-sm" data-mask="00000000000" placeholder="Ex: 09" required>
                         </div>
                         <div class="col-lg-12 mb-2" id="sourceColumn">
-                            Source of Application:
+                            Source:
                             <select name="source" class="form-control cat" id="source">
                                 <option value="">- Source -</option>
                                 <option value="Walk In">Walk In</option>

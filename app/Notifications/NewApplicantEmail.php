@@ -7,7 +7,7 @@ use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 
-class ApplicantCredentialsNotification extends Notification
+class NewApplicantEmail extends Notification
 {
     use Queueable;
 
@@ -16,16 +16,14 @@ class ApplicantCredentialsNotification extends Notification
      *
      * @return void
      */
+    protected $recruiter;
     protected $user;
-    protected $applicant;
-    protected $password;
-    protected $name;
-    public function __construct($user, $applicant, $password, $name)
+    protected $mrf;
+    public function __construct($recruiter, $user, $mrf)
     {
+        $this->recruiter = $recruiter;
         $this->user = $user;
-        $this->applicant = $applicant;
-        $this->password = $password;
-        $this->name = $name;
+        $this->mrf = $mrf;
     }
 
     /**
@@ -34,6 +32,7 @@ class ApplicantCredentialsNotification extends Notification
      * @param  mixed  $notifiable
      * @return array
      */
+
     public function via($notifiable)
     {
         return ['mail'];
@@ -48,13 +47,11 @@ class ApplicantCredentialsNotification extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-                    ->subject('Wee Recruit Login Credentials')
-                    ->greeting('Hello '.$this->user->prefix.' '.$this->user->name)
-                    ->line('An account has been created for you. Log in to your account with the credentials listed below.')
-                    ->line('Email : ' . $this->applicant->email)
-                    ->line('Password : '.$this->password)
-                    ->action('Go to Website', url('/'));
-                    // ->line('Thank you for using our application!');
+                    ->subject('New Applicant')
+                    ->greeting('Good day '. $this->user->prefix.' '.$this->recruiter->name)
+                    ->line('You have a new applicant,' .$this->user->prefix.' '.$this->user->name .' has applied for the position of '.$this->mrf->jobPosition->position)
+                    ->action('View Applicant', url('/applicant'))
+                    ->line('Thank you for using our application!');
     }
 
     /**

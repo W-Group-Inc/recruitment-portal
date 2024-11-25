@@ -17,6 +17,7 @@ use App\Notifications\ApplicantStatusFailedNotification;
 use App\Notifications\ApplicantStatusNotification;
 use App\Notifications\FailedApplicantNotification;
 use App\Notifications\InterviewerNotification;
+use App\Notifications\NewApplicantEmail;
 use App\Notifications\NotifyDepartmentHead;
 use App\Notifications\PendingInterview;
 use App\Schedule;
@@ -89,8 +90,9 @@ class ApplicantController extends Controller
      */
     public function store(Request $request)
     {
+        // dd($request->all());
         $applicant = Applicant::where('email', $request->email)->first();
-        // dd($applicant);
+        
         if (empty($applicant))
         {
             $applicant = new Applicant;
@@ -133,9 +135,14 @@ class ApplicantController extends Controller
             $user->department_id = $applicant->mrf->department_id;
             $user->company_id = $applicant->mrf->company_id;
             $user->applicant_id = $applicant->id;
+            $user->prefix = $request->prefix;
             $user->save();
 
-            Alert::success('Thank you for your submission', 'Please await further updates from our talent acquisition team and check your email for your portal credentials')->persistent('Dismiss');
+            $mrf = ManPowerRequisitionForm::findOrFail($request->mrf_id);
+            $recruiter = User::where('id', $mrf->recruiter_id)->first();
+            $recruiter->notify(new NewApplicantEmail($recruiter, $user, $mrf));
+
+            Alert::success('Your application has been received!', 'Kindly check your email to login on Wee Recruit portal. Your Application will be processed accordingly and you will be notified regarding your application.')->persistent('Dismiss');
     
             $applicant->notify(new ApplicantCredentialsNotification($user, $applicant, $password, $name));
         }
@@ -178,6 +185,10 @@ class ApplicantController extends Controller
                 $user_data = User::findOrFail($applicant->user->id);
                 $user_data->applicant_id = $new_applicant->id;
                 $user_data->save();
+
+                $mrf = ManPowerRequisitionForm::findOrFail($request->mrf_id);
+                $recruiter = User::where('id', $mrf->recruiter_id)->first();
+                $recruiter->notify(new NewApplicantEmail($recruiter, $user_data, $mrf));
             }
             
             Alert::success('Thank you for your submission', 'Please await further updates from our talent acquisition team')->persistent('Dismiss');
@@ -226,7 +237,6 @@ class ApplicantController extends Controller
      */
     public function update(Request $request, $id)
     {
-        // dd($request->all());
         $applicant = Applicant::findOrFail($id);
         $applicant->source = $request->source;
         if ($request->has('employee'))

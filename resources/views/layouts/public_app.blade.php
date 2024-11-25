@@ -87,7 +87,7 @@
                 <div class="container-fluid">
                     <div class="row">
                         <div class="col-md-6">
-                            {{date('Y')}} © Wee-Recruitment
+                            {{date('Y')}} © Wee Recruitment
                         </div>
                     </div>
                 </div>

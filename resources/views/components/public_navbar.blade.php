@@ -1,5 +1,5 @@
 <!-- LOGO -->
-<a href="javascript:void(0);" class="topnav-logo">
+<a href="javascript:void(0);" class="d-flex justify-content-start">
     <span class="topnav-logo-lg">
         <img src="{{asset('img/wgroup.png')}}" alt="" height="80">
     </span>

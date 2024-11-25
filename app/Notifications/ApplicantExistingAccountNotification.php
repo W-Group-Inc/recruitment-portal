@@ -41,7 +41,7 @@ class ApplicantExistingAccountNotification extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-                    ->subject('Wee-Recruit Credentials')
+                    ->subject('Wee Recruit Login Credentials')
                     ->greeting('Good day, applicant')
                     ->line('We notice that you have an existing account in our records. Please login your account if you want to know your status')
                     ->line('If you forgot your password click "Forgot Password" button')

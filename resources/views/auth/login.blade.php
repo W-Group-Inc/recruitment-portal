@@ -103,7 +103,7 @@
                         </div>
                         @endif
                         <div class="mb-4">
-                            <h3>Welcome to Wee-Recruit!</h3>
+                            <h3>Welcome to Wee Recruit!</h3>
                             <p class="mb-4">Grow your career with us!</p>
                         </div>
                         <form action="{{url('login')}}" method="post" onsubmit="show()">
