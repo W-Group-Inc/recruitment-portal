@@ -6,7 +6,7 @@
 @endsection
 
 @section('public_content')
-    <div class="col-lg-8 mx-auto">
+    <div class="col-lg-8 mx-auto mt-3">
         <div class="row">
             <div class="col-lg-6">
                 <a class="btn btn-sm btn-danger mb-2" href="{{url('jobs')}}">
