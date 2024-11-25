@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\ManPowerRequisitionForm;
 use App\MrfApprover;
+use App\Notifications\AssignRecruiterNotification;
 use App\Notifications\MrfNotification;
 use App\Notifications\PendingMrfNotification;
 use App\User;
@@ -98,6 +99,9 @@ class ForApprovalController extends Controller
             $mrf->save();
 
             $message = "Successfully Approved";
+
+            $user = User::where('id', $request->recruiter)->first();
+            $user->notify(new AssignRecruiterNotification($mrf, $user));
         }
         else
         {
