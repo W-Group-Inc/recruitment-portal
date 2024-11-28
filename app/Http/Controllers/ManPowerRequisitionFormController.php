@@ -130,20 +130,50 @@ class ManPowerRequisitionFormController extends Controller
         $mrf->other_remarks = $request->other_remarks;
         // $mrf->recruiter_id = $request->recruiter;
         $mrf->mrf_status = "Pending";
-        $mrf->save();
         
-        $mrf_attachment = $request->file('mrf_attachment');
-        foreach($mrf_attachment as $mrf_file)
-        {
-            $name = time().'-'.$mrf_file->getClientOriginalName();
-            $mrf_file->move(public_path('mrf_attachments'), $name);
-            $file_name = '/mrf_attachments/'.$name;
+        // $mrf_attachment = $request->file('mrf_attachment');
+        // foreach($mrf_attachment as $mrf_file)
+        // {
+        //     $name = time().'-'.$mrf_file->getClientOriginalName();
+        //     $mrf_file->move(public_path('mrf_attachments'), $name);
+        //     $file_name = '/mrf_attachments/'.$name;
 
-            $mrf_attachment = new MrfAttachment;
-            $mrf_attachment->mrf_id = $mrf->id;
-            $mrf_attachment->file_path = $file_name;
-            $mrf_attachment->save();
+        //     $mrf_attachment = new MrfAttachment;
+        //     $mrf_attachment->mrf_id = $mrf->id;
+        //     $mrf_attachment->file_path = $file_name;
+        //     $mrf_attachment->save();
+        // }
+        if ($request->has('plantilla_attachment'))
+        {
+            $file = $request->file('plantilla_attachment');
+            $name = time().'-'.$file->getClientOriginalName();
+            $file->move(public_path('plantilla_attachment'), $name);
+            $file_name = '/plantilla_attachment/'.$name;
+
+            $mrf->plantilla_attachment = $file_name;
         }
+
+        if ($request->has('job_description_attachment'))
+        {
+            $file = $request->file('job_description_attachment');
+            $name = time().'-'.$file->getClientOriginalName();
+            $file->move(public_path('job_description_attachment'), $name);
+            $file_name = '/job_description_attachment/'.$name;
+
+            $mrf->job_description_attachment = $file_name;
+        }
+
+        if ($request->has('resignation_letter_attachment'))
+        {
+            $file = $request->file('resignation_letter_attachment');
+            $name = time().'-'.$file->getClientOriginalName();
+            $file->move(public_path('resignation_letter_attachment'), $name);
+            $file_name = '/resignation_letter_attachment/'.$name;
+
+            $mrf->resignation_letter_attachment = $file_name;
+        }
+        
+        $mrf->save();
 
         $user = User::where('role', 'Human Resources Manager')->first();
         $user->notify(new NotifyHrManager($user, $mrf, ""));
@@ -235,16 +265,46 @@ class ManPowerRequisitionFormController extends Controller
         $mrf->other_remarks = $request->other_remarks;
         $mrf->mrf_status = "Pending";
         
-        if($request->has('mrf_attachment'))
-        {
-            $attachment = $request->file('mrf_attachment');
-            $name = time().'-'.$attachment->getClientOriginalName();
-            $attachment->move(public_path('mrf_attachments'), $name);
-            $file_name = '/mrf_attachments/'.$name;
+        // if($request->has('mrf_attachment'))
+        // {
+        //     $attachment = $request->file('mrf_attachment');
+        //     $name = time().'-'.$attachment->getClientOriginalName();
+        //     $attachment->move(public_path('mrf_attachments'), $name);
+        //     $file_name = '/mrf_attachments/'.$name;
 
-            $mrf->mrf_attachment = $file_name;
+        //     $mrf->mrf_attachment = $file_name;
+        // }
+
+        if ($request->has('plantilla_attachment'))
+        {
+            $file = $request->file('plantilla_attachment');
+            $name = time().'-'.$file->getClientOriginalName();
+            $file->move(public_path('plantilla_attachment'), $name);
+            $file_name = '/plantilla_attachment/'.$name;
+
+            $mrf->plantilla_attachment = $file_name;
         }
 
+        if ($request->has('job_description_attachment'))
+        {
+            $file = $request->file('job_description_attachment');
+            $name = time().'-'.$file->getClientOriginalName();
+            $file->move(public_path('job_description_attachment'), $name);
+            $file_name = '/job_description_attachment/'.$name;
+
+            $mrf->job_description_attachment = $file_name;
+        }
+
+        if ($request->has('resignation_letter_attachment'))
+        {
+            $file = $request->file('resignation_letter_attachment');
+            $name = time().'-'.$file->getClientOriginalName();
+            $file->move(public_path('resignation_letter_attachment'), $name);
+            $file_name = '/resignation_letter_attachment/'.$name;
+
+            $mrf->resignation_letter_attachment = $file_name;
+        }
+        
         $mrf->save();
 
         Alert::success('Successfully Updated')->persistent('Dismiss');

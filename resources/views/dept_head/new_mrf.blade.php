@@ -2,7 +2,7 @@
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="myLargeModalLabel">Add new MRF</h5>
+                <h5 class="modal-title" id="myLargeModalLabel">Add New MRF</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <form method="POST" action="{{url('new-mrf')}}" onsubmit="show()" enctype="multipart/form-data">
@@ -15,7 +15,7 @@
                             <hr>
                         </div> --}}
                         <div class="col-md-6 mb-1">
-                            Position Title :
+                            Position Title
                             {{-- <input type="text" name="position_title" class="form-control form-control-sm" required> --}}
                             @if(auth()->user()->role == 'Human Resources Manager')
                             <select name="job_position" class="form-control cat" required>
@@ -34,7 +34,7 @@
                             @endif
                         </div>
                         <div class="col-md-6 mb-1">
-                            Department :
+                            Department
                             @if(auth()->user()->role == 'Human Resources Manager')
                             <select class="form-control cat" name="department" required>
                                 <option value="">Select department</option>
@@ -52,7 +52,7 @@
                             @endif
                         </div>
                         <div class="col-md-6 mb-1">
-                            Company :
+                            Company
                             <select class="form-control cat" name="company" required>
                                 <option value="">Select Company</option>
                                 @foreach ($companies as $c)
@@ -65,7 +65,7 @@
                             <input type="date" name="target_date" class="form-control form-control-sm" min="{{date('Y-m-d', strtotime("+1 month"))}}" required>
                         </div> --}}
                         <div class="col-md-6 mb-1">
-                            Position Status :
+                            Position Status
                             {{-- <input type="text" name="name" class="form-control form-control-sm" required> --}}
                             <select class="form-control position_status cat" name="position_status">
                                 <option value="">-Position Status-</option>
@@ -75,7 +75,7 @@
                             </select>
                         </div>
                         <div class="col-md-12 mb-1 replacementOf" style="display: none;">
-                            Replacement of :
+                            Replacement of
                             <select class="form-control cat" name="replacement">
                                 <option value="">-Employee-</option>
                                 @foreach ($resign_employee as $resign_emp)
@@ -84,11 +84,11 @@
                             </select>
                         </div>
                         <div class="col-md-12 mb-1">
-                            Justification :
+                            Justification
                             <textarea name="justification" class="form-control form-control-sm" cols="30" rows="10" required></textarea>
                         </div>
                         <div class="col-md-12 mb-1">
-                            Attach the following :
+                            Attach the following
 
                             <div class="row">
                                 <div class="col-md-4 mb-1">
@@ -111,32 +111,41 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-12 mb-1">
-                            Upload Attachment :
-                            <input type="file" name="mrf_attachment[]" class="form-control form-control-sm" accept=".pdf" multiple required>
+                        <div class="col-md-4 plantilla">
+
                         </div>
+                        <div class="col-md-4 job_description">
+
+                        </div>
+                        <div class="col-md-4 resignation_letter">
+
+                        </div>
+                        {{-- <div class="col-md-12 mb-1">
+                            Upload Attachment
+                            <input type="file" name="mrf_attachment[]" class="form-control form-control-sm" accept=".pdf" multiple required>
+                        </div> --}}
                     </div>
                     <hr>
                     <div class="row mb-3">
                         <h3>Qualification</h3>
                         <div class="col-md-6 mb-1">
-                            Educational Attainment (Degree) :
+                            Educational Attainment (Degree)
                             <input type="text" name="educational_attainment" class="form-control form-control-sm" required>
                         </div>
                         <div class="col-md-6 mb-1">
-                            Work Experience (Years) :
+                            Work Experience (Years)
                             <input type="text" name="work_experience" class="form-control form-control-sm" required>
                         </div>
                         <div class="col-md-6 mb-1">
-                            Specific Field :
+                            Specific Field
                             <input type="text" name="specific_field" class="form-control form-control-sm" required>
                         </div>
                         <div class="col-md-6 mb-1">
-                            Special Skills :
+                            Special Skills
                             <input type="text" name="special_skills" class="form-control form-control-sm" required>
                         </div>
                         <div class="col-md-6 mb-1">
-                            Others :
+                            Others
                             <input type="text" name="others" class="form-control form-control-sm" >
                         </div>
                     </div>
@@ -144,7 +153,7 @@
                     <div class="row mb-3">
                         <h3>Employment Details</h3>
                         <div class="col-md-6 mb-1">
-                            Employment Status :
+                            Employment Status
                             <select class="form-control cat" name="employment_status" required>
                                 <option value="">-Employment Status-</option>
                                 @foreach ($employment_status as $key=>$es)
@@ -153,7 +162,7 @@
                             </select>
                         </div>
                         <div class="col-md-6 mb-1">
-                            Job Level :
+                            Job Level 
                             <select class="form-control cat" name="job_level" required>
                                 <option value="">-Job Level-</option>
                                 @foreach ($job_level as $key=>$jl)
@@ -166,7 +175,7 @@
                             <input type="text" name="salary_rate" class="form-control form-control-sm" required>
                         </div>
                         <div class="col-md-6 mb-1">
-                            Other Remarks :
+                            Other Remarks
                             <textarea name="other_remarks" class="form-control form-control-sm" cols="30" rows="10" ></textarea>
                         </div>
                         {{-- <hr>

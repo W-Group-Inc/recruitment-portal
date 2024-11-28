@@ -40,16 +40,30 @@
                                     {{$m->resign_employee}}
                                 </div>
                                 @endif
+                                @if($m->is_plantilla == 1)
                                 <div class="col-md-12 mb-1">
-                                    <strong>Attachment:</strong> <br>
-                                    @foreach ($m->mrfAttachment as $key=>$attachment)
-                                        <small>{{$key+1}} .</small>
-                                        <a href="{{url($attachment->file_path)}}" target="_blank">
-                                            <i class="uil-file"></i>
-                                        </a>
-                                        <br>
-                                    @endforeach
+                                    <strong>Plantilla Attachment</strong>
+                                    <a href="{{url($m->plantilla_attachment)}}" target="_blank">
+                                        <i class="uil-file"></i>
+                                    </a>
                                 </div>
+                                @endif
+                                @if($m->is_job_description == 1)
+                                <div class="col-md-12 mb-1">
+                                    <strong>Job Description Attachment</strong>
+                                    <a href="{{url($m->job_description_attachment)}}" target="_blank">
+                                        <i class="uil-file"></i>
+                                    </a>
+                                </div>
+                                @endif
+                                @if($m->is_resignation_letter == 1)
+                                <div class="col-md-12 mb-1">
+                                    <strong>Resignation Letter Attachment</strong>
+                                    <a href="{{url($m->resignation_letter_attachment)}}" target="_blank">
+                                        <i class="uil-file"></i>
+                                    </a>
+                                </div>
+                                @endif
                             </div>
                         </div>
                         <div class="row mb-2">

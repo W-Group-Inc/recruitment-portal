@@ -33,9 +33,9 @@
                                 <th>Company</th>
                                 <th>Department</th>
                                 {{-- <th>Approver Status</th> --}}
-                                @if(auth()->user()->role == 'Department Head')
+                                {{-- @if(auth()->user()->role == 'Department Head')
                                 <th>Files</th>
-                                @endif
+                                @endif --}}
                                 <th>Status</th>
                                 @if(auth()->user()->role == 'Human Resources' || auth()->user()->role == 'Human Resources Manager' || auth()->user()->role == "Head Business Unit")
                                 <th>Progress</th>
@@ -95,7 +95,7 @@
                                                 <br>
                                         @endforeach
                                     </td> --}}
-                                    <td>
+                                    {{-- <td>
                                         @foreach($m->mrfAttachment as $key=>$attachment)
                                             <small>{{$key+1}} .</small>
                                             <a href="{{url($attachment->file_path)}}" target="_blank">
@@ -103,7 +103,7 @@
                                             </a>
                                             <br>
                                         @endforeach
-                                    </td>
+                                    </td> --}}
                                     <td>
                                         @if($m->mrf_status == "Approved")
                                         <span class="badge bg-success">
@@ -281,13 +281,14 @@
 
         $('.delete-btn').on('click', function() {
             Swal.fire({
-                title: "Are you sure?",
+                title: "Are you sure you want to cancel?",
                 // text: "This department is active",
                 icon: "warning",
                 showCancelButton: true,
                 confirmButtonColor: "#3085d6",
                 cancelButtonColor: "#d33",
-                confirmButtonText: "Yes, canceled it!"
+                confirmButtonText: "Yes!",
+                cancelButtonText: "Back",
             }).then((result) => {
                 if (result.isConfirmed) {
                     $(this).closest('form').submit();
@@ -309,6 +310,51 @@
                     $(this).closest('form').submit();
                 }
             });
+        })
+
+        $("[name='is_plantilla']").on('click', function() {
+            
+            if ($(this).is(':checked')) {
+                var row = `
+                    <input type="file" name="plantilla_attachment" class="form-control form-control-sm" accept=".pdf" required>
+                `
+
+                $(".plantilla").append(row)
+            }
+            else
+            {
+                $('.plantilla').children().remove()
+            }
+        })
+
+        $("[name='is_job_description']").on('click', function() {
+            
+            if ($(this).is(':checked')) {
+                var row = `
+                    <input type="file" name="job_description_attachment" class="form-control form-control-sm" accept=".pdf" required>
+                `
+
+                $(".job_description").append(row)
+            }
+            else
+            {
+                $('.job_description').children().remove()
+            }
+        })
+
+        $("[name='is_resignation_letter']").on('click', function() {
+            
+            if ($(this).is(':checked')) {
+                var row = `
+                    <input type="file" name="resignation_letter_attachment" class="form-control form-control-sm" accept=".pdf" required>
+                `
+
+                $(".resignation_letter").append(row)
+            }
+            else
+            {
+                $('.resignation_letter').children().remove()
+            }
         })
     })
 </script>
