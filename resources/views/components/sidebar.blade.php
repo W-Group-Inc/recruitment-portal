@@ -119,7 +119,7 @@
                     <ul class="side-nav-second-level">
                         <li>
                             <a href="{{url('for-approval')}}" onclick="show()">
-                                <span>MRF For Approval</span>
+                                <span>For Approval</span>
                                 
                                 @if(auth()->user()->role == 'Human Resources Manager')
                                     @php
@@ -135,7 +135,27 @@
                         </li>
                         <li>
                             <a href="{{url('approved-mrf')}}" onclick="show()">
-                                <span>Approved MRF</span>
+                                <span>Approved</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{url('cancelled-mrf')}}" onclick="show()">
+                                <span>Cancelled</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{url('rejected-mrf')}}" onclick="show()">
+                                <span>Rejected</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{url('onhold-mrf')}}" onclick="show()">
+                                <span>On Hold</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{url('served-mrf')}}" onclick="show()">
+                                <span>Served</span>
                             </a>
                         </li>
                     </ul>

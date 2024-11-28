@@ -17,7 +17,7 @@ class AddColumnOfMrf extends Migration
             $table->text('plantilla_attachment')->nullable();
             $table->text('job_description_attachment')->nullable();
             $table->text('resignation_letter_attachment')->nullable();
-            $table->dropColumn('mrf_file');
+            // $table->text('mrf_file')->nullable();
         });
         
     }
@@ -29,5 +29,11 @@ class AddColumnOfMrf extends Migration
      */
     public function down()
     {
+        // Schema::table('man_power_requisition_forms', function(Blueprint $table) {
+        //     $table->dropColumn('plantilla_attachment');
+        //     $table->dropColumn('job_description_attachment');
+        //     $table->dropColumn('resignation_letter_attachment');
+        //     // $table->dropColumn('mrf_file');
+        // });
     }
 }

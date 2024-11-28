@@ -456,4 +456,32 @@ class ManPowerRequisitionFormController extends Controller
         Alert::success('Successfully Saved')->persistent('Dismiss');
         return back();
     }
+
+    public function cancelledMrf()
+    {
+        $cancelled_mrf = ManPowerRequisitionForm::where('progress', 'Cancelled')->get();
+        
+        return view('human_resources.cancelled_mrf', compact('cancelled_mrf'));
+    }
+
+    public function rejectedMrf()
+    {
+        $rejected_mrf = ManPowerRequisitionForm::where('progress', 'Rejected')->get();
+        
+        return view('human_resources.rejected', compact('rejected_mrf'));
+    }
+
+    public function onholdMrf()
+    {
+        $onhold_mrf = ManPowerRequisitionForm::where('progress', 'Hold')->get();
+        
+        return view('human_resources.onhold', compact('onhold_mrf'));
+    }
+
+    public function servedMrf()
+    {
+        $served_mrf = ManPowerRequisitionForm::where('progress', 'Served')->get();
+        
+        return view('human_resources.served', compact('served_mrf'));
+    }
 }

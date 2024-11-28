@@ -5,6 +5,20 @@
 @endsection
 
 @section('content')
+<div class="row">
+    <div class="col-md-6 col-xxl-3">
+        <div class="card">
+            <div class="card-body">
+                <div class="row align-items-center">
+                    <div class="col-6">
+                        <h5 class="text-muted fw-normal mt-0 text-truncate">For Approval MRF</h5>
+                        <h3 class="my-2 py-1">{{count($mrf_list)}}</h3>
+                    </div>
+                </div>
+            </div> 
+        </div>
+    </div>
+</div>
 
 <div class="row">
     <h5 class="header-title">Manpower Requisition Form</h5>

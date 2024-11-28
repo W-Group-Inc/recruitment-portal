@@ -57,6 +57,10 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('print-mrf/{id}', 'ManPowerRequisitionFormController@print');
     Route::post('update-progress/{id}', 'ManPowerRequisitionFormController@progress');
     Route::post('assign-recruiter/{id}', 'ManPowerRequisitionFormController@assign');
+    Route::get('cancelled-mrf', 'ManPowerRequisitionFormController@cancelledMrf');
+    Route::get('rejected-mrf', 'ManPowerRequisitionFormController@rejectedMrf');
+    Route::get('onhold-mrf', 'ManPowerRequisitionFormController@onholdMrf');
+    Route::get('served-mrf', 'ManPowerRequisitionFormController@servedMrf');
     
     # Human Resources
     Route::get('for-approval', 'ForApprovalController@index');

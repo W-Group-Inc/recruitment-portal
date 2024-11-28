@@ -5,6 +5,21 @@
 @endsection
 
 @section('content')
+<div class="row">
+    <div class="col-md-6 col-xxl-3">
+        <div class="card">
+            <div class="card-body">
+                <div class="row align-items-center">
+                    <div class="col-6">
+                        <h5 class="text-muted fw-normal mt-0 text-truncate">Approved MRF</h5>
+                        <h3 class="my-2 py-1">{{count($approved_mrf)}}</h3>
+                    </div>
+                </div>
+            </div> 
+        </div>
+    </div>
+</div>
+
 <div class="col-lg-12">
     <div class="row">
         <h5 class="header-title">Approved MRF</h5>
@@ -24,8 +39,8 @@
                                     <th>Company</th>
                                     <th>Department</th>
                                     <th>Assign Recruiter</th>
-                                    <th>Status</th>
-                                    <th>Progress</th>
+                                    {{-- <th>Status</th>
+                                    <th>Progress</th> --}}
                                 </tr>
                             </thead>
                             <tbody>
@@ -42,9 +57,9 @@
                                                 </a>
                                             @endif
 
-                                            <button type="button" class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#recruiter{{$mrf->id}}">
+                                            {{-- <button type="button" class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#recruiter{{$mrf->id}}">
                                                 <i class="dripicons-document-edit"></i>
-                                            </button>
+                                            </button> --}}
                                         </td>
                                         <td>{{date('M d, Y', strtotime($mrf->created_at))}}</td>
                                         <td>
@@ -57,7 +72,7 @@
                                         <td>{{$mrf->company->name}}</td>
                                         <td>{{$mrf->department->name}}</td>
                                         <td>{{$mrf->recruiter->name}}</td>
-                                        <td>
+                                        {{-- <td>
                                             @if($mrf->mrf_status == "Approved")
                                             <span class="badge bg-success">
                                             @elseif($mrf->mrf_status == "Pending")
@@ -88,11 +103,11 @@
 
                                             {{$mrf->progress}}
                                             </span>
-                                        </td>
+                                        </td> --}}
                                     </tr>
 
                                     @include('human_resources.upload_approved_mrf')
-                                    @include('human_resources.assigned')
+                                    {{-- @include('human_resources.assigned') --}}
                                 @endforeach
                             </tbody>
                         </table>
