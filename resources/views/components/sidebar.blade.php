@@ -161,6 +161,13 @@
                     </ul>
                 </div>
             </li>
+
+            <li class="side-nav-item">
+                <a href="{{url('assigned-mrf')}}" class="side-nav-link" onclick="show()">
+                    <i class=" uil-user"></i>
+                    <span> Assigned To Me </span>
+                </a>
+            </li>
             @endif
 
             <li class="side-nav-item">

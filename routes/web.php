@@ -62,6 +62,9 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('onhold-mrf', 'ManPowerRequisitionFormController@onholdMrf');
     Route::get('served-mrf', 'ManPowerRequisitionFormController@servedMrf');
     
+    # Assigned To Me
+    Route::get('assigned-mrf', 'ManPowerRequisitionFormController@assignMrf');
+    
     # Human Resources
     Route::get('for-approval', 'ForApprovalController@index');
     Route::post('mrf-action/{id}', 'ForApprovalController@update');

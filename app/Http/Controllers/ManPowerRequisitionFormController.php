@@ -484,4 +484,11 @@ class ManPowerRequisitionFormController extends Controller
         
         return view('human_resources.served', compact('served_mrf'));
     }
+
+    public function assignMrf()
+    {
+        $assign_mrf = ManPowerRequisitionForm::where('recruiter_id', auth()->user()->id)->get();
+
+        return view('human_resources.assign_mrf', compact('assign_mrf'));
+    }
 }

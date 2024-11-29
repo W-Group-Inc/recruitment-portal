@@ -7,7 +7,7 @@
             @include('components.error')
             @if(auth()->user()->role == 'Applicant' && auth()->user()->is_login == null)
             <div class="alert alert-info mb-2">
-                Before you proceed, please change your password
+                Before you proceed, please change your password.
             </div>
             @endif
             <div class="card-header" style="vertical-align: middle;">

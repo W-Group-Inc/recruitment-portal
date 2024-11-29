@@ -28,12 +28,12 @@
                             <input type="email" name="email" class="form-control form-control-sm" required>
                         </div>
                         <div class="col-lg-12 mb-2">
-                            Prefix
+                            Gender
                             <select name="prefix" class="form-control cat" required>
-                                <option value="">Select prefix</option>
-                                <option value="Mr.">Mr.</option>
-                                <option value="Ms.">Ms.</option>
-                                <option value="Mrs.">Mrs.</option>
+                                <option value="">Select gender</option>
+                                <option value="Mr.">Male</option>
+                                <option value="Ms.">Female</option>
+                                <option value="Mx.">Prefer not to say</option>
                             </select>
                         </div>
                         <div class="col-lg-12 mb-2">
