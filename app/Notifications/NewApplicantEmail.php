@@ -48,10 +48,9 @@ class NewApplicantEmail extends Notification
     {
         return (new MailMessage)
                     ->subject('New Applicant')
-                    ->greeting('Good day '. $this->user->prefix.' '.$this->recruiter->name)
-                    ->line('You have a new applicant,' .$this->user->prefix.' '.$this->user->name .' has applied for the position of '.$this->mrf->jobPosition->position)
-                    ->action('View Applicant', url('/applicant'))
-                    ->line('Thank you for using our application!');
+                    ->greeting('Good day '. $this->user->prefix.' '.$this->recruiter->name.',')
+                    ->line('You have a new applicant for the '.$this->mrf->jobPosition->position.' position.')
+                    ->action('View Applicant', url('/applicant'));
     }
 
     /**

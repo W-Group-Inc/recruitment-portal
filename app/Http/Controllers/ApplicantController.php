@@ -206,15 +206,15 @@ class ApplicantController extends Controller
      */
     public function show($id)
     {
-        $applicant = Applicant::with('schedule', 'mrf', 'historyApplicant', 'interviewers', 'applicantDocument')->findOrFail($id);
+        $applicant = Applicant::with('schedule', 'mrf', 'historyApplicant', 'interviewers', 'applicantDocument', 'examResult')->findOrFail($id);
         $documents = Document::where('document_status', 'Active')->get();
         $interviewer = Interviewer::where('status', 'Pending')->where('applicant_id', $applicant->id)->where('user_id', auth()->user()->id)->first();
         $check_if_passed = Interviewer::where('applicant_id', $applicant->id)->where('user_id', auth()->user()->id)->first();
-        $exam_result = ApplicantExamResult::where('applicant_id', $applicant->id)->get();
+        // $exam_result = ApplicantExamResult::where('applicant_id', $applicant->id)->get();
         $get_schedule = file_get_contents(env('WPRO_SCHEDULE'));
         $schedules = json_decode($get_schedule);
 
-        return view('human_resources.view_applicant', compact('applicant', 'documents', 'interviewer', 'check_if_passed', 'exam_result', 'schedules'));
+        return view('human_resources.view_applicant', compact('applicant', 'documents', 'interviewer', 'check_if_passed', 'schedules'));
     }
 
     /**

@@ -35,3 +35,15 @@ function checkIfApplicantPass($id)
         return false;
     }
 }
+
+function accountingDepartment($department)
+{
+    $accounting_array = [11, 15, 38, 46, 47, 55, 61, 71];
+
+    if (in_array($department, $accounting_array))
+    {
+        return true;
+    }
+
+    return false;
+}

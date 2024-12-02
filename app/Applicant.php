@@ -45,4 +45,8 @@ class Applicant extends Model
     {
         return $this->hasOne(User::class);
     }
+    public function examResult()
+    {
+        return $this->hasOne(ApplicantExamResult::class);
+    }
 }

@@ -36,15 +36,23 @@ class ApplicantExamResultController extends Controller
      */
     public function store(Request $request)
     {
-        $applicant_exam_result = new ApplicantExamResult;
-        $applicant_exam_result->mrf_id = $request->mrf_id;
-        $applicant_exam_result->applicant_id = $request->applicant_id;
-        $applicant_exam_result->critical_thinking = $request->critical_thinking;
-        $applicant_exam_result->disc_personality = $request->disc_personality;
-        $applicant_exam_result->supervisory_skills = $request->supervisory_skills;
-        $applicant_exam_result->managerial_skills = $request->managerial_skills;
-        $applicant_exam_result->accounting_skills = $request->accounting_skills;
-        $applicant_exam_result->save();
+        $applicant_exam_result = ApplicantExamResult::where('applicant_id', $request->applicant_id)->first();
+        if (empty($applicant_exam_result))
+        {
+            $applicant_exam_result = new ApplicantExamResult;
+            $applicant_exam_result->mrf_id = $request->mrf_id;
+            $applicant_exam_result->applicant_id = $request->applicant_id;
+            $applicant_exam_result->critical_thinking = $request->critical_thinking;
+            $applicant_exam_result->disc_personality = $request->disc_personality;
+            $applicant_exam_result->supervisory_skills = $request->supervisory_skills;
+            $applicant_exam_result->managerial_skills = $request->managerial_skills;
+            $applicant_exam_result->accounting_skills = $request->accounting_skills;
+            $applicant_exam_result->save();
+        }
+        else
+        {
+            $this->update($request, $request->applicant_id);
+        }
 
         Alert::success('Successfully Saved')->persistent('Dismiss');
         return back();

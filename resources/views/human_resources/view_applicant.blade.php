@@ -179,25 +179,29 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($applicant->interviewers as $i)
-                            <tr>
-                                <td>
-                                    {{$i->user->name}}
-                                </td>
-                                <td>
-                                    @if($i->status == 'Pending')
-                                        <div class="badge bg-warning">{{$i->status}}</div>
-                                    @elseif($i->status == 'Failed')
-                                        <div class="badge bg-danger">{{$i->status}}</div>
-                                        
-                                    @elseif($i->status == 'Passed')
-                                        <div class="badge bg-success">{{$i->status}}</div>
-                                    @else
-                                        <div class="badge bg-info">{{$i->status}}</div>
-                                    @endif
-                                </td>
-                            </tr>
-                            @endforeach
+                            @if(count($applicant->interviewers) > 0)
+                                @foreach ($applicant->interviewers as $i)
+                                <tr>
+                                    <td>
+                                        {{$i->user->name}}
+                                    </td>
+                                    <td>
+                                        @if($i->status == 'Pending')
+                                            <div class="badge bg-warning">{{$i->status}}</div>
+                                        @elseif($i->status == 'Failed')
+                                            <div class="badge bg-danger">{{$i->status}}</div>
+                                            
+                                        @elseif($i->status == 'Passed')
+                                            <div class="badge bg-success">{{$i->status}}</div>
+                                        @else
+                                            <div class="badge bg-info">{{$i->status}}</div>
+                                        @endif
+                                    </td>
+                                </tr>
+                                @endforeach
+                            @else
+                                <tr><td colspan="2">No interviewer available.</td></tr>
+                            @endif
                         </tbody>
                     </table>
                 </div>
@@ -212,19 +216,19 @@
                     <li class="nav-item">
                         <a href="#home" data-bs-toggle="tab" aria-expanded="false" class="nav-link active">
                             {{-- <i class="mdi mdi-home-variant d-md-none d-block"></i> --}}
-                            <span class="d-none d-md-block">History</span>
+                            <span class="d-none d-md-block">Application Status</span>
                         </a>
                     </li>
                     <li class="nav-item">
                         <a href="#applicantDocuments" data-bs-toggle="tab" aria-expanded="false" class="nav-link">
                             {{-- <i class="mdi mdi-home-variant d-md-none d-block"></i> --}}
-                            <span class="d-none d-md-block">Applicant Documents</span>
+                            <span class="d-none d-md-block">Pre-employment Requirements</span>
                         </a>
                     </li>
                     <li class="nav-item">
                         <a href="#examResult" data-bs-toggle="tab" aria-expanded="false" class="nav-link">
                             {{-- <i class="mdi mdi-home-variant d-md-none d-block"></i> --}}
-                            <span class="d-none d-md-block">Exam Result</span>
+                            <span class="d-none d-md-block">Assessment Results</span>
                         </a>
                     </li>
                 </ul>
@@ -320,20 +324,32 @@
                         </div>
                     </div>
                     <div class="tab-pane" id="examResult">
-                        <button type="button" class="btn btn-sm btn-success" data-bs-toggle="modal" data-bs-target="#newExam">
-                            <i class="uil-plus"></i>
-                            Add
-                        </button>
+                        @if(!empty($applicant->examResult))
+                            <button type="button" class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#newExam">
+                                <i class="dripicons-pencil"></i>
+                                Update
+                            </button>
+                        @else
+                            <button type="button" class="btn btn-sm btn-success" data-bs-toggle="modal" data-bs-target="#newExam">
+                                <i class="uil-plus"></i>
+                                Add
+                            </button>
+                        @endif
                         <div class="table-responsive">
-                            <table class="table table-bordered table-hover tables">
+                            {{-- <table class="table table-bordered table-hover tables">
                                 <thead>
                                     <tr>
                                         <th>Actions</th>
                                         <th>Critical Thinking Assessment</th>
                                         <th>DISC Personality Profile</th>
+                                        @if($applicant->mrf->job_level == 'Supervisory')
                                         <th>Supervisory Skills Test</th>
+                                        @elseif($applicant->mrf->job_level == 'Managerial')
                                         <th>Managerial Skills Test</th>
+                                        @endif
+                                        @if(accountingDepartment($applicant->mrf->department_id))
                                         <th>Accounting Skills Test</th>
+                                        @endif
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -346,13 +362,59 @@
                                             </td>
                                             <td>{{$ex_res->critical_thinking}}</td>
                                             <td>{{$ex_res->disc_personality}}</td>
-                                            <td>{{$ex_res->supervisory_skills}}</td>
-                                            <td>{{$ex_res->managerial_skills}}</td>
-                                            <td>{{$ex_res->accounting_skills}}</td>
+                                            @if($applicant->mrf->job_level == 'Supervisory')
+                                                <td>{{$ex_res->supervisory_skills}}</td>
+                                            @elseif($applicant->mrf->job_level == 'Managerial')
+                                                <td>{{$ex_res->managerial_skills}}</td>
+                                            @endif
+                                            @if(accountingDepartment($applicant->mrf->department_id))
+                                                <td>{{$ex_res->accounting_skills}}</td>
+                                            @endif
                                         </tr>
 
                                         @include('human_resources.edit_exam')
                                     @endforeach
+                                </tbody>
+                            </table> --}}
+                            <table class="table table-bordered table-hover table-sm tables" style="table-layout: fixed;">
+                                <thead class="table-secondary">
+                                    <tr>
+                                        <th colspan="2">Results</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @if(empty($applicant->examResult))
+                                        <tr>
+                                            <td colspan="2" class="text-center">No assessment results yet.</td>
+                                        </tr>
+                                    @else
+                                        <tr>
+                                            <td>Critical Thinking Assessment</td>
+                                            <td>{{$applicant->examResult->critical_thinking}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>DISC Personality Profile</td>
+                                            <td>{{$applicant->examResult->disc_personality}}</td>
+                                        </tr>
+                                        @if($applicant->mrf->job_level == 'Supervisory')
+                                            <tr>
+                                                <td>Supervisory Skills</td>
+                                                <td>{{$applicant->examResult->supervisory_skills}}</td>
+                                            </tr>
+                                        @endif
+                                        @if($applicant->mrf->job_level == 'Managerial')
+                                            <tr>
+                                                <td>Managerial Skills</td>
+                                                <td>{{$applicant->examResult->managerial_skills}}</td>
+                                            </tr>
+                                        @endif
+                                        @if(accountingDepartment($applicant->mrf->department_id))
+                                            <tr>
+                                                <td>Accounting Skills</td>
+                                                <td>{{$applicant->examResult->accounting_skills}}</td>
+                                            </tr>
+                                        @endif
+                                    @endif
                                 </tbody>
                             </table>
                         </div>
