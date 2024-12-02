@@ -248,11 +248,11 @@
                                         <input type="text" name="father_name" class="form-control form-control-sm required" value="{{optional($applicant->jobApplication)->father_name}}">
                                     </div> 
                                     <div class="col-lg-3 col-md-12 mb-2">
-                                        Occupation
+                                        Occupation <span><small><i>(Add N/A if not applicable)</i></small></span>
                                         <input type="text" name="father_occupation" class="form-control form-control-sm required" value="{{optional($applicant->jobApplication)->father_occupation}}">
                                     </div> 
                                     <div class="col-lg-3 col-md-12 mb-2">
-                                        Company Location
+                                        Company Location <span><small><i>(Add N/A if not applicable)</i></small></span>
                                         <input type="text" name="father_company_location" class="form-control form-control-sm required" value="{{optional($applicant->jobApplication)->father_company_location}}">
                                     </div> 
                                     <div class="col-lg-3 col-md-12 mb-2">
@@ -270,11 +270,11 @@
                                         <input type="text" name="mother_name" class="form-control form-control-sm required" value="{{optional($applicant->jobApplication)->mother_name}}">
                                     </div> 
                                     <div class="col-lg-3 col-md-12 mb-2">
-                                        Occupation
+                                        Occupation <span><small><i>(Add N/A if not applicable)</i></small></span>
                                         <input type="text" name="mother_occupation" class="form-control form-control-sm required" value="{{optional($applicant->jobApplication)->mother_occupation}}">
                                     </div> 
                                     <div class="col-lg-3 col-md-12 mb-2">
-                                        Company Location
+                                        Company Location <span><small><i>(Add N/A if not applicable)</i></small></span>
                                         <input type="text" name="mother_company_location" class="form-control form-control-sm required" value="{{optional($applicant->jobApplication)->mother_company_location}}">
                                     </div> 
                                     <div class="col-lg-3 col-md-12 mb-2">

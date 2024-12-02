@@ -4,48 +4,60 @@
 @endsection
 @section('content')
     <div class="row">
-        <div class="col-md-3 col-xxl-3">
+        <div class="col-md-2">
             <div class="card">
                 <div class="card-body">
                     <div class="row align-items-center">
                         <div class="col-6">
-                            <h5 class="text-muted fw-normal mt-0 text-truncate">Applicants</h5>
+                            <h5 class="text-muted fw-normal mt-0 ">Total Applicants</h5>
                             <h3 class="my-2 py-1">{{count($applicants)}}</h3>
                         </div>
                     </div>
                 </div> 
             </div>
         </div>
-        <div class="col-md-3 col-xxl-3">
+        <div class="col-md-2">
             <div class="card">
                 <div class="card-body">
                     <div class="row align-items-center">
                         <div class="col-6">
-                            <h5 class="text-muted fw-normal mt-0 text-truncate">Pending Applicants</h5>
+                            <h5 class="text-muted fw-normal mt-0 ">Pending Applicants</h5>
                             <h3 class="my-2 py-1">{{count($applicants->where('status', 'Pending'))}}</h3>
                         </div>
                     </div>
                 </div> 
             </div>
         </div>
-        <div class="col-md-3 col-xxl-3">
+        <div class="col-md-2">
             <div class="card">
                 <div class="card-body">
                     <div class="row align-items-center">
                         <div class="col-6">
-                            <h5 class="text-muted fw-normal mt-0 text-truncate">Passed Applicants</h5>
+                            <h5 class="text-muted fw-normal mt-0 ">Passed Applicants</h5>
                             <h3 class="my-2 py-1">{{count($applicants->where('status','Passed'))}}</h3>
                         </div>
                     </div>
                 </div> 
             </div>
         </div>
-        <div class="col-md-3 col-xxl-3">
+        <div class="col-md-2">
             <div class="card">
                 <div class="card-body">
                     <div class="row align-items-center">
                         <div class="col-6">
-                            <h5 class="text-muted fw-normal mt-0 text-truncate">Failed Applicants</h5>
+                            <h5 class="text-muted fw-normal mt-0 ">Hired Applicants</h5>
+                            <h3 class="my-2 py-1">0</h3>
+                        </div>
+                    </div>
+                </div> 
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row align-items-center">
+                        <div class="col-6">
+                            <h5 class="text-muted fw-normal mt-0 ">Failed Applicants</h5>
                             <h3 class="my-2 py-1">{{count($applicants->where('status','Failed'))}}</h3>
                         </div>
                     </div>
