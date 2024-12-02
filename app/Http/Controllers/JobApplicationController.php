@@ -110,6 +110,11 @@ class JobApplicationController extends Controller
             $job_application->date_of_birth = $request->date_of_birth;
             $job_application->place_of_birth = $request->place_of_birth;
             $job_application->same_as = $request->same_as;
+            $job_application->have_relative = $request->have_relatives;
+            $job_application->employee_name = $request->name_of_employee;
+            $job_application->college_degree_program = $request->degree_program;
+            $job_application->others_degree_earned = $request->degree_earned;
+            $job_application->others_certification_licenses = $request->others_certification_licenses;
             $job_application->save();
 
             if ($request->has('sibling_name') && $request->sibling_name[0] != null)
@@ -263,6 +268,11 @@ class JobApplicationController extends Controller
         $job_application->date_of_birth = $request->date_of_birth;
         $job_application->place_of_birth = $request->place_of_birth;
         $job_application->same_as = $request->same_as;
+        $job_application->have_relative = $request->have_relatives;
+        $job_application->employee_name = $request->name_of_employee;
+        $job_application->college_degree_program = $request->degree_program;
+        $job_application->others_degree_earned = $request->degree_earned;
+        $job_application->others_certification_licenses = $request->others_certification_licenses;
         $job_application->save();
 
         if ($request->has('sibling_name') && $request->sibling_name[0] != null)

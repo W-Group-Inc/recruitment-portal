@@ -174,10 +174,10 @@
                 <a href="{{url('mrf')}}" class="side-nav-link" onclick="show()">
                     @if(auth()->user()->role == "Department Head")
                     <i class="uil-file"></i>
-                    <span> MRF</span>
+                    <span> Open New MRF</span>
                     @elseif(auth()->user()->role == "Human Resources" || auth()->user()->role == "Human Resources Manager" || auth()->user()->role == "Head Business Unit")
                     <i class="uil-file"></i>
-                    <span>MRF</span>
+                    <span>Open New MRF</span>
                     @endif
                 </a>
             </li>
