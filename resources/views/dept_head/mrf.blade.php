@@ -128,7 +128,7 @@
                             @endif
 
                             @if(auth()->user()->role == "Human Resources" || auth()->user()->role == "Human Resources Manager" || auth()->user()->role == "Head Business Unit")
-                            @foreach ($mrf as $key=>$m)
+                            @foreach ($mrf->where('user_id', auth()->user()->id) as $key=>$m)
                                 <tr>
                                     <td>
                                         <button type="button" class="btn btn-sm btn-info" data-bs-toggle="modal" data-bs-target="#view{{$m->id}}">

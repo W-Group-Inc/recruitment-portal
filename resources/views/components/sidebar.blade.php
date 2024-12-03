@@ -134,6 +134,11 @@
                             </a>
                         </li>
                         <li>
+                            <a href="{{url('list-mrf')}}" onclick="show()">
+                                <span>MRF List</span>
+                            </a>
+                        </li>
+                        <li>
                             <a href="{{url('approved-mrf')}}" onclick="show()">
                                 <span>Approved</span>
                             </a>
@@ -175,7 +180,7 @@
                     @if(auth()->user()->role == "Department Head")
                     <i class="uil-file"></i>
                     <span> Open New MRF</span>
-                    @elseif(auth()->user()->role == "Human Resources" || auth()->user()->role == "Human Resources Manager" || auth()->user()->role == "Head Business Unit")
+                    @elseif(auth()->user()->role == "Human Resources Manager" || auth()->user()->role == "Head Business Unit")
                     <i class="uil-file"></i>
                     <span>Open New MRF</span>
                     @endif

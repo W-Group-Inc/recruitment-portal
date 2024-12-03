@@ -491,4 +491,11 @@ class ManPowerRequisitionFormController extends Controller
 
         return view('human_resources.assign_mrf', compact('assign_mrf'));
     }
+
+    public function list()
+    {
+        $mrf_list = ManPowerRequisitionForm::get();
+
+        return view('human_resources.mrf_list', compact('mrf_list'));
+    }
 }
