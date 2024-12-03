@@ -325,12 +325,12 @@
                     </div>
                     <div class="tab-pane" id="examResult">
                         @if(!empty($applicant->examResult))
-                            <button type="button" class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#newExam">
+                            <button type="button" class="btn btn-sm btn-warning mb-2" data-bs-toggle="modal" data-bs-target="#newExam">
                                 <i class="dripicons-pencil"></i>
                                 Update
                             </button>
                         @else
-                            <button type="button" class="btn btn-sm btn-success" data-bs-toggle="modal" data-bs-target="#newExam">
+                            <button type="button" class="btn btn-sm btn-success mb-2" data-bs-toggle="modal" data-bs-target="#newExam">
                                 <i class="uil-plus"></i>
                                 Add
                             </button>
@@ -376,7 +376,7 @@
                                     @endforeach
                                 </tbody>
                             </table> --}}
-                            <table class="table table-bordered table-hover table-sm tables" style="table-layout: fixed;">
+                            <table class="table table-bordered table-hover table-sm " style="table-layout: fixed;">
                                 <thead class="table-secondary">
                                     <tr>
                                         <th colspan="2">Results</th>
@@ -440,7 +440,8 @@
             
             $('.tables').DataTable({
                 ordering: false,
-                paginate: false
+                paginate: false,
+                pageLength: 25
             })
 
             $('.passedBtn').on('click', function() {

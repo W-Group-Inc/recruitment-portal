@@ -65,8 +65,12 @@ class ApplicantController extends Controller
         if (auth()->user()->role == "Department Head")
         {
             $applicants = Applicant::whereHas('mrf', function($q) {
-                $q->where('department_id', auth()->user()->department_id);
-            })->get();
+                    $q->where('department_id', auth()->user()->department_id);
+                })
+                ->whereHas('interviewers', function($q) {
+                    $q->where('user_id', auth()->user()->id)->where('status', '!=', 'Waiting');
+                })
+                ->get();
         }
 
         return view('human_resources.applicant', compact('applicants', 'mrf', 'interviewers', 'status', 'department', 'position'));
@@ -316,11 +320,11 @@ class ApplicantController extends Controller
         $client = new Google_Client();
         $client->setAuthConfig(storage_path('app/google-calendar/credentials.json'));
         $client->setRedirectUri(url('google/callback'));
-        $client->setAccessType('online');
+        $client->setAccessType('offline');
         $client->addScope(\Google_Service_Calendar::CALENDAR);
         // $client->setPrompt('consent');
         // $client->setLoginHint(auth()->user()->email);
-        $client->setApprovalPrompt('auto');
+        $client->setApprovalPrompt('force');
         $client->setIncludeGrantedScopes(true);
         // dd($client);
         if (!session()->has('access_token')) {
