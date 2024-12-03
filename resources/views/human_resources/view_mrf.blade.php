@@ -43,25 +43,31 @@
                                 @if($m->is_plantilla == 1)
                                 <div class="col-md-12 mb-1">
                                     <strong>Plantilla Attachment</strong>
+                                    @if(!empty($m->plantilla_attachment))
                                     <a href="{{url($m->plantilla_attachment)}}" target="_blank">
                                         <i class="uil-file"></i>
                                     </a>
+                                    @endif
                                 </div>
                                 @endif
                                 @if($m->is_job_description == 1)
                                 <div class="col-md-12 mb-1">
                                     <strong>Job Description Attachment</strong>
+                                    @if(!empty($m->job_description_attachment))
                                     <a href="{{url($m->job_description_attachment)}}" target="_blank">
                                         <i class="uil-file"></i>
                                     </a>
+                                    @endif
                                 </div>
                                 @endif
                                 @if($m->is_resignation_letter == 1)
                                 <div class="col-md-12 mb-1">
                                     <strong>Resignation Letter Attachment</strong>
+                                    @if(!empty($m->resignation_letter_attachment))
                                     <a href="{{url($m->resignation_letter_attachment)}}" target="_blank">
                                         <i class="uil-file"></i>
                                     </a>
+                                    @endif
                                 </div>
                                 @endif
                             </div>
